@@ -59,9 +59,9 @@
                                       <EmptySpace max="-2" attributes="0"/>
                                       <Group type="103" groupAlignment="0" attributes="0">
                                           <Group type="102" attributes="0">
-                                              <Component id="jTextField2" min="-2" pref="250" max="-2" attributes="0"/>
+                                              <Component id="txtMaPM" min="-2" pref="250" max="-2" attributes="0"/>
                                               <EmptySpace max="-2" attributes="0"/>
-                                              <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                                              <Component id="btnXem" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <Component id="jScrollPane2" min="-2" pref="328" max="-2" attributes="0"/>
                                           <Component id="jPanel2" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -93,8 +93,8 @@
               <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtMaPM" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnXem" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Component id="jPanel2" min="-2" max="-2" attributes="0"/>
@@ -357,9 +357,9 @@
         <Property name="text" type="java.lang.String" value="M&#xe3; phi&#x1ebf;u m&#x1b0;&#x1ee3;n:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="jTextField2">
+    <Component class="javax.swing.JTextField" name="txtMaPM">
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="btnXem">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="96" green="c8" red="7d" type="rgb"/>
@@ -369,6 +369,9 @@
           <Color id="Hand Cursor"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnXemActionPerformed"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JPanel" name="jPanel2">
 
@@ -389,11 +392,11 @@
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jLabel6" max="32767" attributes="0"/>
+                      <Component id="lblTenDG" max="32767" attributes="0"/>
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jComboBox1" min="-2" pref="158" max="-2" attributes="0"/>
-                              <Component id="jLabel9" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
+                              <Component id="cbxSach" min="-2" pref="158" max="-2" attributes="0"/>
+                              <Component id="lblNgayMuon" alignment="0" min="-2" pref="175" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace min="0" pref="11" max="32767" attributes="0"/>
                       </Group>
@@ -410,17 +413,17 @@
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="lblTenDG" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel5" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="cbxSach" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabel9" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
+                      <Component id="lblNgayMuon" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="44" max="32767" attributes="0"/>
               </Group>
@@ -446,7 +449,7 @@
             <Property name="text" type="java.lang.String" value="S&#xe1;ch:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel6">
+        <Component class="javax.swing.JLabel" name="lblTenDG">
           <Properties>
             <Property name="text" type="java.lang.String" value="Nguy&#x1ec5;n C&#xf4;ng Thu&#x1ea7;n"/>
           </Properties>
@@ -456,22 +459,20 @@
             <Property name="text" type="java.lang.String" value="Ng&#xe0;y m&#x1b0;&#x1ee3;n:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="lblNgayMuon">
           <Properties>
             <Property name="text" type="java.lang.String" value="20/10/2022, 16:55"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="cbxSach">
           <Properties>
             <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
               <Color blue="96" green="c8" red="7d" type="rgb"/>
             </Property>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-              <StringArray count="4">
-                <StringItem index="0" value="Item 1"/>
-                <StringItem index="1" value="Item 2"/>
-                <StringItem index="2" value="Item 3"/>
-                <StringItem index="3" value="Item 4"/>
+              <StringArray count="2">
+                <StringItem index="0" value="s&#xe1;ch 1"/>
+                <StringItem index="1" value="s&#xe1;ch 2"/>
               </StringArray>
             </Property>
             <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
