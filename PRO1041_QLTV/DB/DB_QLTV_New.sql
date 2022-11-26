@@ -1,0 +1,137 @@
+CREATE DATABASE PRO1041_FALL22_IT17324_QLTV;
+GO
+USE PRO1041_FALL22_IT17324_QLTV;
+GO
+-- đăng nhập
+CREATE TABLE DangNhap
+(
+  TenTk VARCHAR(50) PRIMARY KEY,
+  MatKhau VARCHAR(50) NOT NULL,
+)
+GO
+-- tác giả
+CREATE TABLE TacGia
+(
+  IDTacGia UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  MaTacGia varchar(10) not null,
+  TenTacGia NVARCHAR(50) not null,
+  DiaChi NVARCHAR(50) NOT NULL,
+)
+GO
+-- nhà xuất bản 
+CREATE TABLE NhaXuatBan
+(
+  IDNhaXuatBan UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  TenTacGia NVARCHAR(50) not null,
+  DiaChi NVARCHAR(50) NOT NULL,
+)
+GO
+-- loại sách
+CREATE TABLE TheLoaiSach
+(
+  IDTL UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  TenTL NVARCHAR(50) not null,
+)
+
+GO
+
+-- nhà cung cấp
+CREATE TABLE NhaCC(
+  IdNhaCC UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  TenNhaCC NVARCHAR(50) not NULL,
+  DiaChi NVARCHAR(50),
+  SDT VARCHAR(10),
+  Email VARCHAR(50),
+)
+GO
+-- Phiếu Nhập
+CREATE TABLE PhieuNhap(
+  IdPhieuNhap UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  MaPhieuNhap VARCHAR(10) unique,
+  NgayNhap DATE ,
+  TinhTrang bit,
+  SoLuongNhap INT ,
+  GiaNhap DECIMAL(20,10) ,
+  IDNhaCC UNIQUEIDENTIFIER,
+  CONSTRAINT FK1_NhaCungCap FOREIGN KEY(IDNhaCC) REFERENCES NhaCC(IdNhaCC),
+) 
+GO
+-- sách.
+CREATE TABLE Sach
+(
+  IDSach UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  MaSach VARCHAR(10) unique not null,
+  TenSach NVARCHAR(50) not null,
+  IDPhieuNhap UNIQUEIDENTIFIER,
+  CONSTRAINT FK1_PhieuNhap FOREIGN KEY(IDPhieuNhap) REFERENCES PhieuNhap(IdPhieuNhap)
+)
+
+GO
+-- sách chi tiết
+CREATE TABLE SachCT(
+  IDSachCT UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  SoLuongTon int not null,
+  NamXuatBan int DEFAULT NULL,
+  img varchar(100) ,
+  GiaInTrenSach DECIMAL(20,10) NULL ,
+  IdTacGia UNIQUEIDENTIFIER,
+  IdNhaXuatBan UNIQUEIDENTIFIER,
+  IdTLSach UNIQUEIDENTIFIER,
+  IdSach UNIQUEIDENTIFIER,
+  CONSTRAINT FK1_TacGia FOREIGN KEY(IDTacGia) REFERENCES TacGia(IDTacGia),
+  CONSTRAINT FK2_NhaXuatBan FOREIGN KEY(IDNhaXuatBan) REFERENCES NhaXuatBan(IDNhaXuatBan),
+  CONSTRAINT FK3_LoaiSach FOREIGN KEY(IdTLSach) REFERENCES TheLoaiSach(IDTL),
+  CONSTRAINT FK4_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach),
+)
+-- độc giả
+go
+CREATE TABLE DocGia(
+  IDDocGia UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), 
+  MaDocGia VARCHAR(10) not null,
+  TenDOcGia NVARCHAR(50) not null,
+  sdt varchar(10) null,
+  Email varchar(100),
+  SoCMND VARCHAR(12),
+  NgaySinh Date,
+  DiaCHi NVARCHAR(100),
+  GioiTinh bit,
+  img varchar(100),
+)
+-- Phiếu mượn
+GO
+CREATE TABLE PhieuMuon(
+  IDPhieuMuon UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  MaPhieuMuon VARCHAR(10) unique,
+  NgayMuon DATE Not NULL,
+  NgayTra DATE Not NULL,
+  SoLuonSachMuon INT Not null,
+  IDDocGia UNIQUEIDENTIFIER not null,
+  CONSTRAINT FK1_DocGia FOREIGN KEY(IDDocGia) REFERENCES DocGia(IDDocGia),
+)
+-- Phiếu mượn chi tiết
+ GO
+CREATE TABLE PhieuMuonCT(
+  IdSach UNIQUEIDENTIFIER,
+  IDPhieuMuon UNIQUEIDENTIFIER,
+  TinhTrang int,
+  QUyenSo int,
+  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (IdSach,IDPhieuMuon),
+  CONSTRAINT FK1_PhieuMuon FOREIGN KEY(IDPhieuMuon) REFERENCES PhieuMuon(IDPhieuMuon),
+  CONSTRAINT FK2_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach), 
+)
+-- Vi Phạm 
+CREATE TABLE ViPham(
+  IdViPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  NgayVP DATE not null,
+  HinhPhat NVARCHAR(100) ,
+  MoTa NVARCHAR(100),
+  MaPM VARCHAR(10),
+  CONSTRAINT FK_PhieuMuon FOREIGN KEY(MaPM) REFERENCES PhieuMuon(MaPhieuMuon),
+)
+-- Lỗi vi phạm
+CREATE TABLE LoiViPham(
+	IDLoiViPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), 
+	IdViPham UNIQUEIDENTIFIER,
+	TenLoi nvarchar(100) not null,
+	CONSTRAINT FK_ViPham FOREIGN KEY(IdViPham) REFERENCES ViPham(IdViPham),
+)
