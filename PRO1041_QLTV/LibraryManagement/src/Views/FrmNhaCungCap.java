@@ -4,8 +4,11 @@
  */
 package Views;
 
+import DomainModels.NhaCC;
+import Services.Impl.NhaCCService;
 import Utilities.SetSize;
 import java.net.URL;
+import java.util.List;
 
 /**
  *
@@ -13,6 +16,13 @@ import java.net.URL;
  */
 public class FrmNhaCungCap extends javax.swing.JFrame {
     final SetSize setsize = new SetSize();
+    final static NhaCCService SERVICE = new NhaCCService();
+    static NhaCC NHACC_DUOCCHON;
+    static{
+        if(!SERVICE.getAll().isEmpty()){
+            NHACC_DUOCCHON = SERVICE.getAll().get(0);
+        }
+    }
     /**
      * Creates new form FrmNhaCungCap
      */
@@ -21,6 +31,7 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.seticon();
+        this.fillCBX();
     }
 
     /**
@@ -39,9 +50,9 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnHoanThanh = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxNhaCC = new javax.swing.JComboBox<>();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
@@ -62,9 +73,14 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
 
         jLabel3.setText("Địa chỉ");
 
-        jButton1.setBackground(new java.awt.Color(125, 200, 150));
-        jButton1.setText("Hoàn thành");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.setBackground(new java.awt.Color(125, 200, 150));
+        btnHoanThanh.setText("Hoàn thành");
+        btnHoanThanh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHoanThanhActionPerformed(evt);
+            }
+        });
 
         btnClose.setPreferredSize(new java.awt.Dimension(20, 20));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -73,9 +89,9 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setBackground(new java.awt.Color(125, 200, 150));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxNhaCC.setBackground(new java.awt.Color(125, 200, 150));
+        cbxNhaCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxNhaCC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(jRadioButton1);
@@ -108,12 +124,12 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
                         .addGap(0, 34, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnHoanThanh)
                                 .addGap(122, 122, 122))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(cbxNhaCC, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(jRadioButton1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -144,7 +160,7 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cbxNhaCC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jRadioButton1)
                     .addComponent(jRadioButton2)
                     .addComponent(jRadioButton3))
@@ -165,7 +181,7 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnHoanThanh)
                 .addGap(14, 14, 14))
         );
 
@@ -188,17 +204,35 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseMouseClicked
 
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        FrmPhieuNhap.fillCbxNCC();
+        int index = this.cbxNhaCC.getSelectedIndex();
+        System.out.println(index);
+        FrmPhieuNhap.cbxNCC.setSelectedIndex(index);
+        NHACC_DUOCCHON = SERVICE.getAll().get(index);
+        System.out.println(NHACC_DUOCCHON.getId());
+    }//GEN-LAST:event_btnHoanThanhActionPerformed
+
     private void seticon(){
         URL urldong = getClass().getResource("/Images/cross-small.png");
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
     }
 
+    private void fillCBX(){
+        List<NhaCC> _lst = SERVICE.getAll();
+        cbxNhaCC.removeAllItems();
+        for (NhaCC nhaCC : _lst) {
+            cbxNhaCC.addItem(nhaCC.getTen());
+        }
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
+    private javax.swing.JButton btnHoanThanh;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbxNhaCC;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

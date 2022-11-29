@@ -4,9 +4,36 @@
  */
 package Views;
 
+import DomainModels.NhaCC;
+import DomainModels.NhaXuatBan;
+import DomainModels.PhieuNhap;
+import DomainModels.Sach;
+import DomainModels.SachCT;
+import DomainModels.TacGia;
+import DomainModels.TheLoaiSach;
+import Services.Impl.NhaCCService;
+import Services.Impl.NhaXuatBanService;
+import Services.Impl.PhieuNhapService;
+import Services.Impl.SachCTService;
+import Services.Impl.SachService;
+import Services.Impl.TacGiaService;
+import Services.Impl.TheLoaiService;
 import Utilities.SetSize;
-import java.awt.Dimension;
+import java.awt.Color;
+import java.awt.Image;
+import java.io.File;
+import java.math.BigDecimal;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileSystemView;
 
 /**
  *
@@ -14,6 +41,16 @@ import java.net.URL;
  */
 public class FrmPhieuNhap extends javax.swing.JFrame {
     final SetSize setsize = new SetSize();
+    final PhieuNhapService SERVICE = new PhieuNhapService();
+    final SachService SERVICE_SACH = new SachService();
+    final SachCTService SERVICE_SACHCT = new SachCTService();
+    final TheLoaiService SERVICE_TLS = new TheLoaiService();
+    final TacGiaService SERVICE_TG = new TacGiaService();
+    static int ipn =20000;
+    static int isach = 20000;
+    static int suaAnh = 0;
+    static String icon = "";
+    final SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
     /**
      * Creates new form NewJFrame
      */
@@ -22,6 +59,10 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.seticon();
+        fillCbxNXB();
+        fillCbxNCC();
+        fillChkTL();
+        this.setNgayNhap();
     }
 
     private void seticon(){
@@ -41,7 +82,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblToday = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -64,7 +105,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         boxTheLoai = new javax.swing.JPanel();
-        jPanel6 = new javax.swing.JPanel();
+        Btn = new javax.swing.JPanel();
         btnTheLoai = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
         jCheckBox2 = new javax.swing.JCheckBox();
@@ -82,8 +123,8 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         cbxNCC = new javax.swing.JComboBox<>();
         btnNhaCungCap = new javax.swing.JButton();
         btnTacGia = new javax.swing.JButton();
-        jLabel16 = new javax.swing.JLabel();
-        cbxNXB = new javax.swing.JComboBox<>();
+        lblTacGia = new javax.swing.JLabel();
+        cbxNhaXuatBan = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,7 +138,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Phiếu nhập");
 
-        jLabel3.setText("14:09, 10-11-2022");
+        lblToday.setText("14:09, 10-11-2022");
 
         jLabel4.setText("ID:");
 
@@ -145,7 +186,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
+                    .addComponent(lblToday)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
@@ -169,7 +210,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                         .addComponent(jLabel1))
                     .addComponent(btnDong, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblToday, javax.swing.GroupLayout.PREFERRED_SIZE, 13, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -226,9 +267,9 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         boxTheLoai.setPreferredSize(new java.awt.Dimension(185, 100));
         boxTheLoai.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
-        jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel6.setPreferredSize(new java.awt.Dimension(250, 24));
-        jPanel6.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
+        Btn.setBackground(new java.awt.Color(255, 255, 255));
+        Btn.setPreferredSize(new java.awt.Dimension(250, 24));
+        Btn.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
         btnTheLoai.setBackground(new java.awt.Color(125, 200, 150));
         btnTheLoai.setText("Khác");
@@ -238,9 +279,9 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                 btnTheLoaiActionPerformed(evt);
             }
         });
-        jPanel6.add(btnTheLoai);
+        Btn.add(btnTheLoai);
 
-        boxTheLoai.add(jPanel6);
+        boxTheLoai.add(Btn);
 
         jCheckBox1.setBackground(new java.awt.Color(255, 255, 255));
         jCheckBox1.setText("Tâm lý");
@@ -273,6 +314,11 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         btnHoanThanh.setBackground(new java.awt.Color(125, 200, 150));
         btnHoanThanh.setText("Hoàn thành");
         btnHoanThanh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHoanThanhActionPerformed(evt);
+            }
+        });
 
         jLabel15.setText("Giá nhập");
 
@@ -290,6 +336,11 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         btnTaiAnh.setBackground(new java.awt.Color(125, 200, 150));
         btnTaiAnh.setText("Tải ảnh");
         btnTaiAnh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTaiAnh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaiAnhActionPerformed(evt);
+            }
+        });
 
         btnNXB.setBackground(new java.awt.Color(125, 200, 150));
         btnNXB.setText("Khác");
@@ -329,13 +380,13 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
             }
         });
 
-        jLabel16.setText("-----");
+        lblTacGia.setText("-----");
 
-        cbxNXB.setBackground(new java.awt.Color(125, 200, 150));
-        cbxNXB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxNXB.addItemListener(new java.awt.event.ItemListener() {
+        cbxNhaXuatBan.setBackground(new java.awt.Color(125, 200, 150));
+        cbxNhaXuatBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxNhaXuatBan.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxNXBItemStateChanged(evt);
+                cbxNhaXuatBanItemStateChanged(evt);
             }
         });
 
@@ -365,8 +416,8 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                                 .addGroup(PnThongTinSachLayout.createSequentialGroup()
                                     .addComponent(txtSoLuongNhap, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(0, 0, Short.MAX_VALUE))
-                                .addComponent(cbxNXB, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                                .addComponent(cbxNhaXuatBan, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(lblTacGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                 .addGap(0, 12, Short.MAX_VALUE)
                 .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNXB)
@@ -419,14 +470,14 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                         .addGap(15, 15, 15)
                         .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(jLabel16))
+                            .addComponent(lblTacGia))
                         .addGap(25, 25, 25)
                         .addComponent(jLabel10)
                         .addGap(15, 15, 15)
                         .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel11)
                             .addComponent(btnNXB)
-                            .addComponent(cbxNXB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(cbxNhaXuatBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(PnThongTinSachLayout.createSequentialGroup()
                         .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(txtMaSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -548,12 +599,47 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         this.checkSach(true);
     }//GEN-LAST:event_cbxNCCActionPerformed
 
-    private void cbxNXBItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNXBItemStateChanged
+    private void cbxNhaXuatBanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNhaXuatBanItemStateChanged
         // TODO add your handling code here:\
         rdoChuaCo.setSelected(true);
         this.checkSach(true);
-    }//GEN-LAST:event_cbxNXBItemStateChanged
-    
+    }//GEN-LAST:event_cbxNhaXuatBanItemStateChanged
+
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        // TODO add your handling code here:
+        Sach sach = getSachFormData();
+        SERVICE_SACH.insert(sach);
+        Sach sachNew = SERVICE_SACH.getByMa(sach.getMa());
+        List<TacGia>_lstTacGia = FrmTacGia.LST_TACGIA_DUOCCHON;
+        for (TacGia tacGia : _lstTacGia) {
+            SERVICE_TG.insertTGCT(sachNew.getId(), tacGia.getId());
+        }
+        List<TheLoaiSach> _lstTLS = getListTheLoai();
+        for (TheLoaiSach theLoaiSach : _lstTLS) {
+            SERVICE_TLS.insertTLCT(sachNew.getId(), theLoaiSach.getId());
+        }
+        SachCT sachct = getSachCTFormData(sachNew);
+        SERVICE_SACHCT.insert(sachct);
+        PhieuNhap pn = getPhieuNhapFormData();
+        SERVICE.insert(pn);
+        NhaCC nhaCC = FrmNhaCungCap.NHACC_DUOCCHON;
+        SERVICE.InsertNCCCT(SERVICE.getByMa(pn.getMa()).getId(), nhaCC.getId());
+        this.dispose();
+    }//GEN-LAST:event_btnHoanThanhActionPerformed
+
+    private void btnTaiAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiAnhActionPerformed
+        // TODO add your handling code here:
+        suaAnh=1;
+        JFileChooser choose = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        choose.showDialog(this, "Confirm");
+        File file = choose.getSelectedFile();
+        icon = file.getAbsolutePath();
+        ImageIcon img = new ImageIcon(icon);
+        Image imgset = img.getImage();
+        ImageIcon imgm = new ImageIcon(imgset.getScaledInstance(133, 162, java.awt.Image.SCALE_SMOOTH));
+        imgAnhSach.setIcon(imgm);
+    }//GEN-LAST:event_btnTaiAnhActionPerformed
+
     public void checkSach(boolean ft){
         txtMaSach.setText("");
         txtMaSach.setEditable(!ft);
@@ -562,7 +648,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtDonGia.setEditable(ft);
         btnTaiAnh.setEnabled(ft);
     }
-    
+
     public void xemChiTiet(){
         PnThongTinSach.remove(btnLayThongTin);
         PnThongTinSach.remove(btnTacGia);
@@ -576,9 +662,131 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtSoLuongNhap.setEditable(false);
     }
 
+    public static void fillCbxNXB(){
+        NhaXuatBanService service = new NhaXuatBanService();
+        List<NhaXuatBan>  _lst = service.getAll();
+        cbxNhaXuatBan.removeAllItems();
+        for (NhaXuatBan nhaXuatBan : _lst) {
+            cbxNhaXuatBan.addItem(nhaXuatBan.getTen());
+        }
+    }
+
+    public static void fillCbxNCC(){
+        NhaCCService service = new NhaCCService();
+        List<NhaCC>  _lst = service.getAll();
+        cbxNCC.removeAllItems();
+        for (NhaCC nhaCC : _lst) {
+            cbxNCC.addItem(nhaCC.getTen());
+        }
+    }
+
+    public static void fillChkTL(){
+        TheLoaiService service = new TheLoaiService();
+        JComponent btn = (JComponent) boxTheLoai.getComponent(0);
+        List<TheLoaiSach> _lst = service.getAll();
+        boxTheLoai.removeAll();
+        boxTheLoai.add(btn);
+        for (TheLoaiSach theLoaiSach : _lst) {
+            JCheckBox chk = new JCheckBox(theLoaiSach.getTen());
+            chk.setBackground(Color.white);
+            boxTheLoai.add(chk);
+        }
+    }
+    
+    private String roleMaPhieuNhap(){
+        List<PhieuNhap> _lst = SERVICE.getAll();
+        if(!_lst.isEmpty()){
+            for (PhieuNhap phieuNhap : _lst) {
+                String maphieu = phieuNhap.getMa();
+                int max = Integer.parseInt(maphieu.substring(2));
+                if(ipn<max){
+                    ipn=max;
+                }
+            }
+        }
+        ipn++;
+        String ma = "PN"+ipn;
+        return ma;
+        
+    }
+    
+    private String roleMaSach(){
+        List<Sach> _lst = SERVICE_SACH.getAll();
+        if(!_lst.isEmpty()){
+            for (Sach sach : _lst) {
+                String maphieu = sach.getMa();
+                int max = Integer.parseInt(maphieu.substring(2));
+                if(isach<max){
+                    isach=max;
+                }
+            }
+        }
+        isach++;
+        String ma = "MS"+isach;
+        return ma;
+    }
+    
+    private void setNgayNhap(){
+        Calendar c = Calendar.getInstance();
+        int ngay = c.get(Calendar.DATE);
+        int Thang = c.get(Calendar.MONTH);
+        int nam = c.get(Calendar.YEAR);
+        String date = ngay+"-"+Thang+"-"+nam;
+        lblToday.setText(date);
+    }
+    
+    private PhieuNhap getPhieuNhapFormData(){
+        String ma = roleMaPhieuNhap();
+        String ngayNhap = lblToday.getText();
+        Boolean tinhTrang = rdoDaCo.isSelected();
+        int soLuongNhap = Integer.parseInt(txtSoLuongNhap.getText());
+        Double giaNhap = Double.valueOf(txtDonGia.getText());
+        BigDecimal giaNhapChuan = BigDecimal.valueOf(giaNhap);
+        try {
+            return new PhieuNhap(null, ma, null, sdf.parse(ngayNhap), tinhTrang, soLuongNhap, giaNhapChuan);
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
+    private Sach getSachFormData(){
+        String ma = roleMaSach();
+        String ten = txtTenSach.getText();
+        return new Sach(null, ma, ten);
+    }
+    
+    private SachCT getSachCTFormData(Sach sach){
+        int namXB = Integer.parseInt(txtNamXuatBan.getText());
+        Double giaNhap = Double.valueOf(txtDonGia.getText());
+        BigDecimal giaNhapChuan = BigDecimal.valueOf(giaNhap);
+        NhaXuatBan nxb = FrmNhaXuatBan.NXB_DUOCCHON;
+        return new SachCT(null, namXB, icon, giaNhapChuan, nxb, sach);
+    }
+    
+    private List<TheLoaiSach> getListTheLoai(){
+        List<JCheckBox> _lst = new ArrayList<>();
+        List<TheLoaiSach> _lstTLS = new ArrayList<>();
+        for (int j = 0; j < boxTheLoai.getComponentCount(); j++) {
+            if(j+1==boxTheLoai.getComponentCount()){
+                break;
+            }
+            _lst.add((JCheckBox) boxTheLoai.getComponent(j+1));
+        }
+        for (JCheckBox jCheckBox : _lst) {
+            if(jCheckBox.isSelected()){
+                String ten = jCheckBox.getText();
+                TheLoaiSach tls = SERVICE_TLS.getByName(ten);
+                _lstTLS.add(tls);
+            }
+        }
+        return _lstTLS;
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    public static javax.swing.JPanel Btn;
     private javax.swing.JPanel PnThongTinSach;
-    private javax.swing.JPanel boxTheLoai;
+    public static javax.swing.JPanel boxTheLoai;
     private javax.swing.JLabel btnDong;
     private javax.swing.JButton btnHoanThanh;
     private javax.swing.JButton btnLayThongTin;
@@ -586,10 +794,10 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JButton btnNhaCungCap;
     private javax.swing.JButton btnTacGia;
     private javax.swing.JButton btnTaiAnh;
-    private javax.swing.JButton btnTheLoai;
+    public static javax.swing.JButton btnTheLoai;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbxNCC;
-    private javax.swing.JComboBox<String> cbxNXB;
+    public static javax.swing.JComboBox<String> cbxNCC;
+    public static javax.swing.JComboBox<String> cbxNhaXuatBan;
     private javax.swing.JLabel imgAnhSach;
     private javax.swing.JCheckBox jCheckBox1;
     private javax.swing.JCheckBox jCheckBox2;
@@ -602,9 +810,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
-    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -615,8 +821,9 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JLabel lblTacGia;
+    private javax.swing.JLabel lblToday;
     private javax.swing.JRadioButton rdoChuaCo;
     private javax.swing.JRadioButton rdoDaCo;
     private javax.swing.JTextField txtDonGia;
