@@ -4,6 +4,7 @@
  */
 package Repositories.Impl;
 
+import DomainModels.ViPham;
 import Repositories.BaoCaoRepositories;
 import Utilities.DBContext;
 import ViewModels.BaoCaoDSViewModels;
@@ -51,6 +52,38 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
     }
 
     @Override
+    public List<ViPham> getBaoCaoBymaPM(String ma) {
+        ArrayList<ViPham> dsViPhams = new ArrayList<>();
+
+        try {
+            Connection connection = DBContext.getConnection();
+            String sql = "SELECT MaPM,MoTa,HinhPhat,NgayVP FROM ViPham \n"
+                    + "where MaPM = ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, ma);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                String MaPM = rs.getString("MaPM");
+                String moTa = rs.getString("MoTa");
+                String hinhPhat = rs.getString("HinhPhat");
+                Date NgayVP = rs.getDate("NgayVP");
+                ViPham viPham = new ViPham();
+                viPham.setMaPM(MaPM);
+                viPham.setMoTa(moTa);
+                viPham.setHinhPhat(hinhPhat);
+                viPham.setNgayVP(NgayVP);
+                dsViPhams.add(viPham);
+            }
+            ps.close();
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        return dsViPhams;
+    }
+
+    @Override
     public List<BaoCaoDSViewModels> LoadTableBaoCao() {
         ArrayList<BaoCaoDSViewModels> dsTablebaoCaoPMViewModelses = new ArrayList<>();
 
@@ -75,6 +108,47 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
             e.printStackTrace();
         }
         return dsTablebaoCaoPMViewModelses;
+    }
+
+    @Override
+    public void Them(ViPham vp) {
+        String sql = "INSERT into ViPham(MoTa,HinhPhat,NgayVP,MaPM) VALUES (?,?,CURRENT_TIMESTAMP,?)";
+        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setObject(1, vp.getMoTa());
+            ps.setObject(2, vp.getHinhPhat());
+            //System.out.println(vp.getNgayVP());
+            //ps.setObject(3, new java.sql.Date(vp.getNgayVP().getTime()));
+            //ps.setObject(3, vp.getNgayVP(java.time.LocalDate.now()));
+            //ps.setObject(3, new java.time.LocalDate.now(vp.getNgayVP().getTime()));
+            ps.setObject(3, vp.getMaPM());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    @Override
+    public void Sua(ViPham vp, String ma) {
+        String sql = " UPDATE [dbo].[ViPham]\n"
+                + "                          SET[MoTa] = ?\n"
+                + "                             ,[HinhPhat] = ?\n"
+                + "                     ,NgayVP=CURRENT_TIMESTAMP\n"
+                + " WHERE [MaPM] = ?";
+        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, vp.getMoTa());
+            ps.setString(2, vp.getHinhPhat());
+            //ps.setObject(3, vp.getNgayVP());
+            ps.setString(3, ma);
+
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+
+    @Override
+    public Void Xoa(String ma) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

@@ -4,6 +4,7 @@
  */
 package Repositories;
 
+import DomainModels.ViPham;
 import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
 import java.util.List;
@@ -15,5 +16,9 @@ import java.util.List;
 public interface BaoCaoRepositories {
     List<BaoCaoPMViewModels> getPhieuMuonByMa( String ma);
     List<BaoCaoDSViewModels> LoadTableBaoCao();
+    List<ViPham> getBaoCaoBymaPM(String ma);
+    void Them(ViPham vp);
+    void Sua(ViPham vp,String ma);
+    Void Xoa( String ma);
     
 }

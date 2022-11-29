@@ -5,6 +5,7 @@
 package Services;
 
 
+import DomainModels.ViPham;
 import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
 import java.util.List;
@@ -16,4 +17,8 @@ import java.util.List;
 public interface BaoCaoServices {
     List<BaoCaoPMViewModels> getPhieuMuonByMa(String ma);
     List<BaoCaoDSViewModels> LoadTableBaoCao();
+    List<ViPham> LoadtableViPhams(String ma);
+    void Them(ViPham vp);
+    void Sua(String ma,ViPham vp);
+    void Xoa(String ma);
 }

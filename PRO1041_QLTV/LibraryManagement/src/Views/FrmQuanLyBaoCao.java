@@ -4,6 +4,7 @@
  */
 package Views;
 
+import DomainModels.ViPham;
 import Services.BaoCaoServices;
 import Services.Impl.BaoCaoServicesImpl;
 import Utilities.SetSize;
@@ -11,6 +12,7 @@ import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
 import java.awt.Color;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -20,8 +22,11 @@ import javax.swing.table.JTableHeader;
  * @author Admin
  */
 public class FrmQuanLyBaoCao extends javax.swing.JPanel {
+
     final SetSize setsize = new SetSize();
     private BaoCaoServices baoCaoServices = new BaoCaoServicesImpl();
+    private List<ViPham> _lst = new ArrayList<>();
+
     /**
      * Creates new form FrmQuanLyBaoCao
      */
@@ -31,7 +36,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         this.seticon();
         loadtable();
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -51,7 +55,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnThemBC = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         txtMaPM = new javax.swing.JTextField();
         btnXem = new javax.swing.JButton();
@@ -65,12 +69,12 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         cbxSach = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtMoTa = new javax.swing.JTextArea();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lblNgayViet = new javax.swing.JLabel();
         jLabel13 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jButton6 = new javax.swing.JButton();
+        txtHinhPhat = new javax.swing.JTextField();
+        btnSuabc = new javax.swing.JButton();
 
         setBackground(new java.awt.Color(255, 255, 255));
 
@@ -128,6 +132,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         tblBaoCao.setGridColor(new java.awt.Color(125, 180, 125));
         tblBaoCao.setSelectionBackground(new java.awt.Color(125, 200, 150));
         tblBaoCao.setShowGrid(false);
+        tblBaoCao.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblBaoCaoMouseClicked(evt);
+            }
+        });
         jScrollPane3.setViewportView(tblBaoCao);
         if (tblBaoCao.getColumnModel().getColumnCount() > 0) {
             tblBaoCao.getColumnModel().getColumn(0).setResizable(false);
@@ -156,9 +165,14 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Báo cáo lỗi");
 
-        jButton2.setBackground(new java.awt.Color(125, 200, 150));
-        jButton2.setText("Thêm báo cáo");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThemBC.setBackground(new java.awt.Color(125, 200, 150));
+        btnThemBC.setText("Thêm báo cáo");
+        btnThemBC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThemBC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemBCActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Mã phiếu mượn:");
 
@@ -234,19 +248,24 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
         jLabel7.setText("Mô tả:");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane2.setViewportView(jTextArea1);
+        txtMoTa.setColumns(20);
+        txtMoTa.setRows(5);
+        jScrollPane2.setViewportView(txtMoTa);
 
         jLabel10.setText("Ngày viết:");
 
-        jLabel11.setText("30/10/2022, 16:55");
+        lblNgayViet.setText("30/10/2022, 16:55");
 
         jLabel13.setText("Hình phạt");
 
-        jButton6.setBackground(new java.awt.Color(125, 200, 150));
-        jButton6.setText("Sửa báo cáo");
-        jButton6.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSuabc.setBackground(new java.awt.Color(125, 200, 150));
+        btnSuabc.setText("Sửa báo cáo");
+        btnSuabc.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSuabc.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuabcActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -266,11 +285,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
                                     .addGroup(layout.createSequentialGroup()
                                         .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jTextField4))
+                                        .addComponent(txtHinhPhat))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(lblNgayViet, javax.swing.GroupLayout.PREFERRED_SIZE, 298, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(0, 0, Short.MAX_VALUE))
                                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -289,9 +308,9 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
                                 .addGap(45, 45, 45))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(140, 140, 140)
-                        .addComponent(jButton2)
+                        .addComponent(btnThemBC)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton6)
+                        .addComponent(btnSuabc)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
@@ -315,15 +334,15 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel13)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtHinhPhat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel11)
+                    .addComponent(lblNgayViet)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton2)
-                    .addComponent(jButton6))
+                    .addComponent(btnThemBC)
+                    .addComponent(btnSuabc))
                 .addGap(12, 12, 12))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -337,23 +356,89 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         _lstLoi.revalidate();
         _lstLoi.repaint();
     }//GEN-LAST:event_jButton1ActionPerformed
+    public ViPham GetText() {
+        ViPham vp = new ViPham();
+        vp.setMaPM(txtMaPM.getText());
+        vp.setMoTa(txtMoTa.getText());
+        vp.setHinhPhat(txtHinhPhat.getText());
+        // vp.setNgayVP(lblNgayViet.getDate());
+        //lblNgayViet.setText(date + "");
+        return vp;
 
+    }
+
+    //Load dữ liệu lên khung phiếu mượn
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemActionPerformed
         String ma = txtMaPM.getText();
         BaoCaoPMViewModels baoCaoPMViewModels = baoCaoServices.getPhieuMuonByMa(ma).get(0);
         lblTenDG.setText(baoCaoPMViewModels.getTenDG());
         //cbxSach.addItem(baoCaoPMViewModels.getTenSach());
         this.fillcbc();
-        lblNgayMuon.setText(baoCaoPMViewModels.getNgayMuon()+"");
+        lblNgayMuon.setText(baoCaoPMViewModels.getNgayMuon() + "");
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        lblNgayViet.setText(date + "");
     }//GEN-LAST:event_btnXemActionPerformed
 
-    private void fillcbc(){ 
+    public void clearForm() {
+        txtMaPM.setText("");
+        txtHinhPhat.setText("");
+        txtMoTa.setText("");
+        //txtNV.setDateFormatString("");
+        lblNgayViet.setText("");
+        cbxSach.setSelectedItem("");
+        lblTenDG.setText("");
+        lblNgayMuon.setText("");
+    }
+    private void btnThemBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemBCActionPerformed
+        ViPham vp = GetText();
+        baoCaoServices.Them(vp);
+        loadtable();
+        clearForm();
+    }//GEN-LAST:event_btnThemBCActionPerformed
+
+    private void tblBaoCaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBaoCaoMouseClicked
+        // TODO add your handling code here:
+        int row = tblBaoCao.getSelectedRow();
+        String ma = (String) tblBaoCao.getValueAt(row, 0);
+        List<ViPham> dsviViPhams = baoCaoServices.LoadtableViPhams(ma);
+        //System.out.println(dsviViPhams.size());
+        ViPham vp = dsviViPhams.get(0);
+        txtMaPM.setText(vp.getMaPM());
+        txtMoTa.setText(vp.getMoTa());
+        txtHinhPhat.setText(vp.getHinhPhat());
+        lblNgayViet.setText(vp.getNgayVP() + "");
+    }//GEN-LAST:event_tblBaoCaoMouseClicked
+
+    private void btnSuabcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuabcActionPerformed
+        ViPham vp = GetText();
+        String ma = txtMaPM.getText();
+        baoCaoServices.Sua(ma, vp);
+        loadtable();
+        clearForm();
+    }//GEN-LAST:event_btnSuabcActionPerformed
+
+//    void loadTableSua() {
+//        DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();
+//        _DefaultTableModel.setRowCount(0);
+//        dsviViPhams.forEach(Item -> {
+//            _DefaultTableModel.addRow(new Object[]{
+//                Item.getMaPM(), Item.getMoTa(),
+//                Item.getHinhPhat(), Item.getNgayVP()
+//            });
+//        });
+//        _lst = dsviViPhams;
+//    }
+
+    // hàm load cbx 
+    private void fillcbc() {
         cbxSach.removeAllItems();
-        for (BaoCaoPMViewModels baoCaoPMViewModels :baoCaoServices.getPhieuMuonByMa(txtMaPM.getText())) {
+        for (BaoCaoPMViewModels baoCaoPMViewModels : baoCaoServices.getPhieuMuonByMa(txtMaPM.getText())) {
             cbxSach.addItem(baoCaoPMViewModels.getTenSach());
         }
     }
-    
+
+    // load table danh sách báo cáo 
     void loadtable() {
         List<BaoCaoDSViewModels> dsbaoCaoViewModels = baoCaoServices.LoadTableBaoCao();
         DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();
@@ -366,12 +451,13 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         });
         //tblBaoCao.setModel(_DefaultTableModel);
     }
-    private void setTable(){
+
+    private void setTable() {
         JTableHeader header = tblBaoCao.getTableHeader();
         header.setBackground(new Color(125, 200, 150));
     }
-    
-    private void seticon(){
+
+    private void seticon() {
         URL urlSearch = getClass().getResource("/Images/search.png");
         btnSearch.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
     }
@@ -379,17 +465,16 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel _lstLoi;
     private javax.swing.JLabel btnSearch;
+    private javax.swing.JButton btnSuabc;
+    private javax.swing.JButton btnThemBC;
     private javax.swing.JButton btnXem;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxSach;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel2;
@@ -403,13 +488,14 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblNgayMuon;
+    private javax.swing.JLabel lblNgayViet;
     private javax.swing.JLabel lblTenDG;
     private javax.swing.JTable tblBaoCao;
+    private javax.swing.JTextField txtHinhPhat;
     private javax.swing.JTextField txtMaPM;
+    private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtTenLoi;
     // End of variables declaration//GEN-END:variables
 }
