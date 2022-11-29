@@ -28,11 +28,13 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT dg.TenDOcGia ,s.TenSach,pm.NgayMuon FROM PhieuMuonCT ct \n"
-                    + "JOIN Sach s on s.IDSach = ct.IdSach\n"
-                    + "JOIN PhieuMuon pm on pm.IDPhieuMuon = ct.IDPhieuMuon\n"
-                    + "JOIN DocGia dg on dg.IDDocGia = pm.IDDocGia\n"
-                    + "WHERE ct.MaPhieuMuon = ? ";
+            String sql = "SELECT dg.TenDOcGia,S.TenSach,pm.NgayMuon FROM DocGia dg \n"
+                    + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
+                    + "JOIN PhieuMuonCT ct ON pm.IDPhieuMuon = ct.IDPhieuMuon\n"
+                    + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
+                    + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
+                    + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
+                    + "WHERE ct.MaPhieuMuon = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, ma);
             ResultSet rs = ps.executeQuery();
@@ -57,8 +59,8 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT MaPM,MoTa,HinhPhat,NgayVP FROM ViPham \n"
-                    + "where MaPM = ?";
+            String sql = "SELECT MaPM,MoTa,HinhPhat,NgayVP FROM ViPham\n"
+                    + "WHERE MaPM = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, ma);
             ResultSet rs = ps.executeQuery();
@@ -79,7 +81,7 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         return dsViPhams;
     }
 
@@ -90,8 +92,11 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
         try {
             Connection connection = DBContext.getConnection();
             String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg \n"
-                    + "JOIN PhieuMuon pm ON pm.IDDocGia = dg.IDDocGia\n"
+                    + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
                     + "JOIN PhieuMuonCT ct ON pm.IDPhieuMuon = ct.IDPhieuMuon\n"
+                    + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
+                    + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
+                    + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
                     + "JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();

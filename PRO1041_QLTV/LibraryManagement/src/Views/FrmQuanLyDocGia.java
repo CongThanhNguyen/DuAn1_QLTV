@@ -248,21 +248,22 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
             if(frm.checkChk()){
                 ma = frm.getMa();
                 service.delete(ma);
+                this.loadList();
             }
         }
         if(ma.equals("")){
             JOptionPane.showMessageDialog(this, "Vui lòng chọn độc giả để xóa!");
             return;
         }
-        this.loadList();
+        
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         
     }//GEN-LAST:event_btnXoaMouseClicked
 
     private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
         // TODO add your handling code here:
-        _lst = service.getAll();
         this.loadList();
+        //
     }//GEN-LAST:event_btnResetMouseClicked
     
     //Hàm set icon
@@ -284,6 +285,7 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
     // hàm dùng để tải độc giả lên giao diện
     public void loadList(){
         jpnLstDocGia.removeAll();
+        _lst = service.getAll();
         this.setSizeFrm(_lst.size());
         for (DocGia docGia : _lst) {
             FrmDocGiaKhung docGiafrm = new FrmDocGiaKhung();

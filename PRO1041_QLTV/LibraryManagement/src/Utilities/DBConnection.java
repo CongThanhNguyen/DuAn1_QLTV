@@ -15,7 +15,7 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
     private static String hostName = "localhost";
     private static String acc = "sa";
     private static String pass = "123";
-    private static String dbName = "PRO1041_FALL22_IT17324_QLTV_up";
+    private static String dbName = "PRO1041_FALL22_IT17324_QLTV";
     private static String connectionSql
             = "jdbc:sqlserver://" + hostName + ":1433;databaseName=" + dbName + ";encrypt=true;trustServerCertificate=true;";
     private static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";

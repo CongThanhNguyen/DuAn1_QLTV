@@ -152,6 +152,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jPanel1.add(jLabel12, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, -1, 20));
 
         btnSearch.setPreferredSize(new java.awt.Dimension(20, 20));
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchMouseClicked(evt);
+            }
+        });
         jPanel1.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
 
         jButton4.setBackground(new java.awt.Color(125, 200, 150));
@@ -417,6 +422,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         loadtable();
         clearForm();
     }//GEN-LAST:event_btnSuabcActionPerformed
+
+    private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_btnSearchMouseClicked
 
 //    void loadTableSua() {
 //        DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();

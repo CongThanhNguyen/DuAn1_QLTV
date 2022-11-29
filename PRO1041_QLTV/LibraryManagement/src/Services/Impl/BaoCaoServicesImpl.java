@@ -31,7 +31,7 @@ public class BaoCaoServicesImpl implements BaoCaoServices{
     }
     @Override
     public List<ViPham> LoadtableViPhams(String ma) {
-        System.out.println(ma);
+        //System.out.println(ma);
         List<ViPham> getBaoCaoByPM = BaoCaoRepositories.getBaoCaoBymaPM(ma);
         return getBaoCaoByPM;
     }
