@@ -49,7 +49,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jButton1 = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblBaoCao = new javax.swing.JTable();
-        jTextField3 = new javax.swing.JTextField();
+        txtTimKiem = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
@@ -145,7 +145,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         }
 
         jPanel1.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 322, 290, 210));
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 170, -1));
+        jPanel1.add(txtTimKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 290, 170, -1));
 
         jLabel12.setForeground(new java.awt.Color(255, 255, 255));
         jLabel12.setText("Mã độc giả");
@@ -394,6 +394,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         cbxSach.setSelectedItem("");
         lblTenDG.setText("");
         lblNgayMuon.setText("");
+        txtTimKiem.setText("");
     }
     private void btnThemBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemBCActionPerformed
         ViPham vp = GetText();
@@ -425,7 +426,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
         // TODO add your handling code here:
+//        List<BaoCaoDSViewModels> vp = timBaoCaoDSViewModelses;
+        loadtableByMaDG(txtTimKiem.getText());
         
+//        System.out.println(vp);
+//        clearForm();
     }//GEN-LAST:event_btnSearchMouseClicked
 
 //    void loadTableSua() {
@@ -454,6 +459,18 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();
         _DefaultTableModel.setRowCount(0);
         dsbaoCaoViewModels.forEach(Item -> {
+            _DefaultTableModel.addRow(new Object[]{
+                Item.getMaPM(), Item.getMaDG(),
+                Item.getNgayViet()
+            });
+        });
+        //tblBaoCao.setModel(_DefaultTableModel);
+    }
+    void loadtableByMaDG(String ma) {
+//        List<BaoCaoDSViewModels> dsbaoCaoViewModels = baoCaoServices.LoadTableBaoCao();
+        DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();
+        _DefaultTableModel.setRowCount(0);
+        baoCaoServices.getByMaDG(ma).forEach(Item -> {
             _DefaultTableModel.addRow(new Object[]{
                 Item.getMaPM(), Item.getMaDG(),
                 Item.getNgayViet()
@@ -498,7 +515,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel lblNgayMuon;
     private javax.swing.JLabel lblNgayViet;
     private javax.swing.JLabel lblTenDG;
@@ -507,5 +523,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     private javax.swing.JTextField txtMaPM;
     private javax.swing.JTextArea txtMoTa;
     private javax.swing.JTextField txtTenLoi;
+    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

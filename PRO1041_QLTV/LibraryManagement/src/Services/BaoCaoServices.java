@@ -17,8 +17,10 @@ import java.util.List;
 public interface BaoCaoServices {
     List<BaoCaoPMViewModels> getPhieuMuonByMa(String ma);
     List<BaoCaoDSViewModels> LoadTableBaoCao();
+    List<BaoCaoDSViewModels> getByMaDG(String maDG);
     List<ViPham> LoadtableViPhams(String ma);
     void Them(ViPham vp);
     void Sua(String ma,ViPham vp);
     void Xoa(String ma);
+   
 }

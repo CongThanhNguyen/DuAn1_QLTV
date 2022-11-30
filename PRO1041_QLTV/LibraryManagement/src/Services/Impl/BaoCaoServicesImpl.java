@@ -51,6 +51,12 @@ public class BaoCaoServicesImpl implements BaoCaoServices{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public List<BaoCaoDSViewModels> getByMaDG(String maDG) {
+        List<BaoCaoDSViewModels> timKiem = BaoCaoRepositories.getByMaDG(maDG);
+        return timKiem;
+    }
+
     
 
     

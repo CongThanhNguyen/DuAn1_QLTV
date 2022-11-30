@@ -19,6 +19,7 @@ public interface BaoCaoRepositories {
     List<ViPham> getBaoCaoBymaPM(String ma);
     void Them(ViPham vp);
     void Sua(ViPham vp,String ma);
-    Void Xoa( String ma);
+    void Xoa( String ma);
+    List<BaoCaoDSViewModels> getByMaDG(String maDG);
     
 }

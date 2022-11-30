@@ -152,8 +152,39 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
     }
 
     @Override
-    public Void Xoa(String ma) {
+    public void Xoa(String ma) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public List<BaoCaoDSViewModels> getByMaDG(String maDG) {
+        ArrayList<BaoCaoDSViewModels> dsbaoCaoPM = new ArrayList<>();
+
+        try {
+            Connection connection = DBContext.getConnection();
+            String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg\n"
+                    + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
+                    + "JOIN PhieuMuonCT ct ON pm.IDPhieuMuon = ct.IDPhieuMuon\n"
+                    + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
+                    + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
+                    + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
+                    + "JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon\n"
+                    + "WHERE dg.MaDocGia like ?";
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, maDG);
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                   String maPM = rs.getString("MaPhieuMuon");
+                   String madg = rs.getString("MaDocGia");
+                   Date ngaPM = rs.getDate("NgayVP");
+                   BaoCaoDSViewModels timKiem = new BaoCaoDSViewModels(maPM, madg, ngaPM);
+                   dsbaoCaoPM.add(timKiem);
+            }
+            ps.close();
+            rs.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return dsbaoCaoPM;
+    }
 }
