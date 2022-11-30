@@ -182,7 +182,6 @@ GO
 -- Lỗi vi phạm
 CREATE TABLE LoiViPham(
 	IDLoiViPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), 
-	IdViPham UNIQUEIDENTIFIER,
 	TenLoi nvarchar(100) not null,
 )
 GO
@@ -196,3 +195,9 @@ CREATE TABLE LOIVIPHAMCT(
 )
 GO
 select @@version
+
+SELECT TenTL FROM TheLoaiSach JOIN TLSACHCT ON TheLoaiSach.IDTL = TLSACHCT.IdTLSach
+								JOIN Sach ON TLSACHCT.IDSach = Sach.IDSach
+
+SELECT TENNXB FROM NhaXuatBan JOIN NXBCT ON NXBCT.IDNhaXuatBan = NhaXuatBan.IDNhaXuatBan
+								JOIN SachCT ON NXBCT.IDSACHCT = SachCT.IDSachCT

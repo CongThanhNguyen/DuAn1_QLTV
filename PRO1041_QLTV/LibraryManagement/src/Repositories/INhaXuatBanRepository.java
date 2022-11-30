@@ -17,4 +17,5 @@ public interface INhaXuatBanRepository {
     public NhaXuatBan update(NhaXuatBan nhaXuatBan);
     public List<NhaXuatBan> getAll();
     public NhaXuatBan getByID(String id);
+    public int insertNXBCT(String idNXB, String idSachCT); 
 }

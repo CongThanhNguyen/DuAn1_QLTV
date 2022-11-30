@@ -15,18 +15,16 @@ public class SachCT {
     private Integer namxb;
     private String img;
     private BigDecimal giaIn;
-    private NhaXuatBan nxb;
     private Sach sach;
 
     public SachCT() {
     }
 
-    public SachCT(String id, Integer namxb, String img, BigDecimal giaIn, NhaXuatBan nxb, Sach sach) {
+    public SachCT(String id, Integer namxb, String img, BigDecimal giaIn, Sach sach) {
         this.id = id;
         this.namxb = namxb;
         this.img = img;
         this.giaIn = giaIn;
-        this.nxb = nxb;
         this.sach = sach;
     }
 
@@ -60,14 +58,6 @@ public class SachCT {
 
     public void setGiaIn(BigDecimal giaIn) {
         this.giaIn = giaIn;
-    }
-
-    public NhaXuatBan getNxb() {
-        return nxb;
-    }
-
-    public void setNxb(NhaXuatBan nxb) {
-        this.nxb = nxb;
     }
 
     public Sach getSach() {

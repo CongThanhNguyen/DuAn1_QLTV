@@ -18,8 +18,10 @@ import java.sql.SQLException;
  * @author Admin
  */
 public class NhaXuatBanRepository implements INhaXuatBanRepository{
+    
     String sql = "Select * from NhaXuatBan";
     String sqlByID = "Select * from NhaXuatBan where id =?";
+    String insert_NXBCT = "Insert into NXBCT values(?,?)";
     
     @Override
     public NhaXuatBan insert(NhaXuatBan nxb) {
@@ -61,5 +63,10 @@ public class NhaXuatBanRepository implements INhaXuatBanRepository{
             return null;
         }
         return _lst;
+    }
+
+    @Override
+    public int insertNXBCT(String idNXB, String idSachCT) {
+        return DBConnection.ExcuteDungna(insert_NXBCT, idNXB, idSachCT);
     }
 }

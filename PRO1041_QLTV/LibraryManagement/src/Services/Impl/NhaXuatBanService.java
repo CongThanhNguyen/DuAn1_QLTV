@@ -44,5 +44,10 @@ public class NhaXuatBanService implements INhaXuatBanService{
     public NhaXuatBan getByID(String id) {
         return REPO.getByID(id);
     }
+
+    @Override
+    public int insertNXBCT(String idNXB, String idSachCt) {
+        return REPO.insertNXBCT(idNXB, idSachCt);
+    }
     
 }

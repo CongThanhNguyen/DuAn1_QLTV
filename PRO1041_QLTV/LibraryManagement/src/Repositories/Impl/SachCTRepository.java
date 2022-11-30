@@ -27,24 +27,23 @@ import java.util.logging.Logger;
  */
 public class SachCTRepository implements ISachCTRepository{
     final TacGiaRepository REPO_TACGIA = new TacGiaRepository();
-    final NhaXuatBanRepository REPO_NXB = new NhaXuatBanRepository();
     final TheLoaiSachRepository REPO_TLS = new  TheLoaiSachRepository();
     final SachRepository REPO_SACH = new SachRepository();
     
     String sql = "Select * from SachCT";
-    String sql_by_ID = "Select * from SachCT where IDSachCT = ?";
+    String sql_by_ID = "Select * from SachCT where IDSach = ?";
     String insert = "insert into SachCT(NamXuatBan, img, GiaInTrenSach,"
-            + " IDNhaXuatBan, IDSach, IDPhieuNhap) values (?,?,?,?,?,?)";
+            + "IDSach) values (?,?,?,?)";
     
     @Override
     public SachCT insert(SachCT sachCT) {
         try {
             PreparedStatement ps = DBConnection.getStmt(insert, sachCT.getNamxb(),
-                    sachCT.getImg(), sachCT.getGiaIn(),sachCT.getNxb().getId()
-                    , sachCT.getSach().getId());
+                    sachCT.getImg(), sachCT.getGiaIn(), sachCT.getSach().getId());
             int i = ps.executeUpdate();
             return i==1?sachCT:null;
         } catch (SQLException ex) {
+            ex.printStackTrace();
             return null;
         }
     }
@@ -66,6 +65,7 @@ public class SachCTRepository implements ISachCTRepository{
 
     @Override
     public SachCT getByID(String ID) {
+        System.out.println(ID);
         return this.getBySQL(sql_by_ID, ID).get(0);
     }
     
@@ -80,14 +80,13 @@ public class SachCTRepository implements ISachCTRepository{
                 int namXb = rs.getInt(2);
                 String img = rs.getString(3);
                 BigDecimal giain = rs.getBigDecimal(4);
-                String idNXB = rs.getString(5);
-                String idSach = rs.getString(6);
-                NhaXuatBan nxb = REPO_NXB.getByID(idNXB);
+                String idSach = rs.getString(5);
                 Sach sach = REPO_SACH.getByID(idSach);
-                SachCT sachCT = new SachCT(id, namXb, img, giain, nxb, sach);
+                SachCT sachCT = new SachCT(id, namXb, img, giain, sach);
                 _lst.add(sachCT);
             }
         } catch (SQLException ex) {
+            ex.printStackTrace();
             return null;
         }
         return _lst;

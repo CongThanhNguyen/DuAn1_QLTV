@@ -25,13 +25,14 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
     String sql = "Select * from PhieuNhap";
     String sql_by_ma = "Select * from PhieuNhap where MaPhieuNhap = ?";
     String sql_by_id = "Select * from PhieuNhap where IDPhieuNhap = ?";
-    String insert = "Insert into phieunhap(MaPhieuNhap, NgayNhap, TinhTrang,"
-                    + " SoLuongNhap, GiaNhap) values (?,?,?,?,?)";
+    String insert = "Insert into phieunhap(IDSachCT, MaPhieuNhap, NgayNhap, TinhTrang,"
+                    + " SoLuongNhap, GiaNhap) values (?,?,?,?,?,?)";
     String insert_nccct = "Insert into Nhaccct values(?,?)";
+    String sql_by_id_sachct = "Select * from PhieuNhap where idSachCt = ?";
     
     @Override
     public PhieuNhap insert(PhieuNhap PN) {
-        int i = DBConnection.ExcuteDungna(insert, PN.getMa(), PN.getNgay(), PN.getTinhtrang(), PN.getSl(), PN.getGiaNhap());
+        int i = DBConnection.ExcuteDungna(insert,PN.getIdSachCT(), PN.getMa(), PN.getNgay(), PN.getTinhtrang(), PN.getSl(), PN.getGiaNhap());
         return i==1?getByMa(PN.getMa()):null;
     }
 
@@ -92,6 +93,11 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
             ex.printStackTrace();
             return 0;
         }
+    }
+
+    @Override
+    public PhieuNhap getByidSachCT(String id) {
+        return getBySQL(sql_by_id_sachct, id).get(0);
     }
     
 }

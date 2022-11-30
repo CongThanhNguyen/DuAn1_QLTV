@@ -14,11 +14,13 @@ import DomainModels.TheLoaiSach;
 import Services.Impl.NhaCCService;
 import Services.Impl.NhaXuatBanService;
 import Services.Impl.PhieuNhapService;
+import Services.Impl.PhieuNhapViewModelService;
 import Services.Impl.SachCTService;
 import Services.Impl.SachService;
 import Services.Impl.TacGiaService;
 import Services.Impl.TheLoaiService;
 import Utilities.SetSize;
+import ViewModels.PhieuNhapViewmodel;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -46,6 +48,9 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     final SachCTService SERVICE_SACHCT = new SachCTService();
     final TheLoaiService SERVICE_TLS = new TheLoaiService();
     final TacGiaService SERVICE_TG = new TacGiaService();
+    final NhaXuatBanService SERVICE_NXB = new NhaXuatBanService();
+    final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
+    
     static int ipn =20000;
     static int isach = 20000;
     static int suaAnh = 0;
@@ -242,6 +247,11 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         btnLayThongTin.setBackground(new java.awt.Color(125, 200, 150));
         btnLayThongTin.setText("Check");
         btnLayThongTin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnLayThongTin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLayThongTinActionPerformed(evt);
+            }
+        });
 
         jLabel8.setText("Tên sách");
 
@@ -356,11 +366,6 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         cbxNCC.setBackground(new java.awt.Color(125, 200, 150));
         cbxNCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxNCC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cbxNCC.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cbxNCCActionPerformed(evt);
-            }
-        });
 
         btnNhaCungCap.setBackground(new java.awt.Color(125, 200, 150));
         btnNhaCungCap.setText("Khác");
@@ -384,11 +389,6 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
 
         cbxNhaXuatBan.setBackground(new java.awt.Color(125, 200, 150));
         cbxNhaXuatBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxNhaXuatBan.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                cbxNhaXuatBanItemStateChanged(evt);
-            }
-        });
 
         javax.swing.GroupLayout PnThongTinSachLayout = new javax.swing.GroupLayout(PnThongTinSach);
         PnThongTinSach.setLayout(PnThongTinSachLayout);
@@ -421,9 +421,9 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                 .addGap(0, 12, Short.MAX_VALUE)
                 .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnNXB)
-                    .addComponent(btnTacGia)
                     .addComponent(btnNhaCungCap)
-                    .addComponent(btnLayThongTin))
+                    .addComponent(btnLayThongTin)
+                    .addComponent(btnTacGia))
                 .addContainerGap(29, Short.MAX_VALUE))
             .addGroup(PnThongTinSachLayout.createSequentialGroup()
                 .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -467,11 +467,12 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                         .addComponent(jLabel7)
                         .addGap(18, 18, 18)
                         .addComponent(jLabel8)
-                        .addGap(15, 15, 15)
+                        .addGap(12, 12, 12)
                         .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(lblTacGia))
-                        .addGap(25, 25, 25)
+                            .addComponent(lblTacGia)
+                            .addComponent(btnTacGia))
+                        .addGap(22, 22, 22)
                         .addComponent(jLabel10)
                         .addGap(15, 15, 15)
                         .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -484,9 +485,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                             .addComponent(btnLayThongTin))
                         .addGap(12, 12, 12)
                         .addComponent(txtTenSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(12, 12, 12)
-                        .addComponent(btnTacGia)
-                        .addGap(16, 16, 16)
+                        .addGap(50, 50, 50)
                         .addComponent(txtSoLuongNhap, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(6, 6, 6)
                 .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -593,18 +592,6 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         tacGia.setVisible(true);
     }//GEN-LAST:event_btnTacGiaActionPerformed
 
-    private void cbxNCCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxNCCActionPerformed
-        // TODO add your handling code here:
-        rdoChuaCo.setSelected(true);
-        this.checkSach(true);
-    }//GEN-LAST:event_cbxNCCActionPerformed
-
-    private void cbxNhaXuatBanItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cbxNhaXuatBanItemStateChanged
-        // TODO add your handling code here:\
-        rdoChuaCo.setSelected(true);
-        this.checkSach(true);
-    }//GEN-LAST:event_cbxNhaXuatBanItemStateChanged
-
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
         // TODO add your handling code here:
         Sach sach = getSachFormData();
@@ -620,7 +607,10 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         }
         SachCT sachct = getSachCTFormData(sachNew);
         SERVICE_SACHCT.insert(sachct);
-        PhieuNhap pn = getPhieuNhapFormData();
+        List<SachCT> _lstSachCT = SERVICE_SACHCT.getAll();
+        String idSachCT = _lstSachCT.get(_lstSachCT.size()-1).getId();
+        SERVICE_NXB.insertNXBCT(FrmNhaXuatBan.NXB_DUOCCHON.getId(), idSachCT);
+        PhieuNhap pn = getPhieuNhapFormData(idSachCT);
         SERVICE.insert(pn);
         NhaCC nhaCC = FrmNhaCungCap.NHACC_DUOCCHON;
         SERVICE.InsertNCCCT(SERVICE.getByMa(pn.getMa()).getId(), nhaCC.getId());
@@ -640,6 +630,35 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         imgAnhSach.setIcon(imgm);
     }//GEN-LAST:event_btnTaiAnhActionPerformed
 
+    private void btnLayThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayThongTinActionPerformed
+        // TODO add your handling code here:
+        String ma = txtMaSach.getText();
+        PhieuNhapViewmodel view = SERVICE_VIEW.getPhieuNhapView(ma);
+        txtTenSach.setText(view.getTenSach());
+        String hoten="";
+        for (String string : view.getTacGia()) {
+            hoten += string+"-";
+        }
+        hoten = hoten.substring(0, hoten.length()-1);
+        lblTacGia.setText(hoten);
+        txtSoLuongNhap.setText(view.getSoLuong()+"");
+        cbxNhaXuatBan.setSelectedItem(view.getNhaXuatBan());
+        for (String string : view.getTheLoai()) {
+            for (int j = 0; j < boxTheLoai.getComponentCount(); j++) {
+                if(j+1==boxTheLoai.getComponentCount()){
+                    break;
+                }
+                JCheckBox chk = (JCheckBox) boxTheLoai.getComponent(j+1);
+                if(chk.getText().equals(string)){
+                    chk.setSelected(true);
+                }
+            }
+        }
+        txtNamXuatBan.setText(view.getNxb()+"");
+        txtDonGia.setText(view.getGiaNhap()+"");
+        cbxNCC.setSelectedItem(view.getNhaCC());
+    }//GEN-LAST:event_btnLayThongTinActionPerformed
+
     public void checkSach(boolean ft){
         txtMaSach.setText("");
         txtMaSach.setEditable(!ft);
@@ -647,6 +666,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtNamXuatBan.setEditable(ft);
         txtDonGia.setEditable(ft);
         btnTaiAnh.setEnabled(ft);
+        btnTacGia.setEnabled(ft);
     }
 
     public void xemChiTiet(){
@@ -735,7 +755,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         lblToday.setText(date);
     }
     
-    private PhieuNhap getPhieuNhapFormData(){
+    private PhieuNhap getPhieuNhapFormData(String idSachCT){
         String ma = roleMaPhieuNhap();
         String ngayNhap = lblToday.getText();
         Boolean tinhTrang = rdoDaCo.isSelected();
@@ -743,7 +763,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         Double giaNhap = Double.valueOf(txtDonGia.getText());
         BigDecimal giaNhapChuan = BigDecimal.valueOf(giaNhap);
         try {
-            return new PhieuNhap(null, ma, null, sdf.parse(ngayNhap), tinhTrang, soLuongNhap, giaNhapChuan);
+            return new PhieuNhap(null, ma, idSachCT, sdf.parse(ngayNhap), tinhTrang, soLuongNhap, giaNhapChuan);
         } catch (ParseException ex) {
             ex.printStackTrace();
             return null;
@@ -760,8 +780,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         int namXB = Integer.parseInt(txtNamXuatBan.getText());
         Double giaNhap = Double.valueOf(txtDonGia.getText());
         BigDecimal giaNhapChuan = BigDecimal.valueOf(giaNhap);
-        NhaXuatBan nxb = FrmNhaXuatBan.NXB_DUOCCHON;
-        return new SachCT(null, namXB, icon, giaNhapChuan, nxb, sach);
+        return new SachCT(null, namXB, icon, giaNhapChuan, sach);
     }
     
     private List<TheLoaiSach> getListTheLoai(){
