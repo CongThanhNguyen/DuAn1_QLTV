@@ -4,11 +4,15 @@
  */
 package Views;
 
+import DomainModels.SachCT;
+import Services.Impl.SachCTService;
 import Utilities.SetSize;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.net.URL;
+import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -17,6 +21,7 @@ import javax.swing.table.JTableHeader;
  */
 public class FrmQuanLyKhoSach extends javax.swing.JPanel {
     final SetSize setsize = new SetSize();
+    final SachCTService SachCTSR = new SachCTService();
     /**
      * Creates new form FrmKhoSach
      */
@@ -121,7 +126,6 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         tblKhoSach.setGridColor(new java.awt.Color(0, 0, 0));
         tblKhoSach.setPreferredSize(new java.awt.Dimension(780, 80));
         tblKhoSach.setSelectionBackground(new java.awt.Color(125, 214, 150));
-        tblKhoSach.setSelectionForeground(new java.awt.Color(255, 255, 255));
         tblKhoSach.setShowGrid(false);
         jScrollPane1.setViewportView(tblKhoSach);
         if (tblKhoSach.getColumnModel().getColumnCount() > 0) {
@@ -255,7 +259,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
                             .addComponent(jLabel13))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addComponent(btnXemChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -353,6 +357,11 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
 
         btnTimKiem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTimKiem.setPreferredSize(new java.awt.Dimension(24, 24));
+        btnTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimKiemMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -427,6 +436,23 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         new FrmSach().setVisible(true);
     }//GEN-LAST:event_btnSuaSachMouseClicked
 
+    private void btnTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemMouseClicked
+        // TODO add your handling code here:
+         String tuKhoa = txtTimSach.getText();
+        if(tuKhoa.trim().equals("")){
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hoặc tên độc giả để thực hiện!");
+            return;
+        }
+        List<SachCT> _lst = SachCTSR.Seach(tuKhoa);
+        if(_lst.isEmpty()){
+            if(tblKhoSach.getComponentCount() == SachCTSR.getAll().size()){
+                _lst = SachCTSR.getAll();
+            }
+            JOptionPane.showMessageDialog(this, "Không tìm thấy độc giả!");
+        }
+        this.loadList(_lst);
+    }//GEN-LAST:event_btnTimKiemMouseClicked
+
     private void seticon(){
         URL urlSearch = getClass().getResource("/Images/search.png");
         btnTimKiem.setIcon(setsize.setSizeAnh(urlSearch, 24, 24));
@@ -471,4 +497,8 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
     private javax.swing.JTable tblKhoSach;
     private javax.swing.JTextField txtTimSach;
     // End of variables declaration//GEN-END:variables
+
+    private void loadList(List<SachCT> _lst) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

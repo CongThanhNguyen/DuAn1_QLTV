@@ -3,7 +3,15 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/SPRING%20BOOT/PRO1041_QLTV/PRO1041_QLTV/LibraryManagement/src/DomainModels/LoiViPham.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/DocGiaRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmPhieuNhap.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/IDocGiaRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/ViewModels/PhieuNhapViewmodel.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyThongKe.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyDocGia.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/INhaCCRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/IPhieuNhapViewModelRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuNhapViewModelRepository.java</file>
         </group>
     </open-files>
 </project-private>

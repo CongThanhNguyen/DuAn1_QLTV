@@ -4,24 +4,28 @@
  */
 package DomainModels;
 
+import java.util.Date;
+
 /**
  *
  * @author Apc
  */
 public class ViPham {
     private String idVP;
-    private String ngayVP;
+    private Date ngayVP;
     private String hinhPhat;
     private String moTa;
+    private String maPM;
 
     public ViPham() {
     }
 
-    public ViPham(String idVP, String ngayVP, String hinhPhat, String moTa) {
+    public ViPham(String idVP, Date ngayVP, String hinhPhat, String moTa, String maPM) {
         this.idVP = idVP;
         this.ngayVP = ngayVP;
         this.hinhPhat = hinhPhat;
         this.moTa = moTa;
+        this.maPM = maPM;
     }
 
     public String getIdVP() {
@@ -32,11 +36,11 @@ public class ViPham {
         this.idVP = idVP;
     }
 
-    public String getNgayVP() {
+    public Date getNgayVP() {
         return ngayVP;
     }
 
-    public void setNgayVP(String ngayVP) {
+    public void setNgayVP(Date ngayVP) {
         this.ngayVP = ngayVP;
     }
 
@@ -56,10 +60,20 @@ public class ViPham {
         this.moTa = moTa;
     }
 
+    public String getMaPM() {
+        return maPM;
+    }
+
+    public void setMaPM(String maPM) {
+        this.maPM = maPM;
+    }
+
     @Override
     public String toString() {
-        return "ViPham{" + "idVP=" + idVP + ", ngayVP=" + ngayVP + ", hinhPhat=" + hinhPhat + ", moTa=" + moTa + '}';
+        return "ViPham{" + "idVP=" + idVP + ", ngayVP=" + ngayVP + ", hinhPhat=" + hinhPhat + ", moTa=" + moTa + ", maPM=" + maPM + '}';
     }
+
     
+
     
 }

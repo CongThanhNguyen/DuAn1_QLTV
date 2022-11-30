@@ -1,0 +1,20 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
+ */
+package Repositories;
+
+import DomainModels.SachCT;
+import java.util.List;
+
+/**
+ *
+ * @author Admin
+ */
+public interface ISachCTRepository {
+    public SachCT insert(SachCT sachCT);
+    public SachCT delete(String ma);
+    public SachCT update(SachCT sachCT);
+    public List<SachCT> getAll();
+    public SachCT getByID(String ID);
+}

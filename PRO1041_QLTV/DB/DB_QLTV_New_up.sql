@@ -1,6 +1,6 @@
-CREATE DATABASE PRO1041_FALL22_IT17324_QLTV_up;
+CREATE DATABASE PRO1041_FALL22_IT17324_QLTV;
 GO
-USE PRO1041_FALL22_IT17324_QLTV_up;
+USE PRO1041_FALL22_IT17324_QLTV;
 GO
 -- đăng nhập
 CREATE TABLE DangNhap
@@ -22,17 +22,18 @@ GO
 CREATE TABLE NhaXuatBan
 (
   IDNhaXuatBan UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-  TenTacGia NVARCHAR(50) not null,
+  TENNXB NVARCHAR(50) not null,
   DiaChi NVARCHAR(50) NOT NULL,
 )
 GO
+
+
 -- loại sách
 CREATE TABLE TheLoaiSach
 (
   IDTL UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   TenTL NVARCHAR(50) not null,
 )
-
 GO
 
 -- nhà cung cấp
@@ -51,49 +52,86 @@ CREATE TABLE Sach
   IDSach UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   MaSach VARCHAR(10) unique not null,
   TenSach NVARCHAR(50) not null,
-  
 )
 GO
+
+--Thể loại chi tiết
+CREATE TABLE TLSACHCT
+(
+	IdTLSach UNIQUEIDENTIFIER,
+	IDSach UNIQUEIDENTIFIER,
+	CONSTRAINT FK_LoaiSach FOREIGN KEY(IdTLSach) REFERENCES TheLoaiSach(IDTL),
+	CONSTRAINT FK_sach FOREIGN KEY(IDSach) REFERENCES Sach(IDSach),
+	CONSTRAINT PK_TLSACHCT PRIMARY KEY(IdTLSach, IDSACH)
+)
+GO
+
+--Tác giả chi tiết
+CREATE TABLE TacGiaCT
+(
+	IDTacGia UNIQUEIDENTIFIER,
+	IDSach UNIQUEIDENTIFIER,
+	CONSTRAINT FK_TacGia FOREIGN KEY(IDTacGia) REFERENCES TacGia(IDTacGia),
+	CONSTRAINT FK1_sach FOREIGN KEY(IDSach) REFERENCES Sach(IDSach),
+	CONSTRAINT PK_TacGiaCT PRIMARY KEY(IDTacGia, IDSach)
+)
+GO
+
+-- sách chi tiết
+CREATE TABLE SachCT(
+  IDSachCT UNIQUEIDENTIFIER PRIMARY KEY Default newID(),
+  NamXuatBan int DEFAULT NULL,
+  img varchar(100) ,
+  GiaInTrenSach DECIMAL(20,10) NULL ,
+  IdSach UNIQUEIDENTIFIER,
+  CONSTRAINT FK4_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach),
+)
+GO
+
+--Nhà xuất bản chi tiết
+CREATE TABLE NXBCT
+(
+	IDNhaXuatBan UNIQUEIDENTIFIER,
+	IDSACHCT UNIQUEIDENTIFIER,
+	CONSTRAINT FK2_NhaXuatBan FOREIGN KEY(IDNhaXuatBan) REFERENCES NhaXuatBan(IDNhaXuatBan),
+	CONSTRAINT FK_SACHCT FOREIGN KEY(IDSACHCT) REFERENCES SachCT(IDSACHCT)
+)
+GO
+
+--Cuốn sách 
+CREATE TABLE CuonSach(
+  MaCuonSach Int identity(1,1) primary key,
+  TrangThai float ,
+  IDSachCT UNIQUEIDENTIFIER,
+  CONSTRAINT FK1_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT)
+) 
+GO
+
+
 -- Phiếu Nhập
 CREATE TABLE PhieuNhap(
   IdPhieuNhap UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  IDSachCT UNIQUEIDENTIFIER,
   MaPhieuNhap VARCHAR(10) unique,
   NgayNhap DATE ,
   TinhTrang bit,
   SoLuongNhap INT ,
   GiaNhap DECIMAL(20,10) ,
-  IDNhaCC UNIQUEIDENTIFIER,
-  CONSTRAINT FK1_NhaCungCap FOREIGN KEY(IDNhaCC) REFERENCES NhaCC(IdNhaCC),
+  CONSTRAINT FK2_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT)
 ) 
 GO
 
--- sách chi tiết
-CREATE TABLE SachCT(
-  IDSachCT UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-  NamXuatBan int DEFAULT NULL,
-  img varchar(100) ,
-  GiaInTrenSach DECIMAL(20,10) NULL ,
-  IdTacGia UNIQUEIDENTIFIER,
-  IdNhaXuatBan UNIQUEIDENTIFIER,
-  IdTLSach UNIQUEIDENTIFIER,
-  IdSach UNIQUEIDENTIFIER,
-  IDPhieuNhap UNIQUEIDENTIFIER,
-  CONSTRAINT FK1_TacGia FOREIGN KEY(IDTacGia) REFERENCES TacGia(IDTacGia),
-  CONSTRAINT FK2_NhaXuatBan FOREIGN KEY(IDNhaXuatBan) REFERENCES NhaXuatBan(IDNhaXuatBan),
-  CONSTRAINT FK3_LoaiSach FOREIGN KEY(IdTLSach) REFERENCES TheLoaiSach(IDTL),
-  CONSTRAINT FK4_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach),
-  CONSTRAINT FK5_PhieuNhap FOREIGN KEY(IDPhieuNhap) REFERENCES PhieuNhap(IdPhieuNhap),
+--Nhà cung cấp chi tiết
+CREATE TABLE NHACCCT(
+	IdPhieuNhap UNIQUEIDENTIFIER,
+	IdNhacc UNIQUEIDENTIFIER,
+	Constraint FK_Nhacc FOREIGN KEY(IdNhacc) REFERENCES NhaCC(IdNhacc),
+	Constraint FK_PhieuNhap FOREIGN KEY(IdPhieuNhap) REFERENCES PhieuNhap(IdPhieuNhap),
+	Constraint PK_NHACCCT primary key(IdPhieuNhap, IdNhacc)
 )
--- đầu sách 
-CREATE TABLE CuonSach(
-  MaCuonSach Int identity primary key,
-  TrangThai float ,
-  IDSachCT UNIQUEIDENTIFIER,
-  CONSTRAINT FK_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT)
-) 
 GO
--- độc giả
-go
+
+--Độc giả
 CREATE TABLE DocGia(
   IDDocGia UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), 
   MaDocGia VARCHAR(10) not null,
@@ -105,28 +143,32 @@ CREATE TABLE DocGia(
   DiaCHi NVARCHAR(100),
   GioiTinh bit,
   img varchar(100),
+  trangThai bit
 )
--- Phiếu mượn
 GO
+
+-- Phiếu mượn
 CREATE TABLE PhieuMuon(
   IDPhieuMuon UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  MaPhieuMuon varchar(10) unique,
   NgayMuon DATE Not NULL,
   NgayTra DATE Not NULL,
   IDDocGia UNIQUEIDENTIFIER not null,
   CONSTRAINT FK1_DocGia FOREIGN KEY(IDDocGia) REFERENCES DocGia(IDDocGia),
 )
--- Phiếu mượn chi tiết
  GO
+
+-- Phiếu mượn chi tiết
 CREATE TABLE PhieuMuonCT(
-  IdSach UNIQUEIDENTIFIER,
-  IDPhieuMuon UNIQUEIDENTIFIER,
+  MaCuonSach int,
   MaPhieuMuon VARCHAR(10) unique,
   TinhTrang int,
-  QUyenSo int,
-  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (IdSach,IDPhieuMuon),
-  CONSTRAINT FK1_PhieuMuon FOREIGN KEY(IDPhieuMuon) REFERENCES PhieuMuon(IDPhieuMuon),
-  CONSTRAINT FK2_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach), 
+  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (MaCuonSach,MaPhieuMuon),
+  CONSTRAINT FK1_PhieuMuon FOREIGN KEY(MaPhieuMuon) REFERENCES PhieuMuon(MaPhieuMuon),
+  CONSTRAINT FK_CuonSach FOREIGN KEY(MaCuonSach) REFERENCES CuonSach(MaCuonSach)
 )
+GO
+
 -- Vi Phạm 
 CREATE TABLE ViPham(
   IdViPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
@@ -134,12 +176,38 @@ CREATE TABLE ViPham(
   HinhPhat NVARCHAR(100) ,
   MoTa NVARCHAR(100),
   MaPM VARCHAR(10),
-  CONSTRAINT FK_PhieuMuon FOREIGN KEY(MaPM) REFERENCES PhieuMuonCT(MaPhieuMuon),
+  CONSTRAINT FK_PhieuMuon FOREIGN KEY(MaPM) REFERENCES PhieuMuon(MaPhieuMuon),
 )
+GO
+
 -- Lỗi vi phạm
 CREATE TABLE LoiViPham(
 	IDLoiViPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), 
-	IdViPham UNIQUEIDENTIFIER,
 	TenLoi nvarchar(100) not null,
-	CONSTRAINT FK_ViPham FOREIGN KEY(IdViPham) REFERENCES ViPham(IdViPham),
 )
+GO
+
+--Lỗi vi phạm chi tiết
+CREATE TABLE LOIVIPHAMCT(
+	IDVIPHAM UNIQUEIDENTIFIER,
+	IDLOIVIPHAM UNIQUEIDENTIFIER,
+	CONSTRAINT FK_ViPham FOREIGN KEY(IdViPham) REFERENCES ViPham(IdViPham),
+	CONSTRAINT FK_LoiViPham FOREIGN KEY(IDLOIVIPHAM) REFERENCES LoiViPham(IDLOIVIPHAM),
+)
+GO
+
+--proc thêm cuốn sách
+create proc addCuonSach
+	@soluong int, @idSach UNIQUEIDENTIFIER
+	as
+	begin
+		declare @i int;
+		declare @max int;
+		set @i=0;
+		--set @max = select max(macuonsach) from cuonsach
+		while @i<@soluong
+			begin
+				set @i = @i +1;
+				insert CuonSach(IDSachCT) values(@idSach)
+			end
+	end
