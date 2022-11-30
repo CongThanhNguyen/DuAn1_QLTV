@@ -143,12 +143,14 @@ CREATE TABLE DocGia(
   DiaCHi NVARCHAR(100),
   GioiTinh bit,
   img varchar(100),
+  trangThai bit
 )
 GO
 
 -- Phiếu mượn
 CREATE TABLE PhieuMuon(
   IDPhieuMuon UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  MaPhieuMuon varchar(10) unique,
   NgayMuon DATE Not NULL,
   NgayTra DATE Not NULL,
   IDDocGia UNIQUEIDENTIFIER not null,
@@ -158,12 +160,11 @@ CREATE TABLE PhieuMuon(
 
 -- Phiếu mượn chi tiết
 CREATE TABLE PhieuMuonCT(
-  IDPhieuMuon UNIQUEIDENTIFIER,
   MaCuonSach int,
   MaPhieuMuon VARCHAR(10) unique,
   TinhTrang int,
-  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (MaCuonSach,IDPhieuMuon),
-  CONSTRAINT FK1_PhieuMuon FOREIGN KEY(IDPhieuMuon) REFERENCES PhieuMuon(IDPhieuMuon),
+  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (MaCuonSach,MaPhieuMuon),
+  CONSTRAINT FK1_PhieuMuon FOREIGN KEY(MaPhieuMuon) REFERENCES PhieuMuon(MaPhieuMuon),
   CONSTRAINT FK_CuonSach FOREIGN KEY(MaCuonSach) REFERENCES CuonSach(MaCuonSach)
 )
 GO
@@ -175,14 +176,13 @@ CREATE TABLE ViPham(
   HinhPhat NVARCHAR(100) ,
   MoTa NVARCHAR(100),
   MaPM VARCHAR(10),
-  CONSTRAINT FK_PhieuMuon FOREIGN KEY(MaPM) REFERENCES PhieuMuonCT(MaPhieuMuon),
+  CONSTRAINT FK_PhieuMuon FOREIGN KEY(MaPM) REFERENCES PhieuMuon(MaPhieuMuon),
 )
 GO
 
 -- Lỗi vi phạm
 CREATE TABLE LoiViPham(
 	IDLoiViPham UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(), 
-	IdViPham UNIQUEIDENTIFIER,
 	TenLoi nvarchar(100) not null,
 )
 GO
@@ -195,4 +195,19 @@ CREATE TABLE LOIVIPHAMCT(
 	CONSTRAINT FK_LoiViPham FOREIGN KEY(IDLOIVIPHAM) REFERENCES LoiViPham(IDLOIVIPHAM),
 )
 GO
-select @@version
+
+--proc thêm cuốn sách
+create proc addCuonSach
+	@soluong int, @idSach UNIQUEIDENTIFIER
+	as
+	begin
+		declare @i int;
+		declare @max int;
+		set @i=0;
+		--set @max = select max(macuonsach) from cuonsach
+		while @i<@soluong
+			begin
+				set @i = @i +1;
+				insert CuonSach(IDSachCT) values(@idSach)
+			end
+	end

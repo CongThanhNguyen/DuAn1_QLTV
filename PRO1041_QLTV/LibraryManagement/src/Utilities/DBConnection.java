@@ -73,6 +73,7 @@ public class DBConnection {//Lớp này giải quyết kết nối xử lý truy
             }
             return ps;
         } catch (SQLException ex) {
+            ex.printStackTrace();
             return null;
         }
     }

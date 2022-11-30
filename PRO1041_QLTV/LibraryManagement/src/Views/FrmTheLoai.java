@@ -4,8 +4,11 @@
  */
 package Views;
 
+import DomainModels.TheLoaiSach;
+import Services.Impl.TheLoaiService;
 import Utilities.SetSize;
 import java.net.URL;
+import java.util.List;
 
 /**
  *
@@ -13,6 +16,7 @@ import java.net.URL;
  */
 public class FrmTheLoai extends javax.swing.JFrame {
     final SetSize setsize = new SetSize();
+    final TheLoaiService SERVICE = new TheLoaiService();
     /**
      * Creates new form FrmTheloai
      */
@@ -21,6 +25,7 @@ public class FrmTheLoai extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.seticon();
+        this.fillCBX();
     }
 
     /**
@@ -37,9 +42,9 @@ public class FrmTheLoai extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnHoanThanh = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxTheLoai = new javax.swing.JComboBox<>();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
         jRadioButton3 = new javax.swing.JRadioButton();
@@ -54,9 +59,14 @@ public class FrmTheLoai extends javax.swing.JFrame {
 
         jLabel2.setText("Tên");
 
-        jButton1.setBackground(new java.awt.Color(125, 200, 150));
-        jButton1.setText("Hoàn thành");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.setBackground(new java.awt.Color(125, 200, 150));
+        btnHoanThanh.setText("Hoàn thành");
+        btnHoanThanh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHoanThanhActionPerformed(evt);
+            }
+        });
 
         btnClose.setPreferredSize(new java.awt.Dimension(20, 20));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -65,12 +75,12 @@ public class FrmTheLoai extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setBackground(new java.awt.Color(125, 200, 150));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+        cbxTheLoai.setBackground(new java.awt.Color(125, 200, 150));
+        cbxTheLoai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cbxTheLoai.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxTheLoai.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
+                cbxTheLoaiActionPerformed(evt);
             }
         });
 
@@ -103,7 +113,7 @@ public class FrmTheLoai extends javax.swing.JFrame {
                 .addGap(41, 41, 41)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(cbxTheLoai, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jRadioButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -117,7 +127,7 @@ public class FrmTheLoai extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(135, 135, 135)
-                .addComponent(jButton1)
+                .addComponent(btnHoanThanh)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -133,7 +143,7 @@ public class FrmTheLoai extends javax.swing.JFrame {
                                 .addComponent(jRadioButton1)
                                 .addComponent(jRadioButton2)
                                 .addComponent(jRadioButton3))
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(cbxTheLoai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -142,7 +152,7 @@ public class FrmTheLoai extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnHoanThanh)
                 .addGap(17, 17, 17))
         );
 
@@ -165,21 +175,33 @@ public class FrmTheLoai extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseMouseClicked
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void cbxTheLoaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxTheLoaiActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+    }//GEN-LAST:event_cbxTheLoaiActionPerformed
+
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        // TODO add your handling code here:
+        FrmPhieuNhap.fillChkTL();
+    }//GEN-LAST:event_btnHoanThanhActionPerformed
 
     private void seticon(){
         URL urldong = getClass().getResource("/Images/cross-small.png");
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
     }
-
-
+    
+    private void fillCBX(){
+        List<TheLoaiSach> _lst = SERVICE.getAll();
+        cbxTheLoai.removeAllItems();
+        for (TheLoaiSach theLoaiSach : _lst) {
+            cbxTheLoai.addItem(theLoaiSach.getTen());
+        }
+    }
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
+    private javax.swing.JButton btnHoanThanh;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> cbxTheLoai;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;

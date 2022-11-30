@@ -4,9 +4,14 @@
  */
 package Views;
 
+import DomainModels.TacGia;
+import Services.Impl.TacGiaService;
 import Utilities.SetSize;
 import java.awt.Color;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -15,6 +20,8 @@ import javax.swing.table.JTableHeader;
  */
 public class FrmTacGia extends javax.swing.JFrame {
     final SetSize setsize = new SetSize();
+    final TacGiaService SERVICE = new TacGiaService();
+    static List<TacGia> LST_TACGIA_DUOCCHON = new ArrayList<>();
     /**
      * Creates new form FrmTacGgia
      */
@@ -24,6 +31,7 @@ public class FrmTacGia extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.seticon();
         this.setTable();
+        this.loadTable();
     }
 
     /**
@@ -42,7 +50,7 @@ public class FrmTacGia extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnHoanThanh = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
         jRadioButton1 = new javax.swing.JRadioButton();
         jRadioButton2 = new javax.swing.JRadioButton();
@@ -64,9 +72,14 @@ public class FrmTacGia extends javax.swing.JFrame {
 
         jLabel3.setText("Địa chỉ");
 
-        jButton1.setBackground(new java.awt.Color(125, 200, 150));
-        jButton1.setText("Hoàn thành");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.setBackground(new java.awt.Color(125, 200, 150));
+        btnHoanThanh.setText("Hoàn thành");
+        btnHoanThanh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnHoanThanh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnHoanThanhActionPerformed(evt);
+            }
+        });
 
         btnClose.setPreferredSize(new java.awt.Dimension(20, 20));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -101,7 +114,7 @@ public class FrmTacGia extends javax.swing.JFrame {
                 {null, null}
             },
             new String [] {
-                "Tác giả", "Địa chỉ"
+                "Mã tác giả", "Tác giả"
             }
         ));
         tblTacGia.setGridColor(new java.awt.Color(255, 255, 255));
@@ -134,7 +147,7 @@ public class FrmTacGia extends javax.swing.JFrame {
                         .addGap(0, 0, Short.MAX_VALUE)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(jButton1)
+                                .addComponent(btnHoanThanh)
                                 .addGap(83, 83, 83))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -188,7 +201,7 @@ public class FrmTacGia extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addComponent(btnHoanThanh)
                 .addGap(8, 8, 8))
         );
 
@@ -215,6 +228,18 @@ public class FrmTacGia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        // TODO add your handling code here:
+        String hoten = "";
+        LST_TACGIA_DUOCCHON = this.getTacGiaSelected();
+        for (TacGia tacGia : LST_TACGIA_DUOCCHON) {
+            hoten += tacGia.getHoTen()+"-";
+        }
+        hoten = hoten.substring(0, hoten.length()-1);
+        FrmPhieuNhap.lblTacGia.setText(hoten);
+        this.dispose();
+    }//GEN-LAST:event_btnHoanThanhActionPerformed
+
     private void seticon(){
         URL urlSearch = getClass().getResource("/Images/search.png");
         URL urldong = getClass().getResource("/Images/cross-small.png");
@@ -226,13 +251,37 @@ public class FrmTacGia extends javax.swing.JFrame {
         JTableHeader header = tblTacGia.getTableHeader();
         header.setBackground(new Color(125, 200, 150));
     }
-
+    
+    private void loadTable(){
+        List<TacGia> _lst = SERVICE.getAll();
+        DefaultTableModel model = (DefaultTableModel) tblTacGia.getModel();
+        model.setRowCount(0);
+        for (TacGia tacGia : _lst) {
+            Object rowData[] = {
+                tacGia.getMa(), tacGia.getHoTen()
+            };
+            model.addRow(rowData);
+        }
+        tblTacGia.setModel(model);
+    }
+    
+    public List<TacGia> getTacGiaSelected(){
+        List<TacGia> _lst = new ArrayList<>();
+        int start = tblTacGia.getSelectedRow();
+        int end = tblTacGia.getSelectedRowCount()+start;
+        for (int i = start; i < end; i++) {
+            String ma = (String) tblTacGia.getValueAt(i, 0);
+            TacGia tg = SERVICE.getByMa(ma);
+            _lst.add(tg);
+        }
+        return _lst;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
+    private javax.swing.JButton btnHoanThanh;
     private javax.swing.JLabel btnSearch;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

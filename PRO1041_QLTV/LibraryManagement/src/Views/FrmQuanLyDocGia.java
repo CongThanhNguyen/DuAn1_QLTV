@@ -18,13 +18,12 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
     final DocGiaService service = new DocGiaService();
     static int chucNang = -1;
     static int checkIndexDocGia= 0;
+    List<DocGia> _lst = service.getAll();
     
-    List<DocGia> _lst;
     public FrmQuanLyDocGia() {
         initComponents();
-        _lst = service.getAll();
         this.seticon();
-        this.loadList();
+        this.loadList(_lst);
         
     }
 
@@ -185,7 +184,6 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
 
     private void btnTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemMouseClicked
         // TODO add your handling code here:
-        List<DocGia> _lstTamThoi = _lst;
         String tuKhoa = txtTuKhoa.getText();
         if(tuKhoa.trim().equals("")){
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hoặc tên độc giả để thực hiện!");
@@ -196,10 +194,9 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
             if(jpnLstDocGia.getComponentCount() == service.getAll().size()){
                 _lst = service.getAll();
             }
-            _lst = _lstTamThoi;
             JOptionPane.showMessageDialog(this, "Không tìm thấy độc giả!");
         }
-        this.loadList();
+        this.loadList(_lst);
     }//GEN-LAST:event_btnTimKiemMouseClicked
 
     private void btnThemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemMouseClicked
@@ -248,22 +245,20 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
             if(frm.checkChk()){
                 ma = frm.getMa();
                 service.delete(ma);
-                this.loadList();
             }
         }
         if(ma.equals("")){
             JOptionPane.showMessageDialog(this, "Vui lòng chọn độc giả để xóa!");
             return;
         }
-        
+        this.loadList(service.getAll());
         JOptionPane.showMessageDialog(this, "Xóa thành công!");
         
     }//GEN-LAST:event_btnXoaMouseClicked
 
     private void btnResetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnResetMouseClicked
         // TODO add your handling code here:
-        this.loadList();
-        //
+        this.loadList(service.getAll());
     }//GEN-LAST:event_btnResetMouseClicked
     
     //Hàm set icon
@@ -283,9 +278,8 @@ public class FrmQuanLyDocGia extends javax.swing.JPanel {
     }
     
     // hàm dùng để tải độc giả lên giao diện
-    public void loadList(){
+    public void loadList(List<DocGia> _lst){
         jpnLstDocGia.removeAll();
-        _lst = service.getAll();
         this.setSizeFrm(_lst.size());
         for (DocGia docGia : _lst) {
             FrmDocGiaKhung docGiafrm = new FrmDocGiaKhung();
