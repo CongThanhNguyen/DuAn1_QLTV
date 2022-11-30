@@ -18,22 +18,31 @@ import java.sql.SQLException;
  * @author Admin
  */
 public class NhaCCRepository implements INhaCCRepository{
-    String sql = "Select * from NhaCC";
+     String sql = "Select * from NhaCC";
     String sqlByID = "Select * from NhaCC where idNhaCC =?";
+    final String Insert_SQL = "INSERT INTO NhaCC (TenNhacc, Diachi, SDT, Email) values (?,?,?,?)";
+    final String Delete_SQL = "DELETE FROM NhaCC where TenNhaCC = ?";
+    final String UPDATE_SQL = "UPDATE NhaCC SET DIACHi = ?, SDT = ?, Email = ? where TenNhacc = ?";
     
-    @Override
-    public NhaCC insert(NhaCC nhacc) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    
+
+    public Integer Them(NhaCC nhacc) {
+        DBConnection.ExcuteDungna(Insert_SQL, nhacc.getTen(),
+                 nhacc.getDiaChi(), nhacc.getSdt(), nhacc.getEmail());
+
+        return 1;
     }
 
-    @Override
-    public NhaCC delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer sua(NhaCC nhacc) {
+        DBConnection.ExcuteDungna(UPDATE_SQL, nhacc.getDiaChi(), nhacc.getSdt(),
+                nhacc.getEmail(), nhacc.getTen());
+        return 1;
+
     }
 
-    @Override
-    public NhaCC update(NhaCC nhacc) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer xoa(String ten) {
+        DBConnection.ExcuteDungna(Delete_SQL, ten);
+        return 1;
     }
 
     @Override

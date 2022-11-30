@@ -6,9 +6,14 @@ package Views;
 
 import DomainModels.NhaCC;
 import Services.Impl.NhaCCService;
+import Utilities.DBConnection;
 import Utilities.SetSize;
 import java.net.URL;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import javax.swing.ButtonGroup;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -32,6 +37,11 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         this.seticon();
         this.fillCBX();
+          ButtonGroup buttonGroup = new ButtonGroup();
+        buttonGroup.add(rdsua);
+        buttonGroup.add(rdxoa);
+        buttonGroup.add(rdthem);
+        rdthem.setSelected(true);
     }
 
     /**
@@ -48,18 +58,18 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtten = new javax.swing.JTextField();
+        txtdiachi = new javax.swing.JTextField();
         btnHoanThanh = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
         cbxNhaCC = new javax.swing.JComboBox<>();
-        jRadioButton1 = new javax.swing.JRadioButton();
-        jRadioButton2 = new javax.swing.JRadioButton();
-        jRadioButton3 = new javax.swing.JRadioButton();
+        rdthem = new javax.swing.JRadioButton();
+        rdsua = new javax.swing.JRadioButton();
+        rdxoa = new javax.swing.JRadioButton();
         jLabel5 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtsdt = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
+        txtemail = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -92,18 +102,23 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         cbxNhaCC.setBackground(new java.awt.Color(125, 200, 150));
         cbxNhaCC.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxNhaCC.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxNhaCC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxNhaCCMouseClicked(evt);
+            }
+        });
 
-        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jRadioButton1);
-        jRadioButton1.setText("Thêm");
+        rdthem.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdthem);
+        rdthem.setText("Thêm");
 
-        jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jRadioButton2);
-        jRadioButton2.setText("Sửa");
+        rdsua.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdsua);
+        rdsua.setText("Sửa");
 
-        jRadioButton3.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(jRadioButton3);
-        jRadioButton3.setText("Xóa");
+        rdxoa.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdxoa);
+        rdxoa.setText("Xóa");
 
         jLabel5.setText("SDT");
 
@@ -131,11 +146,11 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(cbxNhaCC, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(jRadioButton1)
+                                        .addComponent(rdthem)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jRadioButton2)
+                                        .addComponent(rdsua)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jRadioButton3))
+                                        .addComponent(rdxoa))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -144,10 +159,10 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
                                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(jTextField1)
-                                            .addComponent(jTextField2)
-                                            .addComponent(jTextField3)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))))
+                                            .addComponent(txtten)
+                                            .addComponent(txtdiachi)
+                                            .addComponent(txtsdt)
+                                            .addComponent(txtemail, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE))))
                                 .addGap(36, 36, 36))))))
         );
         jPanel2Layout.setVerticalGroup(
@@ -161,25 +176,25 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxNhaCC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jRadioButton1)
-                    .addComponent(jRadioButton2)
-                    .addComponent(jRadioButton3))
+                    .addComponent(rdthem)
+                    .addComponent(rdsua)
+                    .addComponent(rdxoa))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtten, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtdiachi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtsdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnHoanThanh)
                 .addGap(14, 14, 14))
@@ -206,14 +221,88 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
         // TODO add your handling code here:
-        this.dispose();
+                String str = txtsdt.getText();
+        String str1 = txtemail.getText();
+        String reg = "^(0|\\+84)(\\s|\\.)?((3[2-9])|(5[689])|(7[06-9])|(8[1-689])|(9[0-46-9]))(\\d)(\\s|\\.)?(\\d{3})(\\s|\\.)?(\\d{3})$";
+        String regemail = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        boolean kt = str.matches(reg);
+        boolean kt1 = str1.matches(regemail);
+
+        if (rdthem.isSelected() == true) {
+            NhaCC nhacc = new NhaCC();
+            try {
+                if (txtten.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Không được để trống tên");
+                } else if (txtdiachi.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Không được để trống Địa Chỉ");
+                } else if (txtsdt.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Không được để trống SĐT");
+                } else if (kt == false) {
+                    JOptionPane.showMessageDialog(this, "Không Đúng định dạng của sđt");
+                } else if (txtemail.getText().equals("")) {
+                    JOptionPane.showMessageDialog(this, "Không được để trống Email");
+                } else if (kt1 == false) {
+                    JOptionPane.showMessageDialog(this, "Không đúng định dạng  Email");
+                } else {
+                    try {
+                        ResultSet rs = DBConnection.getDataFromQuery("SELECT Count(*) as TenNhaCC from NhaCC where TenNhaCC = ?", txtten.getText());
+                        NhaCC cv = new NhaCC();
+                        while (rs.next()) {
+                            if (rs.getInt("TenNhaCC") != 0) {
+                                JOptionPane.showMessageDialog(this, "ĐÃ có nhà cung cấp này rồi");
+                            }else{
+                            cv = new NhaCC(null, txtten.getText(),
+                                   txtdiachi.getText(), txtsdt.getText(), txtemail.getText());
+                            SERVICE.Them(cv);
+                            JOptionPane.showMessageDialog(this, "Thêm Thành công");
+                            fillCBX();
+                            
+                            }
+                        }
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+
+                    }
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        } else if (rdsua.isSelected() == true) {
+            NhaCC nhacc = new NhaCC();
+            try {
+                nhacc = new NhaCC(cbxNhaCC.getActionCommand(), txtten.getText(), txtdiachi.getText(), txtsdt.getText(), txtemail.getText());
+                SERVICE.Sua(nhacc);
+                JOptionPane.showMessageDialog(this, "Sửa Thành Công");
+                fillCBX();
+            } catch (Exception e) {
+            }
+
+        } else if (rdxoa.isSelected() == true) {
+            String ten = txtten.getText();
+            SERVICE.xoa(ten);
+            JOptionPane.showMessageDialog(this, "Xóa Thành công");
+            txtten.setText("");
+            txtdiachi.setText("");
+            txtemail.setText("");
+            txtsdt.setText("");
+            fillCBX();
+        }
         FrmPhieuNhap.fillCbxNCC();
         int index = this.cbxNhaCC.getSelectedIndex();
         System.out.println(index);
         FrmPhieuNhap.cbxNCC.setSelectedIndex(index);
         NHACC_DUOCCHON = SERVICE.getAll().get(index);
         System.out.println(NHACC_DUOCCHON.getId());
+        this.dispose();
     }//GEN-LAST:event_btnHoanThanhActionPerformed
+
+    private void cbxNhaCCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxNhaCCMouseClicked
+        // TODO add your handling code here:
+        filltxt();
+    }//GEN-LAST:event_cbxNhaCCMouseClicked
 
     private void seticon(){
         URL urldong = getClass().getResource("/Images/cross-small.png");
@@ -225,6 +314,14 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         cbxNhaCC.removeAllItems();
         for (NhaCC nhaCC : _lst) {
             cbxNhaCC.addItem(nhaCC.getTen());
+        }
+    }
+    
+      public void filltxt() {
+        try {
+            String cb = cbxNhaCC.getSelectedItem().toString();
+            txtten.setText(cb);
+        } catch (NullPointerException e) {
         }
     }
 
@@ -239,12 +336,12 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JRadioButton jRadioButton1;
-    private javax.swing.JRadioButton jRadioButton2;
-    private javax.swing.JRadioButton jRadioButton3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
+    private javax.swing.JRadioButton rdsua;
+    private javax.swing.JRadioButton rdthem;
+    private javax.swing.JRadioButton rdxoa;
+    private javax.swing.JTextField txtdiachi;
+    private javax.swing.JTextField txtemail;
+    private javax.swing.JTextField txtsdt;
+    private javax.swing.JTextField txtten;
     // End of variables declaration//GEN-END:variables
 }
