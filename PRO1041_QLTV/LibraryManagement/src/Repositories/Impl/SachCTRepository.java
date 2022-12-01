@@ -4,6 +4,7 @@
  */
 package Repositories.Impl;
 
+
 import DomainModels.NhaXuatBan;
 import DomainModels.PhieuNhap;
 import DomainModels.Sach;
@@ -13,10 +14,12 @@ import DomainModels.TacGia;
 import DomainModels.TheLoaiSach;
 import Utilities.DBConnection;
 import java.math.BigDecimal;
+import java.sql.Connection;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -35,6 +38,8 @@ public class SachCTRepository implements ISachCTRepository{
     String sql_by_ID = "Select * from SachCT where IDSachCT = ?";
     String insert = "insert into SachCT(NamXuatBan, img, GiaInTrenSach,"
             + "IDSach) values (?,?,?,?)";
+    String sql_by_ma = "select * from Sach where MaSach like ?";
+    String sql_by_ten = "select * from Sach where TenSach like ?";
     
     @Override
     public SachCT insert(SachCT sachCT) {
@@ -96,5 +101,17 @@ public class SachCTRepository implements ISachCTRepository{
         return this.getBySQL(sql_by_ID, ID).get(0);
     }
 
+    
+    public List<SachCT> getBySearch(String tuKhoa) {
+
+        tuKhoa = "%"+tuKhoa+"%";
+        //Lấy danh sách bằng mã
+        List<SachCT> _lst = getBySQL(sql_by_ma, tuKhoa);
+        //Lấy danh sách bằng tên
+        if (_lst.isEmpty()) {
+            _lst = getBySQL(sql_by_ten, tuKhoa);
+        }
+        return _lst;
+    }
     
 }

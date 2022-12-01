@@ -4,6 +4,7 @@
  */
 package Services.Impl;
 
+import DomainModels.Sach;
 import DomainModels.SachCT;
 import Repositories.ISachCTRepository;
 import Repositories.Impl.SachCTRepository;
@@ -50,4 +51,7 @@ public class SachCTService implements ISachCTRepository{
         return REPO.getByID(ID);
     }
     
+    public List<SachCT> Seach(String tukhoa) {
+        return REPO.getBySearch(tukhoa);
+    }
 }
