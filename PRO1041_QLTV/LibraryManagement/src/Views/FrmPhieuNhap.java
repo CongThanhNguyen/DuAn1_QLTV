@@ -676,6 +676,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLayThongTinActionPerformed
 
     public void checkSach(boolean ft){
+        btnLayThongTin.setEnabled(!ft);
         txtMaSach.setText("");
         txtMaSach.setEditable(!ft);
         txtTenSach.setEditable(ft);
@@ -694,6 +695,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtMaSach.setEditable(false);
         txtNamXuatBan.setEditable(false);
         txtSoLuongNhap.setEditable(false);
+        txtDonGia.setEditable(false);
     }
 
     public static void fillCbxNXB(){
