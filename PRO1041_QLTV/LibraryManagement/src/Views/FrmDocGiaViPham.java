@@ -39,10 +39,12 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         taaMoTa = new javax.swing.JTextArea();
         jLabel3 = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(176, 212, 184));
         jPanel1.setMinimumSize(new java.awt.Dimension(350, 110));
-        jPanel1.setPreferredSize(new java.awt.Dimension(350, 110));
+        jPanel1.setPreferredSize(new java.awt.Dimension(350, 232));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         javax.swing.GroupLayout img_docGiaLayout = new javax.swing.GroupLayout(img_docGia);
@@ -74,7 +76,7 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         jLabel6.setText("Giải quyết");
         btnGiaiQuyet.add(jLabel6);
 
-        jPanel1.add(btnGiaiQuyet, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 160, 100, -1));
+        jPanel1.add(btnGiaiQuyet, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 190, 100, -1));
 
         jLabel2.setText("Mô tả");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 50, 50, -1));
@@ -99,6 +101,12 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         lblID.setText("jLabel7");
         jPanel1.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 30, 200, -1));
 
+        jLabel1.setText("Lỗi vi phạm");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 80, -1));
+
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 150, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -109,9 +117,11 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 200, Short.MAX_VALUE)
+            .addGap(0, 232, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -131,6 +141,8 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
     private javax.swing.JPanel btnGiaiQuyet;
     private javax.swing.JLabel img;
     private javax.swing.JPanel img_docGia;
+    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;

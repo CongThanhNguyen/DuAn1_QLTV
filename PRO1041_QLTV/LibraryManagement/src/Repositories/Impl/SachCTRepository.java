@@ -31,7 +31,8 @@ public class SachCTRepository implements ISachCTRepository{
     final SachRepository REPO_SACH = new SachRepository();
     
     String sql = "Select * from SachCT";
-    String sql_by_ID = "Select * from SachCT where IDSach = ?";
+    String sql_by_IDSach = "Select * from SachCT where IDSach = ?";
+    String sql_by_ID = "Select * from SachCT where IDSachCT = ?";
     String insert = "insert into SachCT(NamXuatBan, img, GiaInTrenSach,"
             + "IDSach) values (?,?,?,?)";
     
@@ -64,9 +65,8 @@ public class SachCTRepository implements ISachCTRepository{
     }
 
     @Override
-    public SachCT getByID(String ID) {
-        System.out.println(ID);
-        return this.getBySQL(sql_by_ID, ID).get(0);
+    public SachCT getByIDSach(String ID) {
+        return this.getBySQL(sql_by_IDSach, ID).get(0);
     }
     
     private List<SachCT> getBySQL(String sql, Object ...args){
@@ -91,5 +91,10 @@ public class SachCTRepository implements ISachCTRepository{
         }
         return _lst;
     }
+    @Override
+    public SachCT getByID(String ID) {
+        return this.getBySQL(sql_by_ID, ID).get(0);
+    }
+
     
 }

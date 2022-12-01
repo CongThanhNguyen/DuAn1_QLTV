@@ -62,8 +62,8 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
             ResultSet rs = DBConnection.getDataFromQuery(sql_query, args);
             while(rs.next()){
                 String id = rs.getString(1);
-                String Ma = rs.getString(2);
-                String idSachct = rs.getString(3);
+                String idSachct = rs.getString(2);
+                String Ma = rs.getString(3);
                 Date ngayNhap = rs.getDate(4);
                 Boolean tinhTrang = rs.getBoolean(5);
                 Integer sl = rs.getInt(6);

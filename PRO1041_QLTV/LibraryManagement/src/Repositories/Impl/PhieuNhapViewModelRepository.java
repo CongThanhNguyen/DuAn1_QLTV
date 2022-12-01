@@ -41,7 +41,7 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
     public PhieuNhapViewmodel getPhieuNhapView(String ma) {
         Sach sach = REPO_SACH.getByMa(ma);
         String idSach = sach.getId();
-        SachCT sachCT = REPO_SACHCT.getByID(idSach);
+        SachCT sachCT = REPO_SACHCT.getByIDSach(idSach);
         PhieuNhap PN = REPO_PN.getByidSachCT(sachCT.getId());
         List<String> _lstTacGia = getEnityName(sql_TacGia, idSach);
         String NXB = getEnityName(sql_NXB, sachCT.getId()).get(0);

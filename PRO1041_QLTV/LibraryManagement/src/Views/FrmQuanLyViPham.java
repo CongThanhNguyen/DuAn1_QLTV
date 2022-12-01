@@ -61,12 +61,12 @@ public class FrmQuanLyViPham extends javax.swing.JPanel {
         for (DocGiaViPhamViewModel docGiaViPhamViewModel : _lst) {
             FrmDocGiaViPham docGiafrm = new FrmDocGiaViPham();
             docGiafrm.setDisplay(docGiaViPhamViewModel);
-            docGiafrm.setPreferredSize(new Dimension(375, 200));
+            docGiafrm.setPreferredSize(new Dimension(375, 232));
             _lstDocGiaViPham.add(docGiafrm);
         }
         int i = _lstDocGiaViPham.getComponentCount();
         if(i>=4 && i%2==0){
-            _lstDocGiaViPham.setPreferredSize(new Dimension(WIDTH, _lstDocGiaViPham.getHeight()+200));
+            _lstDocGiaViPham.setPreferredSize(new Dimension(WIDTH, _lstDocGiaViPham.getHeight()+232));
         }
         _lstDocGiaViPham.revalidate();
         _lstDocGiaViPham.repaint();

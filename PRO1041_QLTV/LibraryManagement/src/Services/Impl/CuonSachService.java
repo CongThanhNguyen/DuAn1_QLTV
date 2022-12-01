@@ -4,50 +4,46 @@
  */
 package Services.Impl;
 
-import DomainModels.SachCT;
-import Repositories.ISachCTRepository;
-import Repositories.Impl.SachCTRepository;
+import DomainModels.CuonSach;
+import Repositories.Impl.CuonSachRepository;
+import Services.ICuonSachService;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public class SachCTService implements ISachCTRepository{
-    final SachCTRepository REPO;
+public class CuonSachService implements ICuonSachService{
+    final CuonSachRepository REPO;
 
-    public SachCTService() {
-        this.REPO = new SachCTRepository();
+    public CuonSachService() {
+        this.REPO = new CuonSachRepository();
     }
     
+    
     @Override
-    public SachCT insert(SachCT sachCT) {
-        return REPO.insert(sachCT);
+    public CuonSach insert(int soluong, CuonSach cuonSach, int soBatDau) {
+        return REPO.insert(soluong, cuonSach, soBatDau);
     }
 
     @Override
-    public SachCT delete(String ma) {
+    public CuonSach delete(String id) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public SachCT update(SachCT sachCT) {
+    public CuonSach update(CuonSach cuonSach) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
-    public List<SachCT> getAll() {
+    public List<CuonSach> getAll() {
         return REPO.getAll();
     }
 
     @Override
-    public SachCT getByIDSach(String ID) {
-        return REPO.getByIDSach(ID);
-    }
-
-    @Override
-    public SachCT getByID(String ID) {
-        return REPO.getByID(ID);
+    public List<CuonSach> getByIDSachCT(String id) {
+        return  REPO.getByIDSachCT(id);
     }
     
 }
