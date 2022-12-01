@@ -41,7 +41,6 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
         buttonGroup.add(rdsua);
         buttonGroup.add(rdxoa);
         buttonGroup.add(rdthem);
-        rdthem.setSelected(true);
     }
 
     /**
