@@ -52,6 +52,8 @@ CREATE TABLE Sach
   IDSach UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   MaSach VARCHAR(10) unique not null,
   TenSach NVARCHAR(50) not null,
+  Seri varchar(50),
+
 )
 GO
 
@@ -104,7 +106,6 @@ CREATE TABLE CuonSach(
   MACUONSACH INT IDENTITY(1,1),
   IDSachCT UNIQUEIDENTIFIER,
   TrangThai float ,
-  Seri varchar(50),
   CONSTRAINT FK1_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT),
 ) 
 GO

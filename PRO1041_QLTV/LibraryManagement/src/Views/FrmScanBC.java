@@ -110,6 +110,7 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
         ScanBarcode.webcam.close();
+        FrmQuanLyMuonTra.lblMaSach1.setText(lblBarcode.getText());
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -140,9 +141,8 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
             } catch (NotFoundException e) {
                 //No result...
             }
-            String seri = "";
             if (result != null) {
-                seri += result.getText()+" ";
+                String seri = result.getText();
                 lblBarcode.setText(seri);
             }
         } while (true);
@@ -162,7 +162,7 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSlider jSlider1;
-    private javax.swing.JLabel lblBarcode;
+    public static javax.swing.JLabel lblBarcode;
     private javax.swing.JPanel pnScan;
     // End of variables declaration//GEN-END:variables
 }
