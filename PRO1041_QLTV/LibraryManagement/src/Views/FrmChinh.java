@@ -9,7 +9,7 @@ import Utilities.SetSize;
 import java.awt.CardLayout;
 import java.awt.Component;
 import java.net.URL;
-import javax.swing.JLabel;
+import javax.swing.JLabel;  
 
 /**
  *

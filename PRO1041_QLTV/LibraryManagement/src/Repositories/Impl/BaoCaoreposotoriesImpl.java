@@ -28,13 +28,13 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT dg.TenDOcGia,S.TenSach,pm.NgayMuon FROM DocGia dg \n"
-                    + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
-                    + "JOIN PhieuMuonCT ct ON pm.IDPhieuMuon = ct.IDPhieuMuon\n"
-                    + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
-                    + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
-                    + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
-                    + "WHERE ct.MaPhieuMuon = ?";
+            String sql = "SELECT dg.TenDOcGia,s.TenSach,pm.NgayMuon FROM DocGia dg \n"
+                    + "JOIN PhieuMuon pm ON pm.IDDocGia = dg.IDDocGia\n"
+                    + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
+                    + "JOIN CuonSach cs ON cs.MaCuonSach = ct.MaCuonSach\n"
+                    + "JOIN SachCT sct ON sct.IDSachCT = cs.IDSachCT\n"
+                    + "JOIN Sach s ON s.IDSach = sct.IDSach\n"
+                    + "where pm.MaPhieuMuon = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, ma);
             ResultSet rs = ps.executeQuery();
@@ -91,9 +91,9 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg \n"
+            String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg\n"
                     + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
-                    + "JOIN PhieuMuonCT ct ON pm.IDPhieuMuon = ct.IDPhieuMuon\n"
+                    + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
                     + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
                     + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
                     + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
@@ -169,16 +169,16 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
                     + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
                     + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
                     + "JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon\n"
-                    + "WHERE dg.MaDocGia like ?";
+                    + "WHERE dg.MaDocGia = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, maDG);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
-                   String maPM = rs.getString("MaPhieuMuon");
-                   String madg = rs.getString("MaDocGia");
-                   Date ngaPM = rs.getDate("NgayVP");
-                   BaoCaoDSViewModels timKiem = new BaoCaoDSViewModels(maPM, madg, ngaPM);
-                   dsbaoCaoPM.add(timKiem);
+                String maPM = rs.getString("MaPhieuMuon");
+                String madg = rs.getString("MaDocGia");
+                Date ngaPM = rs.getDate("NgayVP");
+                BaoCaoDSViewModels timKiem = new BaoCaoDSViewModels(maPM, madg, ngaPM);
+                dsbaoCaoPM.add(timKiem);
             }
             ps.close();
             rs.close();

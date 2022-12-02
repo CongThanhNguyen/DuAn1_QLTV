@@ -374,15 +374,8 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     //Load dữ liệu lên khung phiếu mượn
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemActionPerformed
-        String ma = txtMaPM.getText();
-        BaoCaoPMViewModels baoCaoPMViewModels = baoCaoServices.getPhieuMuonByMa(ma).get(0);
-        lblTenDG.setText(baoCaoPMViewModels.getTenDG());
-        //cbxSach.addItem(baoCaoPMViewModels.getTenSach());
-        this.fillcbc();
-        lblNgayMuon.setText(baoCaoPMViewModels.getNgayMuon() + "");
-        long millis = System.currentTimeMillis();
-        java.sql.Date date = new java.sql.Date(millis);
-        lblNgayViet.setText(date + "");
+        setPMView();
+        
     }//GEN-LAST:event_btnXemActionPerformed
 
     public void clearForm() {
@@ -403,6 +396,17 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         clearForm();
     }//GEN-LAST:event_btnThemBCActionPerformed
 
+    private void setPMView() {
+        String ma = txtMaPM.getText();
+        BaoCaoPMViewModels baoCaoPMViewModels = baoCaoServices.getPhieuMuonByMa(ma).get(0);
+        lblTenDG.setText(baoCaoPMViewModels.getTenDG());
+        //cbxSach.addItem(baoCaoPMViewModels.getTenSach());
+        this.fillcbc();
+        lblNgayMuon.setText(baoCaoPMViewModels.getNgayMuon() + "");
+        long millis = System.currentTimeMillis();
+        java.sql.Date date = new java.sql.Date(millis);
+        lblNgayViet.setText(date + "");
+    }
     private void tblBaoCaoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblBaoCaoMouseClicked
         // TODO add your handling code here:
         int row = tblBaoCao.getSelectedRow();
@@ -414,6 +418,8 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         txtMoTa.setText(vp.getMoTa());
         txtHinhPhat.setText(vp.getHinhPhat());
         lblNgayViet.setText(vp.getNgayVP() + "");
+        this.setPMView();
+
     }//GEN-LAST:event_tblBaoCaoMouseClicked
 
     private void btnSuabcActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuabcActionPerformed
@@ -428,22 +434,10 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         // TODO add your handling code here:
 //        List<BaoCaoDSViewModels> vp = timBaoCaoDSViewModelses;
         loadtableByMaDG(txtTimKiem.getText());
-        
+
 //        System.out.println(vp);
 //        clearForm();
     }//GEN-LAST:event_btnSearchMouseClicked
-
-//    void loadTableSua() {
-//        DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();
-//        _DefaultTableModel.setRowCount(0);
-//        dsviViPhams.forEach(Item -> {
-//            _DefaultTableModel.addRow(new Object[]{
-//                Item.getMaPM(), Item.getMoTa(),
-//                Item.getHinhPhat(), Item.getNgayVP()
-//            });
-//        });
-//        _lst = dsviViPhams;
-//    }
 
     // hàm load cbx 
     private void fillcbc() {
@@ -466,6 +460,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         });
         //tblBaoCao.setModel(_DefaultTableModel);
     }
+
     void loadtableByMaDG(String ma) {
 //        List<BaoCaoDSViewModels> dsbaoCaoViewModels = baoCaoServices.LoadTableBaoCao();
         DefaultTableModel _DefaultTableModel = (DefaultTableModel) tblBaoCao.getModel();
