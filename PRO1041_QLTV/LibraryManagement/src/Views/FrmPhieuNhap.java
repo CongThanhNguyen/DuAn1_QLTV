@@ -4,6 +4,7 @@
  */
 package Views;
 
+import DomainModels.CuonSach;
 import DomainModels.NhaCC;
 import DomainModels.NhaXuatBan;
 import DomainModels.PhieuNhap;
@@ -11,6 +12,7 @@ import DomainModels.Sach;
 import DomainModels.SachCT;
 import DomainModels.TacGia;
 import DomainModels.TheLoaiSach;
+import Services.Impl.CuonSachService;
 import Services.Impl.NhaCCService;
 import Services.Impl.NhaXuatBanService;
 import Services.Impl.PhieuNhapService;
@@ -50,6 +52,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     final TacGiaService SERVICE_TG = new TacGiaService();
     final NhaXuatBanService SERVICE_NXB = new NhaXuatBanService();
     final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
+    final CuonSachService SERVICE_CS = new CuonSachService();
     
     static int ipn =20000;
     static int isach = 20000;
@@ -594,27 +597,40 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
         // TODO add your handling code here:
-        Sach sach = getSachFormData();
-        SERVICE_SACH.insert(sach);
-        Sach sachNew = SERVICE_SACH.getByMa(sach.getMa());
-        List<TacGia>_lstTacGia = FrmTacGia.LST_TACGIA_DUOCCHON;
-        for (TacGia tacGia : _lstTacGia) {
-            SERVICE_TG.insertTGCT(sachNew.getId(), tacGia.getId());
+        SachCT sachCT;
+        Sach sach;
+        if(rdoDaCo.isSelected()){
+            sach = SERVICE_SACH.getByMa(txtMaSach.getText());
+            sachCT = SERVICE_SACHCT.getByIDSach(sach.getId());
+        }else{
+            Sach sachnew = getSachFormData();
+            SERVICE_SACH.insert(sachnew);
+            sach = SERVICE_SACH.getByMa(sachnew.getMa());
+            List<TacGia>_lstTacGia = FrmTacGia.LST_TACGIA_DUOCCHON;
+            for (TacGia tacGia : _lstTacGia) {
+                SERVICE_TG.insertTGCT(sach.getId(), tacGia.getId());
+            }
+            List<TheLoaiSach> _lstTLS = getListTheLoai();
+            for (TheLoaiSach theLoaiSach : _lstTLS) {
+                SERVICE_TLS.insertTLCT(sach.getId(), theLoaiSach.getId());
+            }
+            SachCT sachctnew = getSachCTFormData(sach);
+            SERVICE_SACHCT.insert(sachctnew);
+            sachCT = SERVICE_SACHCT.getByIDSach(sach.getId());
         }
-        List<TheLoaiSach> _lstTLS = getListTheLoai();
-        for (TheLoaiSach theLoaiSach : _lstTLS) {
-            SERVICE_TLS.insertTLCT(sachNew.getId(), theLoaiSach.getId());
-        }
-        SachCT sachct = getSachCTFormData(sachNew);
-        SERVICE_SACHCT.insert(sachct);
-        List<SachCT> _lstSachCT = SERVICE_SACHCT.getAll();
-        String idSachCT = _lstSachCT.get(_lstSachCT.size()-1).getId();
+        String idSachCT = sachCT.getId();
         SERVICE_NXB.insertNXBCT(FrmNhaXuatBan.NXB_DUOCCHON.getId(), idSachCT);
+        int soLuong = Integer.parseInt(txtSoLuongNhap.getText());
+        CuonSach cs = new CuonSach(null, 0, sachCT, 100);
+        List<CuonSach> _lstcs= SERVICE_CS.getByIDSachCT(idSachCT);
+        int soBatDau = _lstcs.isEmpty()?0:_lstcs.size();
+        SERVICE_CS.insert(soLuong, cs, soBatDau);
         PhieuNhap pn = getPhieuNhapFormData(idSachCT);
         SERVICE.insert(pn);
         NhaCC nhaCC = FrmNhaCungCap.NHACC_DUOCCHON;
         SERVICE.InsertNCCCT(SERVICE.getByMa(pn.getMa()).getId(), nhaCC.getId());
         this.dispose();
+
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
     private void btnTaiAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiAnhActionPerformed
@@ -660,11 +676,10 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLayThongTinActionPerformed
 
     public void checkSach(boolean ft){
+        btnLayThongTin.setEnabled(!ft);
         txtMaSach.setText("");
         txtMaSach.setEditable(!ft);
         txtTenSach.setEditable(ft);
-        txtNamXuatBan.setEditable(ft);
-        txtDonGia.setEditable(ft);
         btnTaiAnh.setEnabled(ft);
         btnTacGia.setEnabled(ft);
     }
@@ -680,6 +695,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtMaSach.setEditable(false);
         txtNamXuatBan.setEditable(false);
         txtSoLuongNhap.setEditable(false);
+        txtDonGia.setEditable(false);
     }
 
     public static void fillCbxNXB(){

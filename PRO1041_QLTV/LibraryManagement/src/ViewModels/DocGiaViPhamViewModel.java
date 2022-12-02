@@ -4,6 +4,8 @@
  */
 package ViewModels;
 
+import java.util.List;
+
 /**
  *
  * @author Admin
@@ -14,16 +16,26 @@ public class DocGiaViPhamViewModel {
     private String moTa;
     private String HinhPhat;
     private String img;
+    private List<String> _lstLoi;
 
     public DocGiaViPhamViewModel() {
     }
 
-    public DocGiaViPhamViewModel(String id, String tenDocGia, String moTa, String HinhPhat, String img) {
+    public DocGiaViPhamViewModel(String id, String tenDocGia, String moTa, String HinhPhat, String img, List<String> _lstLoi) {
         this.id = id;
         this.tenDocGia = tenDocGia;
         this.moTa = moTa;
         this.HinhPhat = HinhPhat;
         this.img = img;
+        this._lstLoi = _lstLoi;
+    }
+    
+    public List<String> getLstLoi() {
+        return _lstLoi;
+    }
+
+    public void setLstLoi(List<String> _lstLoi) {
+        this._lstLoi = _lstLoi;
     }
 
     public String getId() {

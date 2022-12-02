@@ -52,6 +52,8 @@ CREATE TABLE Sach
   IDSach UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   MaSach VARCHAR(10) unique not null,
   TenSach NVARCHAR(50) not null,
+  Seri varchar(50),
+
 )
 GO
 
@@ -100,13 +102,13 @@ GO
 
 --Cuốn sách 
 CREATE TABLE CuonSach(
-  MaCuonSach Int identity(1,1) primary key,
-  TrangThai float ,
+  idCuonSachct UNIQUEIDENTIFIER default newid() primary key,
+  MACUONSACH INT IDENTITY(1,1),
   IDSachCT UNIQUEIDENTIFIER,
-  CONSTRAINT FK1_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT)
+  TrangThai float ,
+  CONSTRAINT FK1_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT),
 ) 
 GO
-
 
 -- Phiếu Nhập
 CREATE TABLE PhieuNhap(
@@ -160,12 +162,12 @@ CREATE TABLE PhieuMuon(
 
 -- Phiếu mượn chi tiết
 CREATE TABLE PhieuMuonCT(
-  MaCuonSach int,
+  idCuonSachct UNIQUEIDENTIFIER,
   MaPhieuMuon VARCHAR(10) unique,
   TinhTrang int,
-  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (MaCuonSach,MaPhieuMuon),
+  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (idCuonSachct,MaPhieuMuon),
   CONSTRAINT FK1_PhieuMuon FOREIGN KEY(MaPhieuMuon) REFERENCES PhieuMuon(MaPhieuMuon),
-  CONSTRAINT FK_CuonSach FOREIGN KEY(MaCuonSach) REFERENCES CuonSach(MaCuonSach)
+  CONSTRAINT FK_CuonSach FOREIGN KEY(idCuonSachct) REFERENCES CuonSach(idCuonSachct)
 )
 GO
 
@@ -195,19 +197,23 @@ CREATE TABLE LOIVIPHAMCT(
 	CONSTRAINT FK_LoiViPham FOREIGN KEY(IDLOIVIPHAM) REFERENCES LoiViPham(IDLOIVIPHAM),
 )
 GO
-
 --proc thêm cuốn sách
 create proc addCuonSach
-	@soluong int, @idSach UNIQUEIDENTIFIER
+	@soluong int, @idSach UNIQUEIDENTIFIER, @SoBatDau int
 	as
 	begin
-		declare @i int;
-		declare @max int;
-		set @i=0;
-		--set @max = select max(macuonsach) from cuonsach
-		while @i<@soluong
+		declare @i int, @tongsach int;
+			set @i = @SoBatDau;
+			set @tongsach = @i+@soluong;
+		while @i< @tongsach
 			begin
 				set @i = @i +1;
-				insert CuonSach(IDSachCT) values(@idSach)
+				set IDENTITY_INSERT dbo.cuonsach on
+				insert CuonSach(MaCuonSach, IDSachCT, TrangThai) values(@i, @idSach, 100)
 			end
 	end
+drop proc addCuonSach
+exec addcuonsach 30, 'DE6EBE66-43CA-4A36-8CB0-E7C92EDB5680', 3
+
+DELETE from CuonSach
+

@@ -4,7 +4,6 @@
  */
 package Repositories;
 
-import DomainModels.NhaCC;
 import DomainModels.PhieuNhap;
 import java.util.List;
 

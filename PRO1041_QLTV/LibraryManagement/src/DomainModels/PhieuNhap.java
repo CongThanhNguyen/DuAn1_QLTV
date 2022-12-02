@@ -13,8 +13,8 @@ import java.util.Date;
  */
 public class PhieuNhap {
     private String id;
-    private String ma;
     private String idSachCT;
+    private String ma;
     private Date ngay;
     private Boolean tinhtrang;
     private Integer sl;

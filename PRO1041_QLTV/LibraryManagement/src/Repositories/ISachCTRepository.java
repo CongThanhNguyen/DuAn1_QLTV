@@ -16,5 +16,6 @@ public interface ISachCTRepository {
     public SachCT delete(String ma);
     public SachCT update(SachCT sachCT);
     public List<SachCT> getAll();
+    public SachCT getByIDSach(String ID);
     public SachCT getByID(String ID);
 }

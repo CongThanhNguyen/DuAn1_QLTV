@@ -16,5 +16,5 @@ public interface ISachCTService {
     public SachCT delete(String ma);
     public SachCT update(SachCT sachCT);
     public List<SachCT> getAll();
-    public SachCT getByID(String ID);
+    public SachCT getByIDSach(String ID);
 }

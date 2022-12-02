@@ -10,7 +10,6 @@ import ViewModels.SachYeuThich;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,8 +17,15 @@ import java.util.List;
  * @author Admin
  */
 public class ThongKeRepository implements IThongKeRepository{
-    String sql_sach_yeu_Thich = "select masach, tensach, count(masach) as luotmuon from phieumuonct ct join SACH s on ct.idsach = s.idsach\n" +
-                                "group by MASACH, tensach";
+    final SachRepository REPO_SACH = new SachRepository();
+    String sql_sach_yeu_Thich = """
+                                  select masach, tensach, count(masach) as luotmuon from sach
+                                			join SachCT on sach.IDSach = SachCT.IDSach
+                                			join CuonSach on CuonSach.IDSachCT = SachCT.IDSachCT
+                                			join PhieuMuonCT on CuonSach.idCuonSachct = PhieuMuonCT.idCuonSachct
+                                            group by MASACH, tensach 
+                                            order by luotmuon desc
+                                """;
     
     @Override
     public List<SachYeuThich> getSachYeuThich() {
