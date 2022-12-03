@@ -22,6 +22,7 @@ public class DocGiaRepository implements IDocGiaRepository{
     String sql = "select * from DocGia";
     String sql_by_ma = "select * from DocGia where madocgia like ?";
     String sql_by_ten = "select * from DocGia where TenDOcGia like ?";
+    String sql_by_id = "select * from DocGia where idDocGia = ?";
     String insert = "insert into DocGia(MADOCGIA, TenDOcGia, sdt, email, SoCMND, DiaCHi, "
             + "GioiTinh, ngaysinh, img) values (?,?,?,?,?,?,?,?,?)";
     String delete = "Delete from DocGia where madocgia =?";
@@ -95,6 +96,11 @@ public class DocGiaRepository implements IDocGiaRepository{
             _lst = getBySql(sql_by_ten, tuKhoa);
         }
         return _lst;
+    }
+
+    @Override
+    public DocGia getByID(String ID) {
+        return getBySql(sql_by_id, ID).get(0);
     }
     
 }

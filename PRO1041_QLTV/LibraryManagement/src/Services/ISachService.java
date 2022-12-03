@@ -17,4 +17,5 @@ public interface ISachService {
     public Sach update(Sach khoSach);
     public List<Sach> getAll();
     public Sach getByMa(String Ma);
+    public Sach getByID(String id);;
 }

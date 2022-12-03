@@ -23,6 +23,9 @@ public class CuonSachRepository implements ICuonSachRepository{
     final SachCTRepository REPO_SACHCT = new SachCTRepository();
     String getAll = "Select * from CuonSach";
     String getByIDSachCT = "Select * from CuonSach where IDSachCT = ?";
+    String getByIDAndMa = "Select * from CuonSach where IDSachCT = ? and MaCuonSach = ?";
+    String getByMa = "Select * from CuonSach where MaCuonSach = ?";
+    String getByIDCuonSach = "Select * from CuonSach where IDCuonSach = ?";
     String insert = "exec addcuonsach ?, ?, ?";
     @Override
     public CuonSach insert(int soLuong, CuonSach cuonSach, int soBatDau) {
@@ -68,5 +71,20 @@ public class CuonSachRepository implements ICuonSachRepository{
             ex.printStackTrace();
             return null;
         }
+    }
+
+    @Override
+    public List<CuonSach> getByID(String id) {
+        return getBySQL(getByIDCuonSach, id);
+    }
+
+    @Override
+    public List<CuonSach> getByMa(String id) {
+        return getBySQL(getByMa, id);
+    }
+
+    @Override
+    public CuonSach getByMaAndID(String id, String ma) {
+        return getBySQL(getByIDAndMa, id, ma).get(0);
     }
 }

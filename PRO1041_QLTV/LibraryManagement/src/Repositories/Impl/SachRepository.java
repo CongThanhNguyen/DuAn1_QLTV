@@ -81,4 +81,6 @@ public class SachRepository implements ISachRepository{
     public Sach getByID(String id) {
         return getBySQL(sql_by_id, id).get(0);
     }
+
+
 }

@@ -17,4 +17,7 @@ public interface ICuonSachService {
     public CuonSach update(CuonSach cuonSach);
     public List<CuonSach> getAll();
     public List<CuonSach> getByIDSachCT(String id);
+    public List<CuonSach> getByID(String id);
+    public List<CuonSach> getByMa(String id);
+    public CuonSach getByMaAndID(String id, String ma);
 }

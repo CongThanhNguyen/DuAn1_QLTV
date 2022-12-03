@@ -44,5 +44,10 @@ public class SachService implements ISachService{
     public Sach getByMa(String ma) {
         return REPO.getByMa(ma);
     }
+
+    @Override
+    public Sach getByID(String id) {
+        return REPO.getByID(id);
+    }
     
 }

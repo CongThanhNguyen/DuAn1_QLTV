@@ -23,6 +23,7 @@ import Services.Impl.TacGiaService;
 import Services.Impl.TheLoaiService;
 import Utilities.SetSize;
 import ViewModels.PhieuNhapViewmodel;
+import static Views.FrmQuanLyMuonTra.lblMaSach1;
 import java.awt.Color;
 import java.awt.Image;
 import java.io.File;
@@ -33,7 +34,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.swing.ImageIcon;
+import java.net.URL;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFileChooser;
@@ -76,6 +77,8 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private void seticon(){
         URL urldong = getClass().getResource("/Images/cross-small.png");
         btnDong.setIcon(setsize.setSizeAnh(urldong, 20, 20));
+        URL urlBarcode = getClass().getResource("/Images/barcode-read.png");
+        IconBarcode.setIcon(setsize.setSizeAnh(urlBarcode, 24, 28));
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -133,11 +136,15 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         btnTacGia = new javax.swing.JButton();
         lblTacGia = new javax.swing.JLabel();
         cbxNhaXuatBan = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        lblSeri = new javax.swing.JLabel();
+        IconBarcode = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
         jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel1.setPreferredSize(new java.awt.Dimension(580, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -235,6 +242,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
 
         PnThongTinSach.setBackground(new java.awt.Color(255, 255, 255));
         PnThongTinSach.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(125, 200, 150)));
+        PnThongTinSach.setPreferredSize(new java.awt.Dimension(580, 500));
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Thông tin sách nhập");
@@ -393,6 +401,18 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         cbxNhaXuatBan.setBackground(new java.awt.Color(125, 200, 150));
         cbxNhaXuatBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        jLabel3.setText("Seri:");
+
+        lblSeri.setText("Is seri");
+
+        IconBarcode.setText("jLabel17");
+        IconBarcode.setPreferredSize(new java.awt.Dimension(24, 24));
+        IconBarcode.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                IconBarcodeMouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout PnThongTinSachLayout = new javax.swing.GroupLayout(PnThongTinSach);
         PnThongTinSach.setLayout(PnThongTinSachLayout);
         PnThongTinSachLayout.setHorizontalGroup(
@@ -439,24 +459,28 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                         .addGap(33, 33, 33)
                         .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(PnThongTinSachLayout.createSequentialGroup()
-                                .addGap(1, 1, 1)
-                                .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbxNCC, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtDonGia, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnHoanThanh)))
-                            .addGroup(PnThongTinSachLayout.createSequentialGroup()
                                 .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(txtNamXuatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(PnThongTinSachLayout.createSequentialGroup()
                                 .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(PnThongTinSachLayout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbxNCC, 0, 209, Short.MAX_VALUE)
+                                    .addComponent(txtDonGia, javax.swing.GroupLayout.DEFAULT_SIZE, 209, Short.MAX_VALUE)
+                                    .addComponent(btnHoanThanh)
+                                    .addComponent(lblSeri, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(IconBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(0, 52, Short.MAX_VALUE))
         );
         PnThongTinSachLayout.setVerticalGroup(
             PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -511,12 +535,17 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                     .addComponent(cbxNCC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnNhaCungCap)
                     .addComponent(jLabel14, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(PnThongTinSachLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(lblSeri)
+                    .addComponent(IconBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHoanThanh)
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addGap(17, 17, 17))
         );
 
-        jPanel1.add(PnThongTinSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 112, 580, 470));
+        jPanel1.add(PnThongTinSach, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 112, 580, 490));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -531,7 +560,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 582, Short.MAX_VALUE)
+            .addGap(0, 600, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -640,10 +669,10 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         choose.showDialog(this, "Confirm");
         File file = choose.getSelectedFile();
         icon = file.getAbsolutePath();
-        ImageIcon img = new ImageIcon(icon);
-        Image imgset = img.getImage();
-        ImageIcon imgm = new ImageIcon(imgset.getScaledInstance(133, 162, java.awt.Image.SCALE_SMOOTH));
-        imgAnhSach.setIcon(imgm);
+        int index = icon.lastIndexOf("\\");
+        icon ="/Images/imgSach/"+ icon.substring(index+1);
+        URL img = getClass().getResource(icon);
+        imgAnhSach.setIcon(setsize.setSizeAnh(img, 133, 162));
     }//GEN-LAST:event_btnTaiAnhActionPerformed
 
     private void btnLayThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayThongTinActionPerformed
@@ -674,6 +703,13 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtDonGia.setText(view.getGiaNhap()+"");
         cbxNCC.setSelectedItem(view.getNhaCC());
     }//GEN-LAST:event_btnLayThongTinActionPerformed
+
+    private void IconBarcodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IconBarcodeMouseClicked
+        // TODO add your handling code here:
+        FrmScanBC.where=0;
+        FrmScanBC scan = new FrmScanBC();
+        scan.setVisible(true);
+    }//GEN-LAST:event_IconBarcodeMouseClicked
 
     public void checkSach(boolean ft){
         btnLayThongTin.setEnabled(!ft);
@@ -796,7 +832,8 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         int namXB = Integer.parseInt(txtNamXuatBan.getText());
         Double giaNhap = Double.valueOf(txtDonGia.getText());
         BigDecimal giaNhapChuan = BigDecimal.valueOf(giaNhap);
-        return new SachCT(null, namXB, icon, giaNhapChuan, sach);
+        String seri = lblSeri.getText();
+        return new SachCT(null, namXB, icon, giaNhapChuan, seri, sach);
     }
     
     private List<TheLoaiSach> getListTheLoai(){
@@ -820,6 +857,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     public static javax.swing.JPanel Btn;
+    private javax.swing.JLabel IconBarcode;
     private javax.swing.JPanel PnThongTinSach;
     public static javax.swing.JPanel boxTheLoai;
     private javax.swing.JLabel btnDong;
@@ -846,6 +884,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
@@ -857,6 +896,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     public static javax.swing.JScrollPane jScrollPane1;
+    public static javax.swing.JLabel lblSeri;
     public static javax.swing.JLabel lblTacGia;
     private javax.swing.JLabel lblToday;
     private javax.swing.JRadioButton rdoChuaCo;

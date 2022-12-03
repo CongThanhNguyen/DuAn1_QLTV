@@ -5,24 +5,16 @@
 package Repositories.Impl;
 
 
-import DomainModels.NhaXuatBan;
-import DomainModels.PhieuNhap;
 import DomainModels.Sach;
 import Repositories.ISachCTRepository;
 import DomainModels.SachCT;
-import DomainModels.TacGia;
-import DomainModels.TheLoaiSach;
 import Utilities.DBConnection;
 import java.math.BigDecimal;
-import java.sql.Connection;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -36,16 +28,17 @@ public class SachCTRepository implements ISachCTRepository{
     String sql = "Select * from SachCT";
     String sql_by_IDSach = "Select * from SachCT where IDSach = ?";
     String sql_by_ID = "Select * from SachCT where IDSachCT = ?";
-    String insert = "insert into SachCT(NamXuatBan, img, GiaInTrenSach,"
-            + "IDSach) values (?,?,?,?)";
+    String insert = "insert into SachCT(NamXuatBan, img, GiaInTrenSach, seri,"
+            + "IDSach) values (?,?,?,?,?)";
     String sql_by_ma = "select * from Sach where MaSach like ?";
     String sql_by_ten = "select * from Sach where TenSach like ?";
+    String sql_by_barcode = "Select * from Sachct where seri = ?";
     
     @Override
     public SachCT insert(SachCT sachCT) {
         try {
             PreparedStatement ps = DBConnection.getStmt(insert, sachCT.getNamxb(),
-                    sachCT.getImg(), sachCT.getGiaIn(), sachCT.getSach().getId());
+                    sachCT.getImg(), sachCT.getGiaIn(),sachCT.getSeri(), sachCT.getSach().getId());
             int i = ps.executeUpdate();
             return i==1?sachCT:null;
         } catch (SQLException ex) {
@@ -71,6 +64,7 @@ public class SachCTRepository implements ISachCTRepository{
 
     @Override
     public SachCT getByIDSach(String ID) {
+        System.out.println(ID);
         return this.getBySQL(sql_by_IDSach, ID).get(0);
     }
     
@@ -85,9 +79,10 @@ public class SachCTRepository implements ISachCTRepository{
                 int namXb = rs.getInt(2);
                 String img = rs.getString(3);
                 BigDecimal giain = rs.getBigDecimal(4);
-                String idSach = rs.getString(5);
+                String seri = rs.getString(5);
+                String idSach = rs.getString(6);
                 Sach sach = REPO_SACH.getByID(idSach);
-                SachCT sachCT = new SachCT(id, namXb, img, giain, sach);
+                SachCT sachCT = new SachCT(id, namXb, img, giain, seri, sach);
                 _lst.add(sachCT);
             }
         } catch (SQLException ex) {
@@ -114,4 +109,8 @@ public class SachCTRepository implements ISachCTRepository{
         return _lst;
     }
     
+    @Override
+    public SachCT getByBarcode(String barcode) {
+        return getBySQL(sql_by_barcode, barcode).get(0);
+    }
 }

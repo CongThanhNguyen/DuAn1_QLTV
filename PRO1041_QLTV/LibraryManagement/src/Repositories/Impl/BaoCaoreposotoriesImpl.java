@@ -94,7 +94,7 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
             String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg\n"
                     + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
                     + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
-                    + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
+                    + "JOIN CuonSach cs ON ct.idCuonSach = cs.idCuonSach\n"
                     + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
                     + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
                     + "JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon";

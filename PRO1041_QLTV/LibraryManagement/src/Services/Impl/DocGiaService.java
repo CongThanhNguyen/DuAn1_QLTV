@@ -51,5 +51,10 @@ public class DocGiaService implements IDocGiaService{
     public List<DocGia> getBySearch(String tuKhoa) {
         return repo.getBySearch(tuKhoa);
     }
+
+    @Override
+    public DocGia getByID(String ID) {
+        return repo.getByID(ID);
+    }
     
 }
