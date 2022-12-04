@@ -5,14 +5,26 @@
 package Views;
 
 import DomainModels.SachCT;
+import Services.Impl.CuonSachService;
+import Services.Impl.KhoSachServices;
+import Services.Impl.NhaXuatBanService;
+import Services.Impl.PhieuNhapService;
+import Services.Impl.PhieuNhapViewModelService;
 import Services.Impl.SachCTService;
+import Services.Impl.SachService;
+import Services.Impl.TacGiaService;
+import Services.Impl.TheLoaiService;
+import Services.KhoSachService;
 import Utilities.SetSize;
+import ViewModels.KhoSachViewModels;
+import ViewModels.SachCTViewModel;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.net.URL;
 import java.util.List;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -20,8 +32,20 @@ import javax.swing.table.JTableHeader;
  * @author Admin
  */
 public class FrmQuanLyKhoSach extends javax.swing.JPanel {
+
     final SetSize setsize = new SetSize();
-    final SachCTService SachCTSR = new SachCTService();
+
+    DefaultTableModel tblModel = new DefaultTableModel();
+    private KhoSachService ksSV = new KhoSachServices();
+    final PhieuNhapService SERVICE = new PhieuNhapService();
+    final SachService SERVICE_SACH = new SachService();
+    final SachCTService SERVICE_SACHCT = new SachCTService();
+    final TheLoaiService SERVICE_TLS = new TheLoaiService();
+    final TacGiaService SERVICE_TG = new TacGiaService();
+    final NhaXuatBanService SERVICE_NXB = new NhaXuatBanService();
+    final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
+    final CuonSachService SERVICE_CS = new CuonSachService();
+
     /**
      * Creates new form FrmKhoSach
      */
@@ -31,9 +55,24 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         this.seticon();
         URL urlBook = getClass().getResource("/Images/book-demo.jpg");
         imgBook.setIcon(setsize.setSizeAnh(urlBook, 170, 243));
+        fillTable();
     }
 
-    private void setTable(){
+    public void fillTable() {
+        List<KhoSachViewModels> listKS = ksSV.getAll();
+        tblModel.setRowCount(0);
+        tblModel = (DefaultTableModel) tblKhoSach.getModel();
+        for (KhoSachViewModels khoSachViewModels : listKS) {
+            Object[] row = new Object[]{
+                khoSachViewModels.getMaSach(),
+                khoSachViewModels.getTenSach(),
+                khoSachViewModels.getTenLoaiSach()
+            };
+            tblModel.addRow(row);
+        }
+    }
+
+    private void setTable() {
         Font bigFont = new Font("Segoe UI", Font.PLAIN, 14);
         tblKhoSach.getTableHeader().setFont(bigFont);
         tblKhoSach.getTableHeader().setPreferredSize(new Dimension(WIDTH, 32));
@@ -42,12 +81,13 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         tblKhoSach.getColumnModel().getColumn(2).setPreferredWidth(200);
         tblKhoSach.getColumnModel().getColumn(2).setMaxWidth(200);
         tblKhoSach.setRowHeight(28);
-        
+
         JTableHeader header = tblKhoSach.getTableHeader();
-        header.setBackground(new Color(125,200,150));
+        header.setBackground(new Color(125, 200, 150));
         header.setForeground(Color.white);
-        
+
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,17 +106,17 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         btnXemChiTiet = new javax.swing.JPanel();
         lblXCT = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
+        lblTacGia = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblSoLuong = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        lblNXB = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        lblTL = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        lblLuotMuon = new javax.swing.JLabel();
         jLabel16 = new javax.swing.JLabel();
-        jLabel17 = new javax.swing.JLabel();
+        lblMaSach = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -106,10 +146,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         tblKhoSach.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tblKhoSach.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "MÃ SÁCH", "TÊN SÁCH", "THỂ LOẠI"
@@ -127,6 +164,11 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         tblKhoSach.setPreferredSize(new java.awt.Dimension(780, 80));
         tblKhoSach.setSelectionBackground(new java.awt.Color(125, 214, 150));
         tblKhoSach.setShowGrid(false);
+        tblKhoSach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblKhoSachMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblKhoSach);
         if (tblKhoSach.getColumnModel().getColumnCount() > 0) {
             tblKhoSach.getColumnModel().getColumn(0).setResizable(false);
@@ -168,27 +210,27 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
 
         jLabel2.setText("Tác giả:");
 
-        jLabel3.setText("Daniel Kehlmann");
+        lblTacGia.setText("Daniel Kehlmann");
 
         jLabel5.setText("Số lượng:");
 
-        jLabel7.setText("50");
+        lblSoLuong.setText("50");
 
         jLabel8.setText("Nhà xb:");
 
-        jLabel9.setText("Alpha book");
+        lblNXB.setText("Alpha book");
 
         jLabel10.setText("Thể loại:");
 
-        jLabel11.setText("Tâm Lý - Kỹ Năng Sống");
+        lblTL.setText("Tâm Lý - Kỹ Năng Sống");
 
         jLabel12.setText("Lượt mượn:");
 
-        jLabel13.setText("300");
+        lblLuotMuon.setText("300");
 
         jLabel16.setText("Mã sách:");
 
-        jLabel17.setText("SA2001");
+        lblMaSach.setText("SA2001");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -218,12 +260,12 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
                                 .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGap(2, 2, 2)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblMaSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTacGia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblLuotMuon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblSoLuong, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblNXB, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblTL, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
@@ -236,30 +278,30 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel16)
-                            .addComponent(jLabel17))
+                            .addComponent(lblMaSach))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel2)
-                            .addComponent(jLabel3))
+                            .addComponent(lblTacGia))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
+                            .addComponent(lblSoLuong)
                             .addComponent(jLabel5))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
-                            .addComponent(jLabel9))
+                            .addComponent(lblNXB))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel11)
+                            .addComponent(lblTL)
                             .addComponent(jLabel10))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel12)
-                            .addComponent(jLabel13))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                            .addComponent(lblLuotMuon))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnXemChiTiet, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -389,7 +431,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, 337, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                 .addContainerGap())
@@ -407,15 +449,17 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnXemChiTietMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXemChiTietMouseClicked
-        // TODO add your handling code here:
+        String ma = lblMaSach.getText();
+        SachCTViewModel view = ksSV.getKhoSachView(ma);
         FrmSach sach = new FrmSach();
         sach.setEdit();
+        sach.setDisplay(view);
         sach.setVisible(true);
     }//GEN-LAST:event_btnXemChiTietMouseClicked
 
     private void btnXemPhieuNhapMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXemPhieuNhapMouseClicked
         // TODO add your handling code here:
-         new FrmDSPN().setVisible(true);
+        new FrmDSPN().setVisible(true);
     }//GEN-LAST:event_btnXemPhieuNhapMouseClicked
 
     private void btnXoaSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaSachMouseClicked
@@ -428,36 +472,61 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
     }//GEN-LAST:event_btnVietPhieuNhapMouseClicked
 
     private void btnThemSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnThemSachMouseClicked
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btnThemSachMouseClicked
 
     private void btnSuaSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaSachMouseClicked
-        // TODO add your handling code here:
-        new FrmSach().setVisible(true);
+        String ma = lblMaSach.getText();
+        SachCTViewModel view = ksSV.getKhoSachView(ma);
+        FrmSach sach = new FrmSach();
+        
+        sach.setDisplay(view);
+        sach.setVisible(true);
     }//GEN-LAST:event_btnSuaSachMouseClicked
 
     private void btnTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemMouseClicked
         // TODO add your handling code here:
-         String tuKhoa = txtTimSach.getText();
-        if(tuKhoa.trim().equals("")){
+        String tuKhoa = txtTimSach.getText();
+        if (tuKhoa.trim().equals("")) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã hoặc tên độc giả để thực hiện!");
             return;
         }
-        List<SachCT> _lst = SachCTSR.Seach(tuKhoa);
-        if(_lst.isEmpty()){
-            if(tblKhoSach.getComponentCount() == SachCTSR.getAll().size()){
-                _lst = SachCTSR.getAll();
+        List<SachCT> _lst = SERVICE_SACHCT.Seach(tuKhoa);
+        if (_lst.isEmpty()) {
+            if (tblKhoSach.getComponentCount() == SERVICE_SACHCT.getAll().size()) {
+                _lst = SERVICE_SACHCT.getAll();
             }
             JOptionPane.showMessageDialog(this, "Không tìm thấy độc giả!");
         }
         this.loadList(_lst);
     }//GEN-LAST:event_btnTimKiemMouseClicked
 
-    private void seticon(){
+    private void tblKhoSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKhoSachMouseClicked
+        int i = tblKhoSach.getSelectedRow();
+        String ma = tblKhoSach.getValueAt(i, 0).toString();
+        SachCTViewModel view = ksSV.getKhoSachView(ma);
+        String hoten = "";
+        for (String string : view.getTacGia()) {
+            hoten += string + "-";
+        }
+        hoten = hoten.substring(0, hoten.length() - 1);
+        String theloai = "";
+        for (String string : view.getTheLoai()) {
+            theloai += string + "-";
+        }
+        theloai = theloai.substring(0, theloai.length() - 1);
+        lblMaSach.setText(view.getMaSach());
+        lblTacGia.setText(hoten);
+        lblSoLuong.setText(view.getSoLuong() + "");
+        lblNXB.setText(view.getNhaXuatBan());
+        lblTL.setText(theloai);
+    }//GEN-LAST:event_tblKhoSachMouseClicked
+
+    private void seticon() {
         URL urlSearch = getClass().getResource("/Images/search.png");
         btnTimKiem.setIcon(setsize.setSizeAnh(urlSearch, 24, 24));
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnSuaSach;
     private javax.swing.JPanel btnThemSach;
@@ -469,25 +538,25 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
     private javax.swing.JLabel imgBook;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel17;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblLuotMuon;
+    private javax.swing.JLabel lblMaSach;
+    private javax.swing.JLabel lblNXB;
+    private javax.swing.JLabel lblSoLuong;
+    private javax.swing.JLabel lblTL;
+    private javax.swing.JLabel lblTacGia;
     private javax.swing.JLabel lblXCT;
     private javax.swing.JLabel lblXCT1;
     private javax.swing.JLabel lblXCT3;

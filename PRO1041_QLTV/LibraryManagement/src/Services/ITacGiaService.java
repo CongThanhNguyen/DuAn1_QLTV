@@ -18,4 +18,5 @@ public interface ITacGiaService {
     public List<TacGia> getAll();
     public TacGia getByMa(String ma);
     public int insertTGCT(String idsach, String idTG);
+     public int UpdateTacGiaCT(TacGia tacgia);
 }

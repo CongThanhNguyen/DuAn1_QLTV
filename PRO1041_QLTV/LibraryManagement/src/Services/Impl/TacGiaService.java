@@ -13,14 +13,13 @@ import java.util.List;
  *
  * @author Admin
  */
-public class TacGiaService implements ITacGiaService{
+public class TacGiaService implements ITacGiaService {
+
     final TacGiaRepository REPO;
 
     public TacGiaService() {
         this.REPO = new TacGiaRepository();
     }
-
-    
 
     @Override
     public TacGia insert(TacGia tacGia) {
@@ -51,5 +50,10 @@ public class TacGiaService implements ITacGiaService{
     public int insertTGCT(String idsach, String idTG) {
         return REPO.InsertTacGiaCT(idsach, idTG);
     }
-    
+
+    @Override
+    public int UpdateTacGiaCT(TacGia tacgia) {
+        return REPO.UpdateTacGiaCT(tacgia);
+    }
+
 }

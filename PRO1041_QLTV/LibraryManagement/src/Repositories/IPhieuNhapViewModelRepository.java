@@ -5,6 +5,7 @@
 package Repositories;
 
 import ViewModels.PhieuNhapViewmodel;
+import java.util.List;
 
 /**
  *
@@ -12,5 +13,5 @@ import ViewModels.PhieuNhapViewmodel;
  */
 public interface IPhieuNhapViewModelRepository {
     public PhieuNhapViewmodel getPhieuNhapView(String ma);
-    
+    public List<PhieuNhapViewmodel> getAll();
 }

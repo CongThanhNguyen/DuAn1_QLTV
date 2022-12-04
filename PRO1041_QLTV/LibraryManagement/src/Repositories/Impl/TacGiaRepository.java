@@ -7,6 +7,7 @@ package Repositories.Impl;
 import Repositories.ITacGiaRepository;
 import DomainModels.TacGia;
 import Utilities.DBConnection;
+import Utilities.DBContext;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,18 +15,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.sql.*;
 
 /**
  *
  * @author Admin
  */
-public class TacGiaRepository implements ITacGiaRepository{ 
-    
+public class TacGiaRepository implements ITacGiaRepository {
+
     String sql = "Select * from TacGia";
     String sql_by_ma = "Select * from TacGia where MaTacGia = ?";
     String sql_by_id = "Select * from TacGia where IDTacGia = ?";
     String insert_tacgiaCT = "Insert into TacGiaCT(idSach, IDTacGia) values (?,?)";
-    
+    String update_tacgiaCT = "Update TacGia set TenTacGia = ? where IdTacGia = ?";
+
     @Override
     public TacGia insert(TacGia tacGia) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
@@ -38,7 +41,14 @@ public class TacGiaRepository implements ITacGiaRepository{
 
     @Override
     public TacGia update(TacGia tacGia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "Update TacGia set TenTacGia = ? where IDTacGia = ?";
+        try(Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, tacGia.getHoTen());
+            ps.setString(2, tacGia.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+        }
+        return null;
     }
 
     @Override
@@ -50,14 +60,14 @@ public class TacGiaRepository implements ITacGiaRepository{
     public TacGia getByMa(String ma) {
         return this.getBySQL(sql_by_ma, ma).get(0);
     }
-    
-    private List<TacGia> getBySQL(String sql, Object ...args){
+
+    private List<TacGia> getBySQL(String sql, Object... args) {
         List<TacGia> _lst = new ArrayList<>();
         PreparedStatement ps = DBConnection.getStmt(sql, args);
         ResultSet rs;
         try {
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 String id = rs.getString(1);
                 String Ma = rs.getString(2);
                 String hoTen = rs.getString(3);
@@ -82,6 +92,16 @@ public class TacGiaRepository implements ITacGiaRepository{
         try {
             return ps.executeUpdate();
         } catch (SQLException ex) {
+            return 0;
+        }
+    }
+
+    @Override
+    public int UpdateTacGiaCT(TacGia tacGia) {
+        PreparedStatement ps = DBConnection.getStmt(update_tacgiaCT, tacGia.getHoTen(),tacGia.getId());
+        try {
+            return ps.executeUpdate();
+        } catch (SQLException e) {
             return 0;
         }
     }

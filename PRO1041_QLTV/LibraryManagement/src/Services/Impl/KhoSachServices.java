@@ -5,22 +5,28 @@
 package Services.Impl;
 
 import Repositories.Impl.KhoSachImpl;
-import Repositories.KhoSach;
+import Repositories.KhoSachRepository;
 import Services.KhoSachService;
 import ViewModels.KhoSachViewModels;
+import ViewModels.SachCTViewModel;
 import java.util.List;
 
 /**
  *
  * @author Apc
  */
-public class KhoSachServices implements KhoSachService{
-    private KhoSach khoSach = new KhoSachImpl();
+public class KhoSachServices implements KhoSachService {
+
+    private KhoSachRepository khoSach = new KhoSachImpl();
 
     @Override
     public List<KhoSachViewModels> getAll() {
-        List<KhoSachViewModels> khoSachViewModelses = khoSach.getALl();
-        return khoSachViewModelses;
+        return khoSach.getALl();
     }
-    
+
+    @Override
+    public SachCTViewModel getKhoSachView(String ma) {
+        return khoSach.getKhoSachView(ma);
+    }
+
 }

@@ -5,6 +5,7 @@
 package Services;
 
 import ViewModels.KhoSachViewModels;
+import ViewModels.SachCTViewModel;
 import java.util.List;
 
 /**
@@ -13,5 +14,6 @@ import java.util.List;
  */
 public interface KhoSachService {
     List<KhoSachViewModels> getAll();
+    public SachCTViewModel getKhoSachView(String ma);
     
 }

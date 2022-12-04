@@ -85,6 +85,7 @@ CREATE TABLE SachCT(
   NamXuatBan int DEFAULT NULL,
   img varchar(100) ,
   GiaInTrenSach DECIMAL(20,10) NULL ,
+ 
   IdSach UNIQUEIDENTIFIER,
   CONSTRAINT FK4_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach),
 )

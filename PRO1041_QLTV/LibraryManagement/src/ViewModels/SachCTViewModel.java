@@ -5,16 +5,14 @@
 package ViewModels;
 
 import java.math.BigDecimal;
-import java.util.Date;
 import java.util.List;
 
 /**
  *
- * @author Admin
+ * @author huong
  */
-public class PhieuNhapViewmodel {
+public class SachCTViewModel {
 
-    private String idPhieuNhap;
     private String maSach;
     private String tenSach;
     private String img;
@@ -23,15 +21,12 @@ public class PhieuNhapViewmodel {
     private String nhaXuatBan;
     private List<String> theLoai;
     private Integer nxb;
-    private Date ngayNhap;
     private BigDecimal giaNhap;
-    private String nhaCC;
 
-    public PhieuNhapViewmodel() {
+    public SachCTViewModel() {
     }
 
-    public PhieuNhapViewmodel(String idPhieuNhap, String maSach, String tenSach, String img, List<String> tacGia, Integer soLuong, String nhaXuatBan, List<String> theLoai, Integer nxb, Date ngayNhap, BigDecimal giaNhap, String nhaCC) {
-        this.idPhieuNhap = idPhieuNhap;
+    public SachCTViewModel(String maSach, String tenSach, String img, List<String> tacGia, Integer soLuong, String nhaXuatBan, List<String> theLoai, Integer nxb, BigDecimal giaNhap) {
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.img = img;
@@ -40,17 +35,7 @@ public class PhieuNhapViewmodel {
         this.nhaXuatBan = nhaXuatBan;
         this.theLoai = theLoai;
         this.nxb = nxb;
-        this.ngayNhap = ngayNhap;
         this.giaNhap = giaNhap;
-        this.nhaCC = nhaCC;
-    }
-
-    public String getIdPhieuNhap() {
-        return idPhieuNhap;
-    }
-
-    public void setIdPhieuNhap(String idPhieuNhap) {
-        this.idPhieuNhap = idPhieuNhap;
     }
 
     public String getMaSach() {
@@ -117,14 +102,6 @@ public class PhieuNhapViewmodel {
         this.nxb = nxb;
     }
 
-    public Date getNgayNhap() {
-        return ngayNhap;
-    }
-
-    public void setNgayNhap(Date ngayNhap) {
-        this.ngayNhap = ngayNhap;
-    }
-
     public BigDecimal getGiaNhap() {
         return giaNhap;
     }
@@ -132,14 +109,6 @@ public class PhieuNhapViewmodel {
     public void setGiaNhap(BigDecimal giaNhap) {
         this.giaNhap = giaNhap;
     }
-
-    public String getNhaCC() {
-        return nhaCC;
-    }
-
-    public void setNhaCC(String nhaCC) {
-        this.nhaCC = nhaCC;
-    }
-
+    
     
 }

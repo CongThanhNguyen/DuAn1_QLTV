@@ -19,4 +19,5 @@ public interface ITacGiaRepository {
     public TacGia getByMa(String ma);
     public TacGia getByID(String id);
     public int InsertTacGiaCT(String idsach, String idTacGia);
+    public int UpdateTacGiaCT(TacGia tacgia);
 }
