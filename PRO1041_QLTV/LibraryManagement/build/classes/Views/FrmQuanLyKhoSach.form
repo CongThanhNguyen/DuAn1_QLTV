@@ -32,7 +32,7 @@
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace pref="31" max="32767" attributes="0"/>
+                      <EmptySpace max="32767" attributes="0"/>
                       <Component id="jPanel4" min="-2" pref="337" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
@@ -86,7 +86,7 @@
               </Border>
             </Property>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="3" rowCount="4">
+              <Table columnCount="3" rowCount="0">
                 <Column editable="false" title="M&#xc3; S&#xc1;CH" type="java.lang.Object"/>
                 <Column editable="false" title="T&#xca;N S&#xc1;CH" type="java.lang.Object"/>
                 <Column editable="false" title="TH&#x1ec2; LO&#x1ea0;I" type="java.lang.Object"/>
@@ -125,6 +125,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblKhoSachMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -163,12 +166,12 @@
                               </Group>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel17" max="32767" attributes="0"/>
-                              <Component id="jLabel3" max="32767" attributes="0"/>
-                              <Component id="jLabel13" max="32767" attributes="0"/>
-                              <Component id="jLabel7" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jLabel9" alignment="1" max="32767" attributes="0"/>
-                              <Component id="jLabel11" max="32767" attributes="0"/>
+                              <Component id="lblMaSach" max="32767" attributes="0"/>
+                              <Component id="lblTacGia" max="32767" attributes="0"/>
+                              <Component id="lblLuotMuon" max="32767" attributes="0"/>
+                              <Component id="lblSoLuong" alignment="1" max="32767" attributes="0"/>
+                              <Component id="lblNXB" alignment="1" max="32767" attributes="0"/>
+                              <Component id="lblTL" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -186,37 +189,37 @@
                           <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel16" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel17" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblMaSach" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTacGia" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblSoLuong" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel9" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblNXB" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblTL" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel10" alignment="0" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel12" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblLuotMuon" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace pref="17" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
                           <Component id="btnXemChiTiet" min="-2" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="jPanel2" pref="231" max="32767" attributes="0"/>
+                      <Component id="jPanel2" pref="238" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -296,7 +299,7 @@
             <Property name="text" type="java.lang.String" value="T&#xe1;c gi&#x1ea3;:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel3">
+        <Component class="javax.swing.JLabel" name="lblTacGia">
           <Properties>
             <Property name="text" type="java.lang.String" value="Daniel Kehlmann"/>
           </Properties>
@@ -306,7 +309,7 @@
             <Property name="text" type="java.lang.String" value="S&#x1ed1; l&#x1b0;&#x1ee3;ng:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel7">
+        <Component class="javax.swing.JLabel" name="lblSoLuong">
           <Properties>
             <Property name="text" type="java.lang.String" value="50"/>
           </Properties>
@@ -316,7 +319,7 @@
             <Property name="text" type="java.lang.String" value="Nh&#xe0; xb:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel9">
+        <Component class="javax.swing.JLabel" name="lblNXB">
           <Properties>
             <Property name="text" type="java.lang.String" value="Alpha book"/>
           </Properties>
@@ -326,7 +329,7 @@
             <Property name="text" type="java.lang.String" value="Th&#x1ec3; lo&#x1ea1;i:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel11">
+        <Component class="javax.swing.JLabel" name="lblTL">
           <Properties>
             <Property name="text" type="java.lang.String" value="T&#xe2;m L&#xfd; - K&#x1ef9; N&#x103;ng S&#x1ed1;ng"/>
           </Properties>
@@ -336,7 +339,7 @@
             <Property name="text" type="java.lang.String" value="L&#x1b0;&#x1ee3;t m&#x1b0;&#x1ee3;n:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel13">
+        <Component class="javax.swing.JLabel" name="lblLuotMuon">
           <Properties>
             <Property name="text" type="java.lang.String" value="300"/>
           </Properties>
@@ -346,7 +349,7 @@
             <Property name="text" type="java.lang.String" value="M&#xe3; s&#xe1;ch:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JLabel" name="jLabel17">
+        <Component class="javax.swing.JLabel" name="lblMaSach">
           <Properties>
             <Property name="text" type="java.lang.String" value="SA2001"/>
           </Properties>

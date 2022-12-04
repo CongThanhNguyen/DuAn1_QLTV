@@ -4,14 +4,18 @@
  */
 package Repositories;
 
-import ViewModels.PhieuNhapViewmodel;
+import DomainModels.TacGia;
+import DomainModels.TacGiaCT;
+import Utilities.DBConnection;
+import java.util.ArrayList;
 import java.util.List;
+import java.sql.*;
 
 /**
  *
- * @author Admin
+ * @author huong
  */
-public interface IPhieuNhapViewModelRepository {
-    public PhieuNhapViewmodel getPhieuNhapView(String ma);
-    public List<PhieuNhapViewmodel> getAll();
+public interface ITacGiaChiTiet {
+
+    public TacGiaCT delete(String id);
 }

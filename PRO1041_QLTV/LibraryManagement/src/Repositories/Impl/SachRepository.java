@@ -19,19 +19,20 @@ import java.util.logging.Logger;
  *
  * @author Admin
  */
-public class SachRepository implements ISachRepository{
-    
+public class SachRepository implements ISachRepository {
+
     String sql = "Select * from Sach";
     String sql_by_ma = "Select * from Sach where MaSach = ?";
     String sql_by_id = "Select * from Sach where IDSach = ?";
     String insert = "Insert into Sach(MaSach, TenSach) values(?,?)";
-    
+    final String update = "Sach set TenSach = ? where MaSach = ?";
+
     @Override
     public Sach insert(Sach sach) {
         try {
             PreparedStatement ps = DBConnection.getStmt(insert, sach.getMa(), sach.getTen());
             int i = ps.executeUpdate();
-            return i==1?getByMa(sach.getMa()):null;
+            return i == 1 ? getByMa(sach.getMa()) : null;
         } catch (SQLException ex) {
             ex.printStackTrace();
             return null;
@@ -45,7 +46,8 @@ public class SachRepository implements ISachRepository{
 
     @Override
     public Sach update(Sach sach) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int i = DBConnection.ExcuteDungna(update, sach.getTen(), sach.getMa());
+        return i == 1 ? getByMa(sach.getMa()) : null;
     }
 
     @Override
@@ -57,14 +59,14 @@ public class SachRepository implements ISachRepository{
     public Sach getByMa(String ma) {
         return this.getBySQL(sql_by_ma, ma).get(0);
     }
-    
-    private List<Sach> getBySQL(String sql, Object ...args){
+
+    private List<Sach> getBySQL(String sql, Object... args) {
         List<Sach> _lst = new ArrayList<>();
         PreparedStatement ps = DBConnection.getStmt(sql, args);
         ResultSet rs;
         try {
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 String id = rs.getString(1);
                 String Ma = rs.getString(2);
                 String ten = rs.getString(3);
@@ -81,6 +83,5 @@ public class SachRepository implements ISachRepository{
     public Sach getByID(String id) {
         return getBySQL(sql_by_id, id).get(0);
     }
-
 
 }

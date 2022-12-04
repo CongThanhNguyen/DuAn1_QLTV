@@ -5,6 +5,7 @@
 package Repositories;
 
 import ViewModels.KhoSachViewModels;
+import ViewModels.SachCTViewModel;
 import java.util.List;
 
 
@@ -12,6 +13,7 @@ import java.util.List;
  *
  * @author Apc
  */
-public interface KhoSach {
+public interface KhoSachRepository {
     List<KhoSachViewModels> getALl();
+    public SachCTViewModel getKhoSachView(String ma);
 }
