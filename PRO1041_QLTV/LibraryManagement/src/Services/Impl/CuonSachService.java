@@ -45,5 +45,20 @@ public class CuonSachService implements ICuonSachService{
     public List<CuonSach> getByIDSachCT(String id) {
         return  REPO.getByIDSachCT(id);
     }
+
+    @Override
+    public List<CuonSach> getByID(String id) {
+        return REPO.getByID(id);
+    }
+
+    @Override
+    public List<CuonSach> getByMa(String id) {
+        return REPO.getByMa(id);
+    }
+
+    @Override
+    public CuonSach getByMaAndID(String id, String ma) {
+        return REPO.getByMaAndID(id, ma);
+    }
     
 }

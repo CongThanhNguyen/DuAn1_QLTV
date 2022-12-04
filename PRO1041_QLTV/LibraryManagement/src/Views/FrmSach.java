@@ -6,6 +6,7 @@ package Views;
 
 import DomainModels.NhaCC;
 import DomainModels.NhaXuatBan;
+import DomainModels.Sach;
 import DomainModels.TacGia;
 import DomainModels.TheLoaiSach;
 import Services.Impl.CuonSachService;
@@ -29,6 +30,7 @@ import java.net.URL;
 import java.util.List;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -64,7 +66,7 @@ public class FrmSach extends javax.swing.JFrame {
         txtTenSach.setText(sct.getTenSach());
         String hoten = "";
         for (String string : sct.getTacGia()) {
-            hoten += string + "-";
+            hoten = string + "-";
         }
         for (String string : sct.getTheLoai()) {
             for (int j = 0; j < boxTheLoai.getComponentCount(); j++) {
@@ -420,7 +422,11 @@ public class FrmSach extends javax.swing.JFrame {
     }//GEN-LAST:event_btnTheLoaiActionPerformed
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-     
+        Sach s = new Sach();
+        s.setMa(lblMaSach.getText());
+        s.setTen(txtTenSach.getText());
+        SERVICE_SACH.update(s);
+        JOptionPane.showMessageDialog(this, "Sửa thành công");
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed

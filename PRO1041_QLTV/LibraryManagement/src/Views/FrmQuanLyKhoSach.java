@@ -507,12 +507,12 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         SachCTViewModel view = ksSV.getKhoSachView(ma);
         String hoten = "";
         for (String string : view.getTacGia()) {
-            hoten += string + "-";
+            hoten = string + "-";
         }
         hoten = hoten.substring(0, hoten.length() - 1);
         String theloai = "";
         for (String string : view.getTheLoai()) {
-            theloai += string + "-";
+            theloai = string + "-";
         }
         theloai = theloai.substring(0, theloai.length() - 1);
         lblMaSach.setText(view.getMaSach());

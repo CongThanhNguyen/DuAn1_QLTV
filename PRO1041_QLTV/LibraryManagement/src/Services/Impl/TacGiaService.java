@@ -14,46 +14,56 @@ import java.util.List;
  * @author Admin
  */
 public class TacGiaService implements ITacGiaService {
-
+    
     final TacGiaRepository REPO;
-
+    
     public TacGiaService() {
         this.REPO = new TacGiaRepository();
     }
-
+    
     @Override
-    public TacGia insert(TacGia tacGia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void insert(TacGia tacGia) {
+        REPO.insert(tacGia);
     }
-
+    
     @Override
     public TacGia delete(String ma) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public TacGia update(TacGia tacGia) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
+    
     @Override
     public List<TacGia> getAll() {
         return REPO.getAll();
     }
-
+    
     @Override
     public TacGia getByMa(String ma) {
         return REPO.getByMa(ma);
     }
-
+    
     @Override
     public int insertTGCT(String idsach, String idTG) {
         return REPO.InsertTacGiaCT(idsach, idTG);
     }
-
+    
     @Override
     public int UpdateTacGiaCT(TacGia tacgia) {
         return REPO.UpdateTacGiaCT(tacgia);
     }
-
+    
+    @Override
+    public void Xoa(String ten) {
+        REPO.Xoa(ten);
+    }
+    
+    @Override
+    public void Sua(TacGia tg) {
+        REPO.Sua(tg);
+    }
+    
 }

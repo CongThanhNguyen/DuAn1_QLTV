@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.sql.*;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -28,21 +29,31 @@ public class TacGiaRepository implements ITacGiaRepository {
     String sql_by_id = "Select * from TacGia where IDTacGia = ?";
     String insert_tacgiaCT = "Insert into TacGiaCT(idSach, IDTacGia) values (?,?)";
     String update_tacgiaCT = "Update TacGia set TenTacGia = ? where IdTacGia = ?";
+    String delelte = "DELETE TacGia where IdTacGia = ?";
 
     @Override
-    public TacGia insert(TacGia tacGia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void insert(TacGia tacGia) {
+        String sql = "insert into TacGia(MaTacGia,TenTacGia,DiaChi) values (?,?,?)";
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, tacGia.getMa());
+            ps.setString(2, tacGia.getHoTen());
+            ps.setString(3, tacGia.getDiaChi());
+            ps.execute();
+        } catch (Exception e) {
+        }
     }
 
     @Override
-    public TacGia delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public TacGia delete(String id) {
+        int i = DBConnection.ExcuteDungna(delelte, id);
+        return i == 1 ? getByID(id) : null;
+
     }
 
     @Override
     public TacGia update(TacGia tacGia) {
         String sql = "Update TacGia set TenTacGia = ? where IDTacGia = ?";
-        try(Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, tacGia.getHoTen());
             ps.setString(2, tacGia.getId());
             ps.executeUpdate();
@@ -98,11 +109,36 @@ public class TacGiaRepository implements ITacGiaRepository {
 
     @Override
     public int UpdateTacGiaCT(TacGia tacGia) {
-        PreparedStatement ps = DBConnection.getStmt(update_tacgiaCT, tacGia.getHoTen(),tacGia.getId());
+        PreparedStatement ps = DBConnection.getStmt(update_tacgiaCT, tacGia.getHoTen(), tacGia.getId());
         try {
             return ps.executeUpdate();
         } catch (SQLException e) {
             return 0;
+        }
+    }
+
+    @Override
+    public void Xoa(String ten) {
+        String sql = "Delete from TacGia where TenTacGia = ?";
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, ten);
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+        } catch (Exception e) {
+        }
+    }
+
+    @Override
+    public void Sua(TacGia tg) {
+        String sql = "update TacGia  TenTacGia = ?,set DiaChi = ? where MaTacGia = ?";
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            
+            ps.setString(1, tg.getHoTen());
+            ps.setString(2, tg.getDiaChi());
+            ps.setString(3, tg.getMa());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Sửa thành công");
+        } catch (Exception e) {
         }
     }
 }
