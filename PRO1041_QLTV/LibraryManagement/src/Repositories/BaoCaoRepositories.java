@@ -7,6 +7,7 @@ package Repositories;
 import DomainModels.ViPham;
 import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
+import ViewModels.DocGiaViPhamViewModel;
 import java.util.List;
 
 /**
@@ -21,5 +22,5 @@ public interface BaoCaoRepositories {
     void Sua(ViPham vp,String ma);
     void Xoa( String ma);
     List<BaoCaoDSViewModels> getByMaDG(String maDG);
-    
+    List<DocGiaViPhamViewModel> getViewViPham();
 }

@@ -26,7 +26,7 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
     String sql_byManID = "Select * from PhieuMuonCT where maPhieuMuon =? and IdCuonSach=?";
     String sql_byMa = "Select * from PhieuMuonCT where maPhieuMuon =?";
     String insert = "Insert into PhieuMuonCT(IDCuonSach, maPhieuMuon) values(?,?)";
-    String Delete = "Delete from phieuMuonCT where idPhieuMuon = ?";
+    String Delete = "Delete from phieuMuonCT where maPhieuMuon = ?";
     
     @Override
     public PhieuMuonCT insert(PhieuMuonCT phieuMuonCT) {

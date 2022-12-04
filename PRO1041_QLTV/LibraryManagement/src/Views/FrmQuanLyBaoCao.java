@@ -4,15 +4,16 @@
  */
 package Views;
 
+import DomainModels.LoiVP;
 import DomainModels.ViPham;
 import Services.BaoCaoServices;
 import Services.Impl.BaoCaoServicesImpl;
+import Services.Impl.ViPhamService;
 import Utilities.SetSize;
 import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
 import java.awt.Color;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -25,7 +26,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     final SetSize setsize = new SetSize();
     private BaoCaoServices baoCaoServices = new BaoCaoServicesImpl();
-    private List<ViPham> _lst = new ArrayList<>();
+    private  ViPhamService ViPhamService = new ViPhamService();
 
     /**
      * Creates new form FrmQuanLyBaoCao
@@ -35,6 +36,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         this.setTable();
         this.seticon();
         loadtable();
+        this.loadListLoi();
     }
 
     @SuppressWarnings("unchecked")
@@ -46,14 +48,14 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jScrollPane1 = new javax.swing.JScrollPane();
         _lstLoi = new javax.swing.JPanel();
         txtTenLoi = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        btnThemLoi = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblBaoCao = new javax.swing.JTable();
         txtTimKiem = new javax.swing.JTextField();
         jLabel12 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnXoaLoi = new javax.swing.JButton();
+        btnSuaLoi = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnThemBC = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -96,15 +98,15 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jPanel1.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 74, 300, 200));
         jPanel1.add(txtTenLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, 270, -1));
 
-        jButton1.setBackground(new java.awt.Color(125, 200, 150));
-        jButton1.setText("Lỗi mới");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnThemLoi.setBackground(new java.awt.Color(125, 200, 150));
+        btnThemLoi.setText("Lỗi mới");
+        btnThemLoi.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnThemLoi.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnThemLoiActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 78, -1));
+        jPanel1.add(btnThemLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 78, -1));
 
         jScrollPane3.setBackground(new java.awt.Color(125, 180, 125));
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách báo cáo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -159,13 +161,23 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         });
         jPanel1.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 290, -1, -1));
 
-        jButton4.setBackground(new java.awt.Color(125, 200, 150));
-        jButton4.setText("Xóa lỗi");
-        jPanel1.add(jButton4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
+        btnXoaLoi.setBackground(new java.awt.Color(125, 200, 150));
+        btnXoaLoi.setText("Xóa lỗi");
+        btnXoaLoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaLoiActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnXoaLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
 
-        jButton5.setBackground(new java.awt.Color(125, 200, 150));
-        jButton5.setText("Sửa  lỗi");
-        jPanel1.add(jButton5, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 80, -1));
+        btnSuaLoi.setBackground(new java.awt.Color(125, 200, 150));
+        btnSuaLoi.setText("Sửa  lỗi");
+        btnSuaLoi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaLoiActionPerformed(evt);
+            }
+        });
+        jPanel1.add(btnSuaLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 80, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Báo cáo lỗi");
@@ -352,15 +364,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnThemLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLoiActionPerformed
         // TODO add your handling code here:
-        String tenLoi = txtTenLoi.getText();
-        FrmLoiKhung loi = new FrmLoiKhung();
-        loi.setDisplay(tenLoi);
-        _lstLoi.add(loi);
-        _lstLoi.revalidate();
-        _lstLoi.repaint();
-    }//GEN-LAST:event_jButton1ActionPerformed
+        ViPhamService.Them(new LoiVP(null, txtTenLoi.getText()));
+        this.loadListLoi();
+    }//GEN-LAST:event_btnThemLoiActionPerformed
     public ViPham GetText() {
         ViPham vp = new ViPham();
         vp.setMaPM(txtMaPM.getText());
@@ -372,6 +380,17 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     }
 
+    private void loadListLoi(){
+        _lstLoi.removeAll();
+        List<LoiVP> _lst = ViPhamService.getAll();
+        for (LoiVP loiVP : _lst) {
+            FrmLoiKhung loi = new FrmLoiKhung();
+            loi.chkLoi.setText(loiVP.getTen());
+            _lstLoi.add(loi);
+        }
+        _lstLoi.revalidate();
+        _lstLoi.repaint();
+    }
     //Load dữ liệu lên khung phiếu mượn
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemActionPerformed
         setPMView();
@@ -439,6 +458,14 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 //        clearForm();
     }//GEN-LAST:event_btnSearchMouseClicked
 
+    private void btnXoaLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLoiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnXoaLoiActionPerformed
+
+    private void btnSuaLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaLoiActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnSuaLoiActionPerformed
+
     // hàm load cbx 
     private void fillcbc() {
         cbxSach.removeAllItems();
@@ -487,14 +514,14 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel _lstLoi;
     private javax.swing.JLabel btnSearch;
+    private javax.swing.JButton btnSuaLoi;
     private javax.swing.JButton btnSuabc;
     private javax.swing.JButton btnThemBC;
+    private javax.swing.JButton btnThemLoi;
     private javax.swing.JButton btnXem;
+    private javax.swing.JButton btnXoaLoi;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxSach;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel12;

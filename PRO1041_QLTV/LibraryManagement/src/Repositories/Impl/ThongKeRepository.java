@@ -22,7 +22,7 @@ public class ThongKeRepository implements IThongKeRepository{
                                   select masach, tensach, count(masach) as luotmuon from sach
                                 			join SachCT on sach.IDSach = SachCT.IDSach
                                 			join CuonSach on CuonSach.IDSachCT = SachCT.IDSachCT
-                                			join PhieuMuonCT on CuonSach.idCuonSachct = PhieuMuonCT.idCuonSachct
+                                			join PhieuMuonCT on CuonSach.idCuonSach = PhieuMuonCT.idCuonSach
                                             group by MASACH, tensach 
                                             order by luotmuon desc
                                 """;

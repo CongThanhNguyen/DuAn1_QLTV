@@ -29,8 +29,8 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         initComponents();
         this.setTable();
         this.seticon();
-        URL urlBook = getClass().getResource("/Images/book-demo.jpg");
-        imgBook.setIcon(setsize.setSizeAnh(urlBook, 170, 243));
+//        URL urlBook = getClass().getResource("/Images/book-demo.jpg");
+//        imgBook.setIcon(setsize.setSizeAnh(urlBook, 170, 243));
     }
 
     private void setTable(){

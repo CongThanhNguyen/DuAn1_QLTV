@@ -18,4 +18,5 @@ public interface IPhieuMuonService {
     public PhieuMuon getByMa(String ma);
     public PhieuMuon getByID(String ID);
     public List<PhieuMuon> getBySearch(String tuKhoa);
+    public PhieuMuon TraSach(String ma, int loai);
 }

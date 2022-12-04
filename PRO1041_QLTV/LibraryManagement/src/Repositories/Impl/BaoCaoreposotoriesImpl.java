@@ -9,6 +9,7 @@ import Repositories.BaoCaoRepositories;
 import Utilities.DBContext;
 import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
+import ViewModels.DocGiaViPhamViewModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -28,13 +29,14 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT dg.TenDOcGia,s.TenSach,pm.NgayMuon FROM DocGia dg \n"
-                    + "JOIN PhieuMuon pm ON pm.IDDocGia = dg.IDDocGia\n"
-                    + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
-                    + "JOIN CuonSach cs ON cs.MaCuonSach = ct.MaCuonSach\n"
-                    + "JOIN SachCT sct ON sct.IDSachCT = cs.IDSachCT\n"
-                    + "JOIN Sach s ON s.IDSach = sct.IDSach\n"
-                    + "where pm.MaPhieuMuon = ?";
+            String sql = """
+                         SELECT dg.TenDOcGia,s.TenSach,pm.NgayMuon FROM DocGia dg 
+                               JOIN PhieuMuon pm ON pm.IDDocGia = dg.IDDocGia
+                               JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon
+                               JOIN CuonSach cs ON cs.idCuonSach = ct.idCuonSach
+                               JOIN SachCT sct ON sct.IDSachCT = cs.IDSachCT
+                               JOIN Sach s ON s.IDSach = sct.IDSach
+                         where pm.MaPhieuMuon = ?""";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, ma);
             ResultSet rs = ps.executeQuery();
@@ -187,4 +189,10 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
         }
         return dsbaoCaoPM;
     }
+
+    @Override
+    public List<DocGiaViPhamViewModel> getViewViPham() {
+        return null;
+    }
+    
 }

@@ -10,14 +10,17 @@ import DomainModels.PhieuMuon;
 import DomainModels.PhieuMuonCT;
 import DomainModels.Sach;
 import DomainModels.SachCT;
-import Repositories.Impl.PhieuMuonRepository;
 import Services.Impl.CuonSachService;
 import Services.Impl.DocGiaService;
 import Services.Impl.PhieuMuonCTService;
 import Services.Impl.PhieuMuonService;
+import Services.Impl.PhieuMuonViewModelService;
 import Services.Impl.SachCTService;
 import Services.Impl.SachService;
+import Utilities.EmailSender;
 import Utilities.SetSize;
+import ViewModels.PhieuMuonTableViewModel;
+import ViewModels.PhieuMuonViewModel;
 import java.awt.Color;
 import java.net.URL;
 import java.text.ParseException;
@@ -26,10 +29,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.mail.MessagingException;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
 /**
@@ -45,9 +52,12 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     final public static SachService SERVICE_SACH = new SachService();
     final public static CuonSachService SERVICE_CS = new CuonSachService();
     final DocGiaService SERVICE_DOCGIA = new DocGiaService();
+    final PhieuMuonViewModelService SERVICE_MODEL = new PhieuMuonViewModelService();
     public static CuonSach[] _lstCuonSach = {null, null, null};
     public static SachCT[] _lstSachCT = {null, null, null};
     private DocGia dg = new DocGia();
+    List<PhieuMuonTableViewModel> _lst = SERVICE_MODEL.getAll();
+    final EmailSender sender = new EmailSender();
     
     public static int cuonSO = 1;
     private int i = 20000;
@@ -61,6 +71,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         this.getSoLuongSachMuon(1);
         lblNgayViet.setText(getCurrentTime()[0]+"-"+getCurrentTime()[1]+"-"+getCurrentTime()[2]);
         cuonSO=1;
+        this.loadTable();
     }
 
     /**
@@ -79,8 +90,8 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         jPanel2 = new javax.swing.JPanel();
         lblPhieuMuon = new javax.swing.JLabel();
         lblNgayViet = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        lblMa = new javax.swing.JLabel();
+        abc = new javax.swing.JLabel();
+        lblMaPhieu = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         txtDocGia = new javax.swing.JTextField();
         lblTenDocGia = new javax.swing.JLabel();
@@ -116,20 +127,21 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDSPM = new javax.swing.JTable();
         btnTimKiem = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        txtTuKhoa = new javax.swing.JTextField();
         pnScan = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        btnrefresh = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblPMSHH = new javax.swing.JTable();
         jTextField4 = new javax.swing.JTextField();
-        jButton4 = new javax.swing.JButton();
+        btnTraSach = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         tblPMTS = new javax.swing.JTable();
-        btnXemChiTiet = new javax.swing.JButton();
         btnTimKiemTraSach = new javax.swing.JLabel();
+        btnGuiMail = new javax.swing.JButton();
+        btnrefresh1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(125, 200, 150));
         setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
@@ -139,6 +151,11 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         jTabbedPane1.setBackground(new java.awt.Color(255, 255, 255));
         jTabbedPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jTabbedPane1.setPreferredSize(new java.awt.Dimension(780, 530));
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(780, 350));
@@ -153,9 +170,9 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         lblNgayViet.setText("Ngày, giờ viết phiếu");
 
-        jLabel5.setText("Mã phiếu");
+        abc.setText("Mã phiếu");
 
-        lblMa.setText("is auto");
+        lblMaPhieu.setText("is auto");
 
         jLabel8.setText("Mã độc giả:");
 
@@ -236,7 +253,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         lblMaSach2.setText("Sách 2");
 
-        lblTenSach2.setText("Tên sách 1");
+        lblTenSach2.setText("Tên sách 2");
         lblTenSach2.setPreferredSize(new java.awt.Dimension(160, 16));
 
         jLabel4.setText("Quyển số");
@@ -275,7 +292,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         lblMaSach3.setText("Sách 3");
 
-        lblTenSach3.setText("Tên sách 1");
+        lblTenSach3.setText("Tên sách 3");
         lblTenSach3.setPreferredSize(new java.awt.Dimension(160, 16));
 
         jLabel7.setText("Quyển số");
@@ -312,10 +329,16 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         pnSachMuon.add(pnSach3);
 
+        cbxSlSachMuon.setBackground(new java.awt.Color(125, 200, 150));
         cbxSlSachMuon.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "1", "2", "3" }));
         cbxSlSachMuon.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 cbxSlSachMuonItemStateChanged(evt);
+            }
+        });
+        cbxSlSachMuon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cbxSlSachMuonActionPerformed(evt);
             }
         });
 
@@ -323,7 +346,13 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         rdoThem.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoThem);
+        rdoThem.setSelected(true);
         rdoThem.setText("Thêm");
+        rdoThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdoThemActionPerformed(evt);
+            }
+        });
 
         rdoXoa.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoXoa);
@@ -380,7 +409,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                         .addComponent(btnHoanThanh))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblMa, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblMaPhieu, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel16)
                                 .addGap(22, 22, 22)
@@ -401,7 +430,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                     .addContainerGap()
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(lblNgayViet, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(abc, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(191, Short.MAX_VALUE)))
         );
         jPanel2Layout.setVerticalGroup(
@@ -410,7 +439,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 .addGap(47, 47, 47)
                 .addComponent(lblPhieuMuon)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblMa)
+                .addComponent(lblMaPhieu)
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbxSlSachMuon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -447,7 +476,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                     .addGap(23, 23, 23)
                     .addComponent(lblNgayViet)
                     .addGap(46, 46, 46)
-                    .addComponent(jLabel5)
+                    .addComponent(abc)
                     .addGap(401, 401, 401)))
         );
 
@@ -478,6 +507,11 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         });
         tblDSPM.setGridColor(new java.awt.Color(255, 255, 255));
         tblDSPM.setSelectionBackground(new java.awt.Color(125, 200, 150));
+        tblDSPM.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblDSPMMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblDSPM);
         if (tblDSPM.getColumnModel().getColumnCount() > 0) {
             tblDSPM.getColumnModel().getColumn(0).setResizable(false);
@@ -490,8 +524,13 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         btnTimKiem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTimKiem.setPreferredSize(new java.awt.Dimension(20, 20));
+        btnTimKiem.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimKiemMouseClicked(evt);
+            }
+        });
         jPanel1.add(btnTimKiem, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 150, -1, -1));
-        jPanel1.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 150, 170, 20));
+        jPanel1.add(txtTuKhoa, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 150, 170, 20));
 
         pnScan.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -510,6 +549,15 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         jPanel1.add(pnScan, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 410, 120));
 
+        btnrefresh.setText("jLabel3");
+        btnrefresh.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnrefresh.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnrefreshMouseClicked(evt);
+            }
+        });
+        jPanel1.add(btnrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 150, 24, 24));
+
         jTabbedPane1.addTab("Mượn sách", jPanel1);
 
         jPanel4.setPreferredSize(new java.awt.Dimension(778, 530));
@@ -517,26 +565,23 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setText("Trả sách");
-
         jScrollPane2.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane2.setBorder(javax.swing.BorderFactory.createTitledBorder("Phiếu mượn đến hạn"));
 
         tblPMSHH.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tblPMSHH.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
             },
             new String [] {
-                "Mã phiếu mượn", "Mã độc giả", "Tình trạng"
+                "Mã phiếu mượn", "Mã độc giả", "Tình trạng", "Ngày đến hạn"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -545,11 +590,27 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         });
         tblPMSHH.setGridColor(new java.awt.Color(255, 255, 255));
         tblPMSHH.setSelectionBackground(new java.awt.Color(125, 214, 150));
+        tblPMSHH.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblPMSHHMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tblPMSHH);
+        if (tblPMSHH.getColumnModel().getColumnCount() > 0) {
+            tblPMSHH.getColumnModel().getColumn(0).setResizable(false);
+            tblPMSHH.getColumnModel().getColumn(1).setResizable(false);
+            tblPMSHH.getColumnModel().getColumn(2).setResizable(false);
+            tblPMSHH.getColumnModel().getColumn(3).setResizable(false);
+        }
 
-        jButton4.setBackground(new java.awt.Color(125, 200, 150));
-        jButton4.setText("Đã trả");
-        jButton4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTraSach.setBackground(new java.awt.Color(125, 200, 150));
+        btnTraSach.setText("Đã trả");
+        btnTraSach.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnTraSach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTraSachActionPerformed(evt);
+            }
+        });
 
         jScrollPane3.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách phiếu mượn"));
@@ -557,17 +618,17 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         tblPMTS.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tblPMTS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Mã phiếu mượn", "Mã độc giả", "Tên độc giả", "Tình trạng"
+                "Mã phiếu mượn", "Mã độc giả", "Tên độc giả", "Tình trạng", "Ngày đến hạn"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -582,19 +643,32 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             tblPMTS.getColumnModel().getColumn(1).setResizable(false);
             tblPMTS.getColumnModel().getColumn(2).setResizable(false);
             tblPMTS.getColumnModel().getColumn(3).setResizable(false);
+            tblPMTS.getColumnModel().getColumn(4).setResizable(false);
         }
-
-        btnXemChiTiet.setBackground(new java.awt.Color(125, 200, 150));
-        btnXemChiTiet.setText("xem chi tiết");
-        btnXemChiTiet.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnXemChiTiet.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnXemChiTietActionPerformed(evt);
-            }
-        });
 
         btnTimKiemTraSach.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnTimKiemTraSach.setPreferredSize(new java.awt.Dimension(20, 20));
+        btnTimKiemTraSach.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnTimKiemTraSachMouseClicked(evt);
+            }
+        });
+
+        btnGuiMail.setBackground(new java.awt.Color(125, 200, 150));
+        btnGuiMail.setText("Gửi mail");
+        btnGuiMail.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGuiMailActionPerformed(evt);
+            }
+        });
+
+        btnrefresh1.setText("jLabel3");
+        btnrefresh1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnrefresh1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnrefresh1MouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
@@ -605,42 +679,37 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(btnGuiMail)
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnXemChiTiet)
-                        .addGap(7, 7, 7)
-                        .addComponent(jButton4))
-                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addComponent(btnTraSach))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                        .addComponent(btnrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnTimKiemTraSach, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnTimKiemTraSach, javax.swing.GroupLayout.PREFERRED_SIZE, 19, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(jPanel7Layout.createSequentialGroup()
-                .addGap(352, 352, 352)
-                .addComponent(jLabel10)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel7Layout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addComponent(jLabel10)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addContainerGap()
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnGuiMail)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel7Layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addComponent(btnTimKiemTraSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(btnTimKiemTraSach, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnrefresh1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnXemChiTiet)
-                    .addComponent(jButton4))
+                .addComponent(btnTraSach)
                 .addGap(28, 28, 28))
         );
 
@@ -676,12 +745,6 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 530, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
     }// </editor-fold>//GEN-END:initComponents
-
-    private void btnXemChiTietActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemChiTietActionPerformed
-        // TODO add your handling code here:
-        FrmPhieuMuon phieu = new FrmPhieuMuon();
-        phieu.setVisible(true);
-    }//GEN-LAST:event_btnXemChiTietActionPerformed
 
     private void btnCheckMaSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckMaSachActionPerformed
         // TODO add your handling code here:
@@ -750,25 +813,180 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 }
             }
         }else{
-            PhieuMuon pm = SERVICE.getByMa(lblMa.getText());
+            PhieuMuon pm = SERVICE.getByMa(lblMaPhieu.getText());
             List<PhieuMuonCT> _lst = SERVICE_PMCT.getByMa(pm.getMa());
             for (PhieuMuonCT phieuMuonCT : _lst) {
                 SERVICE_PMCT.delete(phieuMuonCT.getPhieuMuon().getMa());
             }
             SERVICE.delete(pm.getId());
         }
+        _lst = SERVICE_MODEL.getAll();
+        this.loadTable();
     }//GEN-LAST:event_btnHoanThanhActionPerformed
+
+    private void tblDSPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSPMMouseClicked
+        // TODO add your handling code here:
+        int row = tblDSPM.getSelectedRow();
+        String maphieu = (String) tblDSPM.getValueAt(row, 0);
+        PhieuMuonViewModel model = SERVICE_MODEL.getByMaPhieu(maphieu);
+        lblMaPhieu.setText(model.getPm().getMa());
+        int sl = model.getCuonSach().size()-1;
+        cbxSlSachMuon.setSelectedIndex(sl);
+        for (Sach sach : model.getSach()) {
+            setSoQuyen(sach, model.getCuonSach());
+        }
+        lblTenDocGia.setText(model.getDocGia().getHoTen());
+        cuonSO=sl;
+        rdoXoa.setSelected(true);
+    }//GEN-LAST:event_tblDSPMMouseClicked
+
+    private void tblPMSHHMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPMSHHMouseClicked
+        // TODO add your handling code here:
+        int row = tblPMSHH.getSelectedRow();
+        String ma = (String) tblPMSHH.getValueAt(row, 0);
+        FrmPhieuMuon phieu = new FrmPhieuMuon();
+        phieu.setDisplay(ma);
+        phieu.setVisible(true);
+    }//GEN-LAST:event_tblPMSHHMouseClicked
+
+    private void cbxSlSachMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbxSlSachMuonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cbxSlSachMuonActionPerformed
+
+    private void rdoThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdoThemActionPerformed
+        // TODO add your handling code here:
+        this.setDefault();
+    }//GEN-LAST:event_rdoThemActionPerformed
+
+    private void btnTraSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTraSachActionPerformed
+        // TODO add your handling code here:
+        int row = tblPMTS.getSelectedRow();
+        if(row==-1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn phiếu mượn ở bảng phiếu mượn trả sách!");
+            return;
+        }
+        String ma = (String) tblPMTS.getValueAt(row, 0);
+        PhieuMuon pm = SERVICE.getByMa(ma);
+        if(pm.getTinhTrang()==1){
+            JOptionPane.showMessageDialog(this, "Phiếu mượn đã được trả!");
+            return;
+        }
+        int a = JOptionPane.showConfirmDialog(this, "Trả sách?");
+        if(a==0){
+            SERVICE.TraSach(ma, 1);
+            JOptionPane.showMessageDialog(this, "Trả sách thành công!");
+        }
+        this.loadTable();
+    }//GEN-LAST:event_btnTraSachActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+        _lst = SERVICE_MODEL.getAll();
+        this.loadTable();
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
+
+    private void btnTimKiemMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemMouseClicked
+        // TODO add your handling code here:
+        String tuKhoa = txtTuKhoa.getText();
+        _lst = SERVICE_MODEL.getByKeyWord(tuKhoa);
+        this.loadTable();
+    }//GEN-LAST:event_btnTimKiemMouseClicked
+
+    private void btnrefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnrefreshMouseClicked
+        // TODO add your handling code here:
+        _lst = SERVICE_MODEL.getAll();
+        this.loadTable();
+    }//GEN-LAST:event_btnrefreshMouseClicked
+
+    private void btnrefresh1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnrefresh1MouseClicked
+        // TODO add your handling code here:
+        _lst = SERVICE_MODEL.getAll();
+        this.loadTable();
+    }//GEN-LAST:event_btnrefresh1MouseClicked
+
+    private void btnTimKiemTraSachMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnTimKiemTraSachMouseClicked
+        // TODO add your handling code here:
+        String tuKhoa = txtTuKhoa.getText();
+        _lst = SERVICE_MODEL.getByKeyWord(tuKhoa);
+        this.loadTable();
+    }//GEN-LAST:event_btnTimKiemTraSachMouseClicked
+
+    private void btnGuiMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuiMailActionPerformed
+        // TODO add your handling code here:
+        int row = tblPMSHH.getRowCount();
+        List<PhieuMuonViewModel> _lst = new ArrayList<>();
+        for (int j = 0; j < row; j++) {
+            _lst.add(SERVICE_MODEL.getByMaPhieu((String) tblPMSHH.getValueAt(j, 0)));
+        }
+        for (PhieuMuonViewModel model : _lst) {
+            String sachMuon = "";
+            for (Sach sach : model.getSach()) {
+                sachMuon += sach.getTen()+", ";
+            }
+            sachMuon = sachMuon.substring(0, sachMuon.length()-2);
+            String noiDung = "Độc giả: "+model.getDocGia().getHoTen()+"|"
+                            +"Sách đã mượn: " +sachMuon +"|"
+                            + "Ngày hẹn trả:" +model.getPm().getNgayTra()+"|"
+                            + "Vui lòng đến trả sách vào ngày hôm sau khi nhận được thông báo này!|"
+                            + "Xin cảm ơn!";
+            try {
+                EmailSender.guiMail(model.getDocGia().getEmail(), "Thông báo trả sách", noiDung);
+            } catch (MessagingException ex) {
+                ex.printStackTrace();
+            }
+        }
+    }//GEN-LAST:event_btnGuiMailActionPerformed
     
-    private void loadtable(){
+    private void loadTable(){
+        DefaultTableModel model = (DefaultTableModel) tblDSPM.getModel();
+        DefaultTableModel model1 = (DefaultTableModel) tblPMSHH.getModel();
+        DefaultTableModel model2 = (DefaultTableModel) tblPMTS.getModel();
         
+        model.setRowCount(0);
+        model1.setRowCount(0);
+        model2.setRowCount(0);
+        Calendar c = Calendar.getInstance();
+        int day = c.get(Calendar.DATE);
+        for (PhieuMuonTableViewModel phieuMuonTableViewModel : _lst) {
+            String ngayTra = phieuMuonTableViewModel.getNgayTra();
+            int index = ngayTra.lastIndexOf("-");
+            int ngayPhaiTra = Integer.parseInt(ngayTra.substring(index+1));
+            String tinhTrang = phieuMuonTableViewModel.getTinhTrang()==0?"Đang mượn":
+                    phieuMuonTableViewModel.getTinhTrang()==1?"Đã trả":"Hết hạn - Chưa trả";
+            Object[] rowDataPM = {
+                phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getMaDocGia(),
+                phieuMuonTableViewModel.getTenDocGia(), phieuMuonTableViewModel.getNgayViet()
+            };
+            if(ngayPhaiTra-day<3 && phieuMuonTableViewModel.getTinhTrang()!=1){
+                Object[] rowDataPMHH = {
+                    phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getMaDocGia(),
+                    tinhTrang, phieuMuonTableViewModel.getNgayTra()
+                };
+                model1.addRow(rowDataPMHH);
+            }
+            if(phieuMuonTableViewModel.getTinhTrang()!=1){
+                Object[] rowDataPMTS = {
+                    phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getMaDocGia(),
+                    phieuMuonTableViewModel.getTenDocGia(), tinhTrang, phieuMuonTableViewModel.getNgayTra()
+                };
+                model2.addRow(rowDataPMTS);
+            }
+            model.addRow(rowDataPM);
+        }
+        tblDSPM.setModel(model);
+        tblPMSHH.setModel(model1);
+        tblPMTS.setModel(model2);
     }
     
     private void seticon(){
         URL urlSearch = getClass().getResource("/Images/search.png");
         URL urlBarcode = getClass().getResource("/Images/barcode-read.png");
+        URL urlRefreash = getClass().getResource("/Images/refresh.png");
         btnTimKiem.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
         btnTimKiemTraSach.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
         IconBarcode.setIcon(setsize.setSizeAnh(urlBarcode, 24, 28));
+        btnrefresh.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
+        btnrefresh1.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
     }
     
     private void setTable(){
@@ -784,6 +1002,16 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         headerPMDH.setForeground(Color.white);
         headerOMTS.setForeground(Color.white);
         
+    }
+    private void setDefault(){
+        lblMaPhieu.setText("Is auto");
+        cbxSlSachMuon.setSelectedIndex(0);
+        lblTenDocGia.setText("Tên độc giả");
+        cbxSoNgayMuon.setSelectedIndex(0);
+        lblTenSach1.setText("Tên sách 1");
+        cbxCuonSach1.removeAllItems();
+        cbxCuonSach1.addItem("15");
+        cuonSO=1;
     }
     
     private void getSoLuongSachMuon(int soLuong){
@@ -895,13 +1123,17 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IconBarcode;
+    private javax.swing.JLabel abc;
     private javax.swing.JButton btnCheckMaDG;
     private javax.swing.JButton btnCheckMaSach;
+    private javax.swing.JButton btnGuiMail;
     private javax.swing.JButton btnHoanThanh;
     private javax.swing.JLabel btnTimKiem;
     private javax.swing.JLabel btnTimKiemTraSach;
-    private javax.swing.JButton btnXemChiTiet;
+    private javax.swing.JButton btnTraSach;
     private javax.swing.JButton btnchonLai;
+    private javax.swing.JLabel btnrefresh;
+    private javax.swing.JLabel btnrefresh1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
     public static javax.swing.JComboBox<String> cbxCuonSach1;
@@ -909,14 +1141,11 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     public static javax.swing.JComboBox<String> cbxCuonSach3;
     private javax.swing.JComboBox<String> cbxSlSachMuon;
     private javax.swing.JComboBox<String> cbxSoNgayMuon;
-    private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
@@ -928,9 +1157,8 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
-    private javax.swing.JLabel lblMa;
+    private javax.swing.JLabel lblMaPhieu;
     public static javax.swing.JLabel lblMaSach1;
     public static javax.swing.JLabel lblMaSach2;
     public static javax.swing.JLabel lblMaSach3;
@@ -952,5 +1180,6 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     private javax.swing.JTable tblPMTS;
     private javax.swing.JTextField txtCheckMa;
     private javax.swing.JTextField txtDocGia;
+    private javax.swing.JTextField txtTuKhoa;
     // End of variables declaration//GEN-END:variables
 }

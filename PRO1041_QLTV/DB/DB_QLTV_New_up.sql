@@ -7,6 +7,7 @@ CREATE TABLE DangNhap
 (
   TenTk VARCHAR(50) PRIMARY KEY,
   MatKhau VARCHAR(50) NOT NULL,
+  otp varchar(12) not null,
 )
 GO
 -- tác giả
@@ -211,16 +212,3 @@ create proc addCuonSach
 				insert CuonSach(MaCuonSach, IDSachCT, TrangThai) values(@i, @idSach, 100)
 			end
 	end
-exec addcuonsach 30, 'DE6EBE66-43CA-4A36-8CB0-E7C92EDB5680', 3
-
-DELETE from CuonSach
-
-select * from LoiViPham
-
-SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg
-                    JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia
-                    JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon
-                    JOIN CuonSach cs ON ct.idCuonSachct = cs.idCuonSachct
-                    JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT
-                    JOIN Sach S ON S.IDSach = Sct.IdSach
-                    JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon

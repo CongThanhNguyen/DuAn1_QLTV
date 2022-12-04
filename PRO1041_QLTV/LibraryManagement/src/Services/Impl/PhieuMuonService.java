@@ -28,7 +28,7 @@ public class PhieuMuonService implements IPhieuMuonService{
 
     @Override
     public PhieuMuon delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return REPO.delete(id);
     }
 
     @Override
@@ -49,6 +49,11 @@ public class PhieuMuonService implements IPhieuMuonService{
     @Override
     public PhieuMuon getByID(String ID) {
         return REPO.getByID(ID);
+    }
+
+    @Override
+    public PhieuMuon TraSach(String ma, int loai) {
+        return REPO.TraSach(ma, loai);
     }
     
 }
