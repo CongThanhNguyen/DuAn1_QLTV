@@ -39,6 +39,7 @@ public class TacGiaRepository implements ITacGiaRepository {
             ps.setString(2, tacGia.getHoTen());
             ps.setString(3, tacGia.getDiaChi());
             ps.execute();
+            JOptionPane.showMessageDialog(null, "Thêm thành công");
         } catch (Exception e) {
         }
     }
@@ -130,12 +131,11 @@ public class TacGiaRepository implements ITacGiaRepository {
 
     @Override
     public void Sua(TacGia tg) {
-        String sql = "update TacGia set TenTacGia = ?,set DiaChi = ? where MaTacGia = ?";
+        String sql = "update TacGia set DiaChi = ? where TenTacGia = ?";
         try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            
-            ps.setString(1, tg.getHoTen());
-            ps.setString(2, tg.getDiaChi());
-            ps.setString(3, tg.getMa());
+
+            ps.setString(1, tg.getDiaChi());
+            ps.setString(2, tg.getHoTen());
             ps.executeUpdate();
             JOptionPane.showMessageDialog(null, "Sửa thành công");
         } catch (Exception e) {

@@ -122,6 +122,11 @@ public class FrmTacGia extends javax.swing.JFrame {
         ));
         tblTacGia.setGridColor(new java.awt.Color(255, 255, 255));
         tblTacGia.setSelectionBackground(new java.awt.Color(125, 200, 150));
+        tblTacGia.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblTacGiaMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblTacGia);
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
@@ -231,10 +236,50 @@ public class FrmTacGia extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTextField3ActionPerformed
 
-    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        // TODO add your handling code here:
-        if (rootPaneCheckingEnabled) {
+    public String roleMa() {
+        List<TacGia> _lst = SERVICE.getAll();
+        if (!_lst.isEmpty()) {
+            for (TacGia tacGia : _lst) {
+                String matg = tacGia.getMa();
+                int max = Integer.parseInt(matg.substring(2));
+                if (i < max) {
+                    i = max;
+                }
+            }
+        }
+        i++;
+        String ma = "TG" + i;
+        return ma;
+    }
 
+    public void clear() {
+        txtDiaChi.setText("");
+        txtTen.setText("");
+    }
+
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        TacGia tg = new TacGia();
+        if (rdoThem.isSelected()) {
+            String ma = roleMa();
+            tg.setMa(ma);
+            tg.setHoTen(txtTen.getText());
+            tg.setDiaChi(txtDiaChi.getText());
+            SERVICE.insert(tg);
+            clear();
+            loadTable();
+        } else if (rdoSua.isSelected()) {
+            tg.setHoTen(txtTen.getText());
+            tg.setDiaChi(txtDiaChi.getText());
+            SERVICE.Sua(tg);
+            clear();
+            loadTable();
+
+        } else if (rdoXoa.isSelected()) {
+            String ten = txtTen.getText();
+            tg.setHoTen(ten);
+            SERVICE.Xoa(ten);
+            clear();
+            loadTable();
         } else {
             String hoten = "";
             LST_TACGIA_DUOCCHON = this.getTacGiaSelected();
@@ -246,6 +291,14 @@ public class FrmTacGia extends javax.swing.JFrame {
             this.dispose();
         }
     }//GEN-LAST:event_btnHoanThanhActionPerformed
+
+    private void tblTacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGiaMouseClicked
+        int i = tblTacGia.getSelectedRow();
+        String ma = tblTacGia.getValueAt(i, 0).toString();
+        TacGia tg = SERVICE.getByMa(ma);
+        txtDiaChi.setText(tg.getDiaChi());
+        txtTen.setText(tg.getHoTen());
+    }//GEN-LAST:event_tblTacGiaMouseClicked
 
     private void seticon() {
         URL urlSearch = getClass().getResource("/Images/search.png");

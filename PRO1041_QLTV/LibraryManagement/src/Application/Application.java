@@ -6,6 +6,7 @@ package Application;
 
 import Views.FrmLogin;
 import Views.FrmNhaCungCap;
+import Views.FrmTacGia;
 
 /**
  *
@@ -13,6 +14,6 @@ import Views.FrmNhaCungCap;
  */
 public class Application {
     public static void main(String[] args) {
-        new FrmLogin().setVisible(true);
+        new FrmNhaCungCap().setVisible(true);
     }
 }
