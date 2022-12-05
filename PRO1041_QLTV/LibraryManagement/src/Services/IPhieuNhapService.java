@@ -13,9 +13,10 @@ import java.util.List;
  */
 public interface IPhieuNhapService {
     public PhieuNhap insert(PhieuNhap phieuNhap);
-    public PhieuNhap delete(String ma);
+    public PhieuNhap delete(String id);
     public PhieuNhap update(PhieuNhap phieuNhap);
     public List<PhieuNhap> getAll();
     public PhieuNhap getByMa(String Ma);
     public int InsertNCCCT(String idPhieuNhap, String nhaCC); 
+    public PhieuNhap getByID(String id);
 }

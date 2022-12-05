@@ -16,4 +16,5 @@ import java.util.List;
 public interface KhoSachRepository {
     List<KhoSachViewModels> getALl();
     public SachCTViewModel getKhoSachView(String ma);
+    List<KhoSachViewModels> getBySearch(String tuKhoa); 
 }

@@ -28,6 +28,7 @@ public class PhieuMuonRepository implements IPhieuMuonRepository{
     String sql_by_id= "Select * from PhieuMuon where IDPhieuMuon = ?";
     String insert = "Insert into PhieuMuon(MaPhieuMuon, NgayMuon, NgayTra, tinhTrang, IDDocGia) values(?,?,?,?,?)";
     String delete = "Delete from phieumuon where IdPhieuMuon = ?";
+    String update = "Update phieumuon set tinhtrang = ? where maphieumuon=?";
     
     @Override
     public PhieuMuon insert(PhieuMuon phieuMuon) {
@@ -83,5 +84,13 @@ public class PhieuMuonRepository implements IPhieuMuonRepository{
     public PhieuMuon getByID(String ID) {
         return getBySql(sql_by_id, ID).get(0);
     }
+
+    @Override
+    public PhieuMuon TraSach(String ma, int loai) {
+        int i = DBConnection.ExcuteDungna(update, loai, ma);
+        return i==1?getByMa(ma):null;
+    }
+
+
     
 }

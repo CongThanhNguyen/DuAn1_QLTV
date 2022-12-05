@@ -18,4 +18,7 @@ public interface IPhieuMuonCTRepository {
     public PhieuMuonCT getByManID(String ma, String id);
     public List<PhieuMuonCT> getByMa(String ma);
     public List<PhieuMuonCT> getBySearch(String tuKhoa);
+    public List<PhieuMuonCT> getByIDCuonSach(String id);
+    public String LuotMuonSach(String idSachCT);
+
 }

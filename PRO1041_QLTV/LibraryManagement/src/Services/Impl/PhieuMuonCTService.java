@@ -50,5 +50,15 @@ public class PhieuMuonCTService  implements IPhieuMuonCTService{
     public List<PhieuMuonCT> getByMa(String ma) {
         return REPO.getByMa(ma);
     }
+
+    @Override
+    public List<PhieuMuonCT> getByIDCuonSach(String id) {
+        return REPO.getByIDCuonSach(id);
+    }
+
+    @Override
+    public String LuotMuonSach(String idSachCT) {
+        return REPO.LuotMuonSach(idSachCT);
+    }
     
 }

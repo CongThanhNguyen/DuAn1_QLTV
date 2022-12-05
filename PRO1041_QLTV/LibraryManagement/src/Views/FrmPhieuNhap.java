@@ -95,7 +95,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblToday = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
+        lblID = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         rdoDaCo = new javax.swing.JRadioButton();
         rdoChuaCo = new javax.swing.JRadioButton();
@@ -143,7 +143,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         jPanel1.setPreferredSize(new java.awt.Dimension(580, 600));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -157,7 +157,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
 
         jLabel4.setText("ID:");
 
-        jLabel5.setText("IS ID");
+        lblID.setText("IS ID");
 
         jLabel6.setText("Tình trạng:");
 
@@ -213,7 +213,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(rdoChuaCo)
                                 .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(lblID, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
@@ -229,7 +229,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(lblID))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
@@ -277,7 +277,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         jLabel13.setText("Năm xuất bản");
 
         jPanel4.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel4.setLayout(new java.awt.FlowLayout(1, 0, 0));
+        jPanel4.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -286,11 +286,11 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         boxTheLoai.setMaximumSize(new java.awt.Dimension(185, 900));
         boxTheLoai.setMinimumSize(new java.awt.Dimension(185, 30));
         boxTheLoai.setPreferredSize(new java.awt.Dimension(185, 100));
-        boxTheLoai.setLayout(new java.awt.FlowLayout(0));
+        boxTheLoai.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT));
 
         Btn.setBackground(new java.awt.Color(255, 255, 255));
         Btn.setPreferredSize(new java.awt.Dimension(250, 24));
-        Btn.setLayout(new java.awt.FlowLayout(1, 0, 0));
+        Btn.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
         btnTheLoai.setBackground(new java.awt.Color(125, 200, 150));
         btnTheLoai.setText("Khác");
@@ -659,8 +659,8 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         SERVICE.insert(pn);
         NhaCC nhaCC = FrmNhaCungCap.NHACC_DUOCCHON;
         SERVICE.InsertNCCCT(SERVICE.getByMa(pn.getMa()).getId(), nhaCC.getId());
+        FrmQuanLyKhoSach.fillTable(FrmQuanLyKhoSach.ksSV.getAll());
         this.dispose();
-
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
     private void btnTaiAnhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaiAnhActionPerformed
@@ -679,7 +679,12 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private void btnLayThongTinActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLayThongTinActionPerformed
         // TODO add your handling code here:
         String ma = txtMaSach.getText();
+        this.setDisplaySach(ma);
+    }//GEN-LAST:event_btnLayThongTinActionPerformed
+
+    public void setDisplaySach(String ma){
         PhieuNhapViewmodel view = SERVICE_VIEW.getPhieuNhapView(ma);
+        txtMaSach.setText(view.getMaSach());
         txtTenSach.setText(view.getTenSach());
         String hoten="";
         for (String string : view.getTacGia()) {
@@ -703,15 +708,26 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         txtNamXuatBan.setText(view.getNxb()+"");
         txtDonGia.setText(view.getGiaNhap()+"");
         cbxNCC.setSelectedItem(view.getNhaCC());
-    }//GEN-LAST:event_btnLayThongTinActionPerformed
-
+        lblSeri.setText(view.getSeri());
+    }
     private void IconBarcodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IconBarcodeMouseClicked
         // TODO add your handling code here:
         FrmScanBC.where=0;
         FrmScanBC scan = new FrmScanBC();
         scan.setVisible(true);
     }//GEN-LAST:event_IconBarcodeMouseClicked
-
+    public void setDisplay(String id){
+        PhieuNhap pn = SERVICE.getByID(id);
+        SachCT sachCT = SERVICE_SACHCT.getByID(pn.getIdSachCT());
+        lblToday.setText(pn.getNgay()+"");
+        lblID.setText(pn.getId());
+        if(pn.getTinhtrang()){
+            rdoDaCo.setSelected(true);
+        }else{
+            rdoChuaCo.setSelected(true);
+        }
+        this.setDisplaySach(sachCT.getSach().getMa());
+    }
     public void checkSach(boolean ft){
         btnLayThongTin.setEnabled(!ft);
         txtMaSach.setText("");
@@ -729,6 +745,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         PnThongTinSach.remove(btnNhaCungCap);
         PnThongTinSach.remove(btnHoanThanh);
         PnThongTinSach.remove(btnTaiAnh);
+        PnThongTinSach.remove(IconBarcode);
         txtMaSach.setEditable(false);
         txtNamXuatBan.setEditable(false);
         txtSoLuongNhap.setEditable(false);
@@ -887,7 +904,6 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
@@ -897,6 +913,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     public static javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblID;
     public static javax.swing.JLabel lblSeri;
     public static javax.swing.JLabel lblTacGia;
     private javax.swing.JLabel lblToday;

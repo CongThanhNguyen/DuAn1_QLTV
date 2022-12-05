@@ -4,10 +4,14 @@
  */
 package Repositories;
 
+import DomainModels.TaiKhoan;
+
 /**
  *
- * @author Apc
+ * @author Admin
  */
-public interface BaoCaoVPRepository {
-    
+public interface IDangNhapRepository {
+    public TaiKhoan getTaiKhoan();
+    public TaiKhoan getTaiKhoanByOTP(String otp);
+    public Integer login(String taiKhoan, String matKhau);
 }

@@ -49,10 +49,6 @@ public class SachCTService implements ISachCTService{
     public SachCT getByID(String ID) {
         return REPO.getByID(ID);
     }
-    
-    public List<SachCT> Seach(String tukhoa) {
-        return REPO.getBySearch(tukhoa);
-    }
 
     @Override
     public SachCT getByBarcode(String barcode) {

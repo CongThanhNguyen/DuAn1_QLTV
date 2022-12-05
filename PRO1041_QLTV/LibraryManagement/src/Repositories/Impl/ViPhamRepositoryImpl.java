@@ -6,13 +6,18 @@ package Repositories.Impl;
 
 import DomainModels.LoiVP;
 import Repositories.ViPhamRepository;
+import Utilities.DBConnection;
 import Utilities.DBContext;
+import com.google.zxing.Result;
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -77,5 +82,36 @@ public class ViPhamRepositoryImpl implements ViPhamRepository{
             e.printStackTrace(System.out);
         }
     }
-    
+
+    @Override
+    public LoiVP getByTen(String ten) {
+        String sql = "SELECT idloivipham, TenLoi FROM LoiViPham where tenLoi = ?";
+        try {
+            ResultSet rs = DBConnection.getDataFromQuery(sql, ten);
+            LoiVP loi= new LoiVP();
+            while(rs.next()){
+                loi =  new LoiVP(rs.getString(1), rs.getString(2));
+            }
+            return loi;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public LoiVP getByid(String id) {
+        String sql = "SELECT idloivipham, TenLoi FROM LoiViPham where idloivipham = ?";
+        try {
+            ResultSet rs = DBConnection.getDataFromQuery(sql, id);
+            LoiVP loi= new LoiVP();
+            while(rs.next()){
+                loi =  new LoiVP(rs.getString(1), rs.getString(2));
+            }
+            return loi;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
 }

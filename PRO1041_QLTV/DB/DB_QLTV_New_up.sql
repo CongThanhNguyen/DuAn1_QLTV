@@ -7,6 +7,7 @@ CREATE TABLE DangNhap
 (
   TenTk VARCHAR(50) PRIMARY KEY,
   MatKhau VARCHAR(50) NOT NULL,
+  otp varchar(12) not null,
 )
 GO
 -- tác giả
@@ -83,11 +84,7 @@ CREATE TABLE SachCT(
   NamXuatBan int DEFAULT NULL,
   img varchar(100) ,
   GiaInTrenSach DECIMAL(20,10) NULL ,
-<<<<<<< HEAD
- 
-=======
   Seri varchar(50),
->>>>>>> 5d234dd3ca619dd5b3fa161e4b163dc62c9a9641
   IdSach UNIQUEIDENTIFIER,
   CONSTRAINT FK4_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach),
 )
@@ -166,9 +163,9 @@ CREATE TABLE PhieuMuon(
 
 -- Phiếu mượn chi tiết
 CREATE TABLE PhieuMuonCT(
+  idPhieuMuonCT UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   idCuonSach UNIQUEIDENTIFIER,
   MaPhieuMuon VARCHAR(10),
-  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (idCuonSach,MaPhieuMuon),
   CONSTRAINT FK1_PhieuMuon FOREIGN KEY(MaPhieuMuon) REFERENCES PhieuMuon(MaPhieuMuon),
   CONSTRAINT FK_CuonSach FOREIGN KEY(idCuonSach) REFERENCES CuonSach(idCuonSach)
 )
@@ -215,16 +212,3 @@ create proc addCuonSach
 				insert CuonSach(MaCuonSach, IDSachCT, TrangThai) values(@i, @idSach, 100)
 			end
 	end
-exec addcuonsach 30, 'DE6EBE66-43CA-4A36-8CB0-E7C92EDB5680', 3
-
-DELETE from CuonSach
-
-select * from LoiViPham
-
-SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg
-                    JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia
-                    JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon
-                    JOIN CuonSach cs ON ct.idCuonSachct = cs.idCuonSachct
-                    JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT
-                    JOIN Sach S ON S.IDSach = Sct.IdSach
-                    JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon

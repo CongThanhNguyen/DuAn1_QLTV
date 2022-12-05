@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -25,8 +27,11 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
     String sql_all = "Select * from PhieuMuonCT";
     String sql_byManID = "Select * from PhieuMuonCT where maPhieuMuon =? and IdCuonSach=?";
     String sql_byMa = "Select * from PhieuMuonCT where maPhieuMuon =?";
+    String countLuotMuon = "select count(phieumuonct.idCuonSach) from PhieuMuonCT join"
+            + " CuonSach on PhieuMuonCT.idCuonSach = CuonSach.idCuonSach where CuonSach.IDSachCT=?";
     String insert = "Insert into PhieuMuonCT(IDCuonSach, maPhieuMuon) values(?,?)";
-    String Delete = "Delete from phieuMuonCT where idPhieuMuon = ?";
+    String Delete = "Delete from phieuMuonCT where maPhieuMuon = ?";
+    String sql_by_idSachCT= "Select * from PhieuMuonCT where IdCuonSach = ?";
     
     @Override
     public PhieuMuonCT insert(PhieuMuonCT phieuMuonCT) {
@@ -61,11 +66,12 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
             List<PhieuMuonCT> _lst = new ArrayList<>();
             ResultSet rs = DBConnection.getDataFromQuery(sql, args);
             while(rs.next()){
-                String id = rs.getString(1);
-                String ma = rs.getString(2);
+                String idPhieu = rs.getString(1);
+                String id = rs.getString(2);
+                String ma = rs.getString(3);
                 CuonSach cuonSach = REPO_CS.getByID(id).get(0);
                 PhieuMuon phieuMuon = REPO_PM.getByMa(ma);
-                PhieuMuonCT pm = new PhieuMuonCT(cuonSach, phieuMuon);
+                PhieuMuonCT pm = new PhieuMuonCT(idPhieu, cuonSach, phieuMuon);
                 _lst.add(pm);
             }
             return _lst;
@@ -78,6 +84,24 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
     @Override
     public List<PhieuMuonCT> getByMa(String ma) {
         return getBySql(sql_byMa, ma);
+    }
+    @Override
+    public List<PhieuMuonCT> getByIDCuonSach(String id) {
+        return getBySql(sql_by_idSachCT, id);
+    }
+
+    @Override
+    public String LuotMuonSach(String idSachCT) {
+        try {
+            ResultSet rs = DBConnection.getDataFromQuery(countLuotMuon, idSachCT);
+            while(rs.next()){
+                return rs.getString(1);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return null;
     }
     
 }

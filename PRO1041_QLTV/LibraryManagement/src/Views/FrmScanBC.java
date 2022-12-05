@@ -69,14 +69,12 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Barcode");
 
-        btnLaySeri.setText("Đóng");
+        btnLaySeri.setText("Lấy seri");
         btnLaySeri.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnLaySeriActionPerformed(evt);
             }
         });
-
-        lblBarcode.setText("jTextField1");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -175,7 +173,7 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSlider jSlider1;
-    public static javax.swing.JTextField lblBarcode;
+    private javax.swing.JTextField lblBarcode;
     private javax.swing.JPanel pnScan;
     // End of variables declaration//GEN-END:variables
 }

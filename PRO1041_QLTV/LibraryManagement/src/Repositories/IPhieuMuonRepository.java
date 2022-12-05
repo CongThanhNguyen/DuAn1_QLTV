@@ -14,6 +14,7 @@ import java.util.List;
 public interface IPhieuMuonRepository {
     public PhieuMuon insert(PhieuMuon phieuMuon);
     public PhieuMuon delete(String id);
+    public PhieuMuon TraSach(String ma, int loai);
     public List<PhieuMuon> getAll();
     public PhieuMuon getByMa(String ma);
     public PhieuMuon getByID(String ID);

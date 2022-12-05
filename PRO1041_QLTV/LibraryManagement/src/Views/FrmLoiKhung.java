@@ -20,6 +20,15 @@ public class FrmLoiKhung extends javax.swing.JPanel {
     public void setDisplay(String tenLoi){
         chkLoi.setText(tenLoi);
     }
+    public boolean check(){
+        return chkLoi.isSelected();
+    }
+    public String getTen(){
+        return chkLoi.getText();
+    }
+    public void setTen(String ten){
+         chkLoi.setText(ten);
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -44,6 +53,6 @@ public class FrmLoiKhung extends javax.swing.JPanel {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public static javax.swing.JCheckBox chkLoi;
+    public javax.swing.JCheckBox chkLoi;
     // End of variables declaration//GEN-END:variables
 }

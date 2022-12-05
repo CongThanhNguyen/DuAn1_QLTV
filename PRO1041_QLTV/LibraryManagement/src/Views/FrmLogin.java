@@ -4,12 +4,15 @@
  */
 package Views;
 
+import Services.Impl.DangNhapService;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Admin
  */
 public class FrmLogin extends javax.swing.JFrame {
-
+    DangNhapService SERVICE = new DangNhapService();
     /**
      * Creates new form FrmLogin
      */
@@ -44,7 +47,6 @@ public class FrmLogin extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         btnLogin = new javax.swing.JButton();
         jPanel9 = new javax.swing.JPanel();
-        lblDangKy = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
 
@@ -127,7 +129,6 @@ public class FrmLogin extends javax.swing.JFrame {
         jPanel8.setLayout(new java.awt.BorderLayout());
 
         chkNhoTaiKhoan.setBackground(new java.awt.Color(125, 180, 125));
-        chkNhoTaiKhoan.setSelected(true);
         chkNhoTaiKhoan.setText("Nhớ tài khoản");
         chkNhoTaiKhoan.setToolTipText("");
         chkNhoTaiKhoan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -176,17 +177,6 @@ public class FrmLogin extends javax.swing.JFrame {
 
         jPanel9.setBackground(new java.awt.Color(125, 180, 125));
         jPanel9.setPreferredSize(new java.awt.Dimension(400, 50));
-
-        lblDangKy.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        lblDangKy.setText("Bạn chưa có tài khoản? Đăng ký.");
-        lblDangKy.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        lblDangKy.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                lblDangKyMouseClicked(evt);
-            }
-        });
-        jPanel9.add(lblDangKy);
-
         jPanel1.add(jPanel9);
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.LINE_START);
@@ -208,17 +198,26 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void lblQuenMatKhauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblQuenMatKhauMouseClicked
         // TODO add your handling code here:
+        FrmQuenMatKhau quen = new FrmQuenMatKhau();
+        quen.setVisible(true);
     }//GEN-LAST:event_lblQuenMatKhauMouseClicked
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        new FrmChinh().setVisible(true);
+        String taiKhoan = txtTaiKhoan.getText();
+        char[] args= txtMatKhau.getPassword();
+        String matKhau = "";
+        for (char arg : args) {
+            matKhau+=arg;
+        }
+        int check = SERVICE.login(taiKhoan, matKhau);
+        if(check==1){
+            this.dispose();
+            new FrmChinh().setVisible(true);
+            return;
+        }
+        JOptionPane.showMessageDialog(this, "Sai tên tài khoản hoặc mật khẩu!");
     }//GEN-LAST:event_btnLoginActionPerformed
-
-    private void lblDangKyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblDangKyMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lblDangKyMouseClicked
 
     private void btnLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMousePressed
         // TODO add your handling code here:
@@ -241,7 +240,6 @@ public class FrmLogin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
-    private javax.swing.JLabel lblDangKy;
     private javax.swing.JLabel lblQuenMatKhau;
     private javax.swing.JPasswordField txtMatKhau;
     private javax.swing.JTextField txtTaiKhoan;

@@ -107,17 +107,6 @@ public class SachCTRepository implements ISachCTRepository {
         return this.getBySQL(sql_by_ID, ID).get(0);
     }
 
-    public List<SachCT> getBySearch(String tuKhoa) {
-
-        tuKhoa = "%" + tuKhoa + "%";
-        //Lấy danh sách bằng mã
-        List<SachCT> _lst = getBySQL(sql_by_ma, tuKhoa);
-        //Lấy danh sách bằng tên
-        if (_lst.isEmpty()) {
-            _lst = getBySQL(sql_by_ten, tuKhoa);
-        }
-        return _lst;
-    }
 
     @Override
     public SachCT getByBarcode(String barcode) {

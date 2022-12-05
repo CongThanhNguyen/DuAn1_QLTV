@@ -11,7 +11,6 @@ import java.awt.Color;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -20,11 +19,9 @@ import javax.swing.table.JTableHeader;
  * @author Admin
  */
 public class FrmTacGia extends javax.swing.JFrame {
-
     final SetSize setsize = new SetSize();
     final TacGiaService SERVICE = new TacGiaService();
     static List<TacGia> LST_TACGIA_DUOCCHON = new ArrayList<>();
-
     /**
      * Creates new form FrmTacGgia
      */
@@ -51,16 +48,16 @@ public class FrmTacGia extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        txtTen = new javax.swing.JTextField();
-        txtDiaChi = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
+        jTextField2 = new javax.swing.JTextField();
         btnHoanThanh = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
-        rdoThem = new javax.swing.JRadioButton();
-        rdoSua = new javax.swing.JRadioButton();
-        rdoXoa = new javax.swing.JRadioButton();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTacGia = new javax.swing.JTable();
-        txtTimKiem = new javax.swing.JTextField();
+        jTextField3 = new javax.swing.JTextField();
         btnSearch = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -91,20 +88,20 @@ public class FrmTacGia extends javax.swing.JFrame {
             }
         });
 
-        rdoThem.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(rdoThem);
-        rdoThem.setText("Thêm");
-        rdoThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jRadioButton1.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setText("Thêm");
+        jRadioButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        rdoSua.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(rdoSua);
-        rdoSua.setText("Sửa");
-        rdoSua.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jRadioButton2.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Sửa");
+        jRadioButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        rdoXoa.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(rdoXoa);
-        rdoXoa.setText("Xóa");
-        rdoXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jRadioButton3.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(jRadioButton3);
+        jRadioButton3.setText("Xóa");
+        jRadioButton3.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách tác giả"));
@@ -122,16 +119,11 @@ public class FrmTacGia extends javax.swing.JFrame {
         ));
         tblTacGia.setGridColor(new java.awt.Color(255, 255, 255));
         tblTacGia.setSelectionBackground(new java.awt.Color(125, 200, 150));
-        tblTacGia.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblTacGiaMouseClicked(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblTacGia);
 
-        txtTimKiem.addActionListener(new java.awt.event.ActionListener() {
+        jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtTimKiemActionPerformed(evt);
+                jTextField3ActionPerformed(evt);
             }
         });
 
@@ -160,24 +152,23 @@ public class FrmTacGia extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(rdoThem)
+                                        .addComponent(jRadioButton1)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rdoSua)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rdoXoa)
-                                        .addGap(4, 4, 4))
+                                        .addComponent(jRadioButton2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jRadioButton3))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                             .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtDiaChi, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                            .addComponent(txtTen))))
+                                            .addComponent(jTextField2, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+                                            .addComponent(jTextField1))))
                                 .addGap(16, 16, 16))))))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
-                .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(97, Short.MAX_VALUE)
+                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
@@ -192,20 +183,20 @@ public class FrmTacGia extends javax.swing.JFrame {
                     .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoThem)
-                    .addComponent(rdoSua)
-                    .addComponent(rdoXoa))
+                    .addComponent(jRadioButton1)
+                    .addComponent(jRadioButton2)
+                    .addComponent(jRadioButton3))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -233,57 +224,35 @@ public class FrmTacGia extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseMouseClicked
 
-    private void txtTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTimKiemActionPerformed
+    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtTimKiemActionPerformed
+    }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
         // TODO add your handling code here:
         String hoten = "";
         LST_TACGIA_DUOCCHON = this.getTacGiaSelected();
         for (TacGia tacGia : LST_TACGIA_DUOCCHON) {
-            hoten += tacGia.getHoTen() + "-";
+            hoten += tacGia.getHoTen()+"-";
         }
-        hoten = hoten.substring(0, hoten.length() - 1);
+        hoten = hoten.substring(0, hoten.length()-1);
         FrmPhieuNhap.lblTacGia.setText(hoten);
         this.dispose();
-//        TacGia tg = new TacGia();
-//        if (rdoThem.isSelected()) {
-//            tg.setHoTen(txtTen.getText());
-//            tg.setDiaChi(txtDiaChi.getText());
-//            SERVICE.insert(tg);
-//            JOptionPane.showMessageDialog(this, "Thêm thành công");
-//            loadTable();
-//        } else if (rdoXoa.isSelected()) {
-//            int i = tblTacGia.getSelectedRow();
-//            String ten = tblTacGia.getValueAt(i, 0).toString();
-//            SERVICE.Xoa(ten);
-//            loadTable();
-//        } else {
-//            tg.setHoTen(txtTen.getText());
-//            tg.setDiaChi(txtDiaChi.getText());
-//            SERVICE.Sua(tg);
-//            loadTable();
-//        }
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
-    private void tblTacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGiaMouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tblTacGiaMouseClicked
-
-    private void seticon() {
+    private void seticon(){
         URL urlSearch = getClass().getResource("/Images/search.png");
         URL urldong = getClass().getResource("/Images/cross-small.png");
         btnSearch.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
     }
-
-    private void setTable() {
+    
+    private void setTable(){
         JTableHeader header = tblTacGia.getTableHeader();
         header.setBackground(new Color(125, 200, 150));
     }
-
-    private void loadTable() {
+    
+    private void loadTable(){
         List<TacGia> _lst = SERVICE.getAll();
         DefaultTableModel model = (DefaultTableModel) tblTacGia.getModel();
         model.setRowCount(0);
@@ -295,11 +264,11 @@ public class FrmTacGia extends javax.swing.JFrame {
         }
         tblTacGia.setModel(model);
     }
-
-    public List<TacGia> getTacGiaSelected() {
+    
+    public List<TacGia> getTacGiaSelected(){
         List<TacGia> _lst = new ArrayList<>();
         int start = tblTacGia.getSelectedRow();
-        int end = tblTacGia.getSelectedRowCount() + start;
+        int end = tblTacGia.getSelectedRowCount()+start;
         for (int i = start; i < end; i++) {
             String ma = (String) tblTacGia.getValueAt(i, 0);
             TacGia tg = SERVICE.getByMa(ma);
@@ -317,13 +286,13 @@ public class FrmTacGia extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JRadioButton rdoSua;
-    private javax.swing.JRadioButton rdoThem;
-    private javax.swing.JRadioButton rdoXoa;
+    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
     private javax.swing.JTable tblTacGia;
-    private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JTextField txtTen;
-    private javax.swing.JTextField txtTimKiem;
     // End of variables declaration//GEN-END:variables
 }

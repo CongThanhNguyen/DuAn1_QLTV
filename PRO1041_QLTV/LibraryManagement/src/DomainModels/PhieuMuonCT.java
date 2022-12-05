@@ -9,13 +9,15 @@ package DomainModels;
  * @author Apc
  */
 public class PhieuMuonCT {
+    private String id;
     private CuonSach cuonSach;
     private PhieuMuon phieuMuon;
 
     public PhieuMuonCT() {
     }
 
-    public PhieuMuonCT(CuonSach cuonSach, PhieuMuon phieuMuon) {
+    public PhieuMuonCT(String id, CuonSach cuonSach, PhieuMuon phieuMuon) {
+        this.id = id;
         this.cuonSach = cuonSach;
         this.phieuMuon = phieuMuon;
     }
@@ -36,5 +38,12 @@ public class PhieuMuonCT {
         this.phieuMuon = phieuMuon;
     }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
     
 }
