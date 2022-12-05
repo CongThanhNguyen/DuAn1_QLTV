@@ -17,4 +17,5 @@ public interface INhaCCRepository {
     public Integer sua(NhaCC nhacc);
     public List<NhaCC> getAll();
     public NhaCC getByID(String id);
+    public NhaCC getByName(String ten);
 }
