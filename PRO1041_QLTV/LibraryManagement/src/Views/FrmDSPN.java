@@ -4,16 +4,28 @@
  */
 package Views;
 
+import Services.Impl.PhieuNhapService;
+import Services.Impl.PhieuNhapViewModelService;
 import Utilities.SetSize;
+import ViewModels.PhieuNhapViewmodel;
 import java.awt.Color;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author Admin
  */
 public class FrmDSPN extends javax.swing.JFrame {
+
     final SetSize setsize = new SetSize();
+    DefaultTableModel tblModel = new DefaultTableModel();
+    final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
+    final PhieuNhapService SERVICE = new PhieuNhapService();
+
     /**
      * Creates new form FrmDSPN
      */
@@ -23,8 +35,22 @@ public class FrmDSPN extends javax.swing.JFrame {
         this.seticon();
         this.setTable();
         this.setLocationRelativeTo(null);
+        fillTable();
     }
 
+    public void fillTable(){
+        tblModel.setRowCount(0);
+        tblModel = (DefaultTableModel) tblDS.getModel();
+        List<PhieuNhapViewmodel> pnv = SERVICE_VIEW.getAll();
+        for (PhieuNhapViewmodel phieuNhapViewmodel : pnv) {
+            Object[] row = new Object[]{
+              phieuNhapViewmodel.getIdPhieuNhap(),
+                phieuNhapViewmodel.getNgayNhap(),
+                phieuNhapViewmodel.getMaSach()
+            };
+            tblModel.addRow(row);
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,7 +66,7 @@ public class FrmDSPN extends javax.swing.JFrame {
         tblDS = new javax.swing.JTable();
         jComboBox1 = new javax.swing.JComboBox<>();
         jTextField1 = new javax.swing.JTextField();
-        jButton2 = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JLabel();
@@ -59,10 +85,7 @@ public class FrmDSPN extends javax.swing.JFrame {
         tblDS.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         tblDS.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
+
             },
             new String [] {
                 "ID", "Ngày nhập", "Mã sách"
@@ -94,12 +117,12 @@ public class FrmDSPN extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setBackground(new java.awt.Color(125, 200, 150));
-        jButton2.setText("Xóa");
-        jButton2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnXoa.setBackground(new java.awt.Color(125, 200, 150));
+        btnXoa.setText("Xóa");
+        btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnXoaActionPerformed(evt);
             }
         });
 
@@ -129,7 +152,7 @@ public class FrmDSPN extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(btnXoa)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -148,18 +171,15 @@ public class FrmDSPN extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(jLabel1))
+                    .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(45, 45, 45)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel3)
-                        .addComponent(jButton2))
+                        .addComponent(btnXoa))
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -188,17 +208,22 @@ public class FrmDSPN extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseMouseClicked
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
-        FrmPhieuNhap phieuNhap = new FrmPhieuNhap();
-        phieuNhap.setVisible(true);
-    }//GEN-LAST:event_jButton2ActionPerformed
+        int row = tblDS.getSelectedRow();
+        String id = (String) tblDS.getValueAt(row, 0);
+        SERVICE.delete(id);
+        this.fillTable();
+        JOptionPane.showMessageDialog(this, "Xóa thành công");
+    }//GEN-LAST:event_btnXoaActionPerformed
 
     private void tblDSMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSMouseClicked
         // TODO add your handling code here:
+        int row = tblDS.getSelectedRow();
         FrmPhieuNhap phieuNhap = new FrmPhieuNhap();
         phieuNhap.checkSach(false);
         phieuNhap.xemChiTiet();
+        phieuNhap.setDisplay((String) tblDS.getValueAt(row, 0));
         phieuNhap.setVisible(true);
     }//GEN-LAST:event_tblDSMouseClicked
 
@@ -206,21 +231,21 @@ public class FrmDSPN extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void seticon(){
+    private void seticon() {
         URL urldong = getClass().getResource("/Images/cross-small.png");
         URL urltim = getClass().getResource("/Images/search.png");
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
         btnSearch.setIcon(setsize.setSizeAnh(urltim, 20, 20));
     }
-    
-    private void setTable(){
-        tblDS.getTableHeader().setBackground(new Color(125,200,150));
+
+    private void setTable() {
+        tblDS.getTableHeader().setBackground(new Color(125, 200, 150));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
     private javax.swing.JLabel btnSearch;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel3;

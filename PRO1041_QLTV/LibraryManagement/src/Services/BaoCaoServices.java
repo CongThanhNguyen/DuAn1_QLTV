@@ -16,11 +16,15 @@ import java.util.List;
  */
 public interface BaoCaoServices {
     List<BaoCaoPMViewModels> getPhieuMuonByMa(String ma);
+    List<String> getLoiThuocViPham(String id);
+    List<ViPham> getAll();
+    List<ViPham> getBaoCaoBymaPM(String ma);
     List<BaoCaoDSViewModels> LoadTableBaoCao();
     List<BaoCaoDSViewModels> getByMaDG(String maDG);
     List<ViPham> LoadtableViPhams(String ma);
-    void Them(ViPham vp);
+    ViPham Them(ViPham vp);
     void Sua(String ma,ViPham vp);
     void Xoa(String ma);
+    void insertLoiVpCT(String idViPham, String idLoiViPham);
    
 }

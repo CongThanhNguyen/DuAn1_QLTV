@@ -4,6 +4,9 @@
  */
 package Views;
 
+import DomainModels.CuonSach;
+import DomainModels.Sach;
+import DomainModels.SachCT;
 import Utilities.ScanBarcode;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -13,9 +16,11 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import java.awt.image.BufferedImage;
+import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
+import javax.swing.JLabel;
 
 /**
  *
@@ -24,6 +29,7 @@ import java.util.concurrent.ThreadFactory;
 public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFactory{
         private Executor executor = Executors.newSingleThreadScheduledExecutor((ThreadFactory) this);
         final ScanBarcode scan = new ScanBarcode();
+        public static int where = -1;
     /**
      * Creates new form FrmScanBC
      */
@@ -48,8 +54,8 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        lblBarcode = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnLaySeri = new javax.swing.JButton();
+        lblBarcode = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -63,12 +69,10 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Barcode");
 
-        lblBarcode.setText("Is barcode");
-
-        jButton1.setText("Đóng");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnLaySeri.setText("Lấy seri");
+        btnLaySeri.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnLaySeriActionPerformed(evt);
             }
         });
 
@@ -80,12 +84,12 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jSeparator1)
-                    .addComponent(lblBarcode, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                    .addComponent(lblBarcode))
                 .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(246, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(btnLaySeri)
                 .addGap(232, 232, 232))
         );
         jPanel1Layout.setVerticalGroup(
@@ -93,13 +97,13 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(10, 10, 10)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblBarcode)
-                    .addComponent(jLabel1))
+                    .addComponent(jLabel1)
+                    .addComponent(lblBarcode, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addComponent(btnLaySeri)
+                .addContainerGap(11, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 310, 550, 90));
@@ -107,14 +111,21 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnLaySeriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaySeriActionPerformed
         // TODO add your handling code here:
         ScanBarcode.webcam.close();
-        FrmQuanLyMuonTra.lblMaSach1.setText(lblBarcode.getText());
+        if(where==0){
+            FrmPhieuNhap.lblSeri.setText(lblBarcode.getText());
+        } else{
+            SachCT sachCT = FrmQuanLyMuonTra.SERVICE_SACHCT.getByBarcode(lblBarcode.getText());
+            Sach sach = FrmQuanLyMuonTra.SERVICE_SACH.getByID(sachCT.getSach().getId());
+            List<CuonSach> cs = FrmQuanLyMuonTra.SERVICE_CS.getByIDSachCT(sachCT.getId());
+            cs.sort((CuonSach o1, CuonSach o2) -> o1.getMa()>o2.getMa()?1:-1);
+            FrmQuanLyMuonTra.setSoQuyen(sach, cs);
+        }
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnLaySeriActionPerformed
 
-    
     @Override
     public void run() {
         do {
@@ -157,12 +168,12 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    public static javax.swing.JButton btnLaySeri;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSlider jSlider1;
-    public static javax.swing.JLabel lblBarcode;
+    private javax.swing.JTextField lblBarcode;
     private javax.swing.JPanel pnScan;
     // End of variables declaration//GEN-END:variables
 }

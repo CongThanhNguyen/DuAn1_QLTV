@@ -4,6 +4,15 @@
  */
 package Views;
 
+import DomainModels.DocGia;
+import DomainModels.LoiVP;
+import DomainModels.PhieuMuon;
+import DomainModels.ViPham;
+import Services.BaoCaoServices;
+import Services.Impl.BaoCaoServicesImpl;
+import Services.Impl.DocGiaService;
+import Services.Impl.PhieuMuonService;
+import Services.Impl.ViPhamService;
 import ViewModels.DocGiaViPhamViewModel;
 import java.awt.Dimension;
 import static java.awt.image.ImageObserver.WIDTH;
@@ -15,6 +24,10 @@ import java.util.List;
  * @author Admin
  */
 public class FrmQuanLyViPham extends javax.swing.JPanel {
+    final BaoCaoServicesImpl SERVICE_BC = new BaoCaoServicesImpl();
+    final PhieuMuonService SERVICE_PM = new PhieuMuonService();
+    final DocGiaService SERVICE_DG = new DocGiaService();
+    final ViPhamService SERVICE_VP = new ViPhamService();
     /**
      * Creates new form FrmViPham
      */
@@ -57,19 +70,28 @@ public class FrmQuanLyViPham extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void loadList(){
-        List<DocGiaViPhamViewModel> _lst = new ArrayList<>();
-        for (DocGiaViPhamViewModel docGiaViPhamViewModel : _lst) {
+        List<ViPham> _lstVP = SERVICE_BC.getAll();
+        for (ViPham viPham : _lstVP) {
+            PhieuMuon pm = SERVICE_PM.getByMa(viPham.getMaPM());
+            DocGia dg = SERVICE_DG.getByMa(pm.getDocGia().getMa());
+            List<String> _lstLoiVP = new ArrayList<>();
+            for (String string : SERVICE_BC.getLoiThuocViPham(viPham.getIdVP())) {
+                _lstLoiVP.add(SERVICE_VP.getByid(string).getTen());
+            }
+            DocGiaViPhamViewModel docGiaViPhamViewModel = new DocGiaViPhamViewModel
+            (viPham.getIdVP(), dg.getHoTen(), viPham.getMoTa(), viPham.getHinhPhat(), dg.getImg(), _lstLoiVP);
             FrmDocGiaViPham docGiafrm = new FrmDocGiaViPham();
             docGiafrm.setDisplay(docGiaViPhamViewModel);
             docGiafrm.setPreferredSize(new Dimension(375, 232));
             _lstDocGiaViPham.add(docGiafrm);
+            int i = _lstDocGiaViPham.getComponentCount();
+            if(i>=4 && i%2==0){
+                _lstDocGiaViPham.setPreferredSize(new Dimension(WIDTH, _lstDocGiaViPham.getHeight()+232));
+            }
+            _lstDocGiaViPham.revalidate();
+            _lstDocGiaViPham.repaint();
+            
         }
-        int i = _lstDocGiaViPham.getComponentCount();
-        if(i>=4 && i%2==0){
-            _lstDocGiaViPham.setPreferredSize(new Dimension(WIDTH, _lstDocGiaViPham.getHeight()+232));
-        }
-        _lstDocGiaViPham.revalidate();
-        _lstDocGiaViPham.repaint();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

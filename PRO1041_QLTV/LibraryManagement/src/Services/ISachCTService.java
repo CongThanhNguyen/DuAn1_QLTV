@@ -17,4 +17,6 @@ public interface ISachCTService {
     public SachCT update(SachCT sachCT);
     public List<SachCT> getAll();
     public SachCT getByIDSach(String ID);
+    public SachCT getByID(String ID);
+    public SachCT getByBarcode(String barcode);
 }

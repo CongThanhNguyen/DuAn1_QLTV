@@ -14,7 +14,10 @@ import java.util.List;
 public interface ICuonSachService {
     public CuonSach insert(int soluong, CuonSach cuonSach, int soBatDau);
     public CuonSach delete(String id);
-    public CuonSach update(CuonSach cuonSach);
     public List<CuonSach> getAll();
     public List<CuonSach> getByIDSachCT(String id);
+    public List<CuonSach> getByID(String id);
+    public List<CuonSach> getByMa(String id);
+    public CuonSach getByMaAndID(String id, String ma);
+    public CuonSach update(int soLuong, CuonSach cuonSach, int soBatDau);
 }

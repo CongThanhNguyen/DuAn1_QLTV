@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface IPhieuNhapRepository {
     public PhieuNhap insert(PhieuNhap phieuNhap);
-    public PhieuNhap delete(String ma);
+    public PhieuNhap delete(String id);
     public PhieuNhap update(PhieuNhap phieuNhap);
     public List<PhieuNhap> getAll();
     public PhieuNhap getByMa(String Ma);

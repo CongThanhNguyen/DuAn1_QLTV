@@ -7,6 +7,7 @@ CREATE TABLE DangNhap
 (
   TenTk VARCHAR(50) PRIMARY KEY,
   MatKhau VARCHAR(50) NOT NULL,
+  otp varchar(12) not null,
 )
 GO
 -- tác giả
@@ -52,8 +53,6 @@ CREATE TABLE Sach
   IDSach UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
   MaSach VARCHAR(10) unique not null,
   TenSach NVARCHAR(50) not null,
-  Seri varchar(50),
-
 )
 GO
 
@@ -85,6 +84,7 @@ CREATE TABLE SachCT(
   NamXuatBan int DEFAULT NULL,
   img varchar(100) ,
   GiaInTrenSach DECIMAL(20,10) NULL ,
+  Seri varchar(50),
   IdSach UNIQUEIDENTIFIER,
   CONSTRAINT FK4_Sach FOREIGN KEY(IdSach) REFERENCES Sach(IDSach),
 )
@@ -102,7 +102,7 @@ GO
 
 --Cuốn sách 
 CREATE TABLE CuonSach(
-  idCuonSachct UNIQUEIDENTIFIER default newid() primary key,
+  idCuonSach UNIQUEIDENTIFIER default newid() primary key,
   MACUONSACH INT IDENTITY(1,1),
   IDSachCT UNIQUEIDENTIFIER,
   TrangThai float ,
@@ -155,6 +155,7 @@ CREATE TABLE PhieuMuon(
   MaPhieuMuon varchar(10) unique,
   NgayMuon DATE Not NULL,
   NgayTra DATE Not NULL,
+  TinhTrang int,
   IDDocGia UNIQUEIDENTIFIER not null,
   CONSTRAINT FK1_DocGia FOREIGN KEY(IDDocGia) REFERENCES DocGia(IDDocGia),
 )
@@ -162,12 +163,11 @@ CREATE TABLE PhieuMuon(
 
 -- Phiếu mượn chi tiết
 CREATE TABLE PhieuMuonCT(
-  idCuonSachct UNIQUEIDENTIFIER,
-  MaPhieuMuon VARCHAR(10) unique,
-  TinhTrang int,
-  CONSTRAINT PK_PhieuMuonCT PRIMARY KEY (idCuonSachct,MaPhieuMuon),
+  idPhieuMuonCT UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
+  idCuonSach UNIQUEIDENTIFIER,
+  MaPhieuMuon VARCHAR(10),
   CONSTRAINT FK1_PhieuMuon FOREIGN KEY(MaPhieuMuon) REFERENCES PhieuMuon(MaPhieuMuon),
-  CONSTRAINT FK_CuonSach FOREIGN KEY(idCuonSachct) REFERENCES CuonSach(idCuonSachct)
+  CONSTRAINT FK_CuonSach FOREIGN KEY(idCuonSach) REFERENCES CuonSach(idCuonSach)
 )
 GO
 
@@ -212,8 +212,3 @@ create proc addCuonSach
 				insert CuonSach(MaCuonSach, IDSachCT, TrangThai) values(@i, @idSach, 100)
 			end
 	end
-drop proc addCuonSach
-exec addcuonsach 30, 'DE6EBE66-43CA-4A36-8CB0-E7C92EDB5680', 3
-
-DELETE from CuonSach
-

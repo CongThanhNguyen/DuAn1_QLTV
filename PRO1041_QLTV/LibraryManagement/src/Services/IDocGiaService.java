@@ -18,5 +18,6 @@ public interface IDocGiaService {
     public DocGia update(DocGia docgia);
     public List<DocGia> getAll();
     public DocGia getByMa(String ma);
+    public DocGia getByID(String ID);
     public List<DocGia> getBySearch(String tuKhoa);
 }

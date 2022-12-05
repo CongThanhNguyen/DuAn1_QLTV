@@ -5,6 +5,7 @@
 package Services;
 
 import ViewModels.PhieuNhapViewmodel;
+import java.util.List;
 
 /**
  *
@@ -12,5 +13,6 @@ import ViewModels.PhieuNhapViewmodel;
  */
 public interface IPhieuNhapViewModelService {
     public PhieuNhapViewmodel getPhieuNhapView(String ma);
+    public List<PhieuNhapViewmodel> getAll();
 
 }

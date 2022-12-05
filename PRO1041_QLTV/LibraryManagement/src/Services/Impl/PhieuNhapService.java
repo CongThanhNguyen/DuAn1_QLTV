@@ -28,8 +28,8 @@ public class PhieuNhapService implements IPhieuNhapService{
     }
 
     @Override
-    public PhieuNhap delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public PhieuNhap delete(String id) {
+        return REPO.delete(id);
     }
 
     @Override
@@ -50,6 +50,11 @@ public class PhieuNhapService implements IPhieuNhapService{
     @Override
     public int InsertNCCCT(String idPhieuNhap, String nhaCC) {
         return REPO.InsertNCCCT(idPhieuNhap, nhaCC);
+    }
+
+    @Override
+    public PhieuNhap getByID(String id) {
+        return REPO.getByid(id);
     }
     
 }

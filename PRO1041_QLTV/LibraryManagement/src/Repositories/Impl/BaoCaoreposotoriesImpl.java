@@ -6,21 +6,29 @@ package Repositories.Impl;
 
 import DomainModels.ViPham;
 import Repositories.BaoCaoRepositories;
+import Utilities.DBConnection;
 import Utilities.DBContext;
 import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
+import ViewModels.DocGiaViPhamViewModel;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Apc
  */
 public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
+    String insertLoiVPCT = "Insert into LoiViPhamCT values(?,?)";
+    String sql = "Select * from vipham";
+    String getLoiViPham = "Select IDLoiViPham from LoiViPhamCT where idViPham=?";
 
     @Override
     public List<BaoCaoPMViewModels> getPhieuMuonByMa(String ma) {
@@ -28,13 +36,14 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT dg.TenDOcGia,s.TenSach,pm.NgayMuon FROM DocGia dg \n"
-                    + "JOIN PhieuMuon pm ON pm.IDDocGia = dg.IDDocGia\n"
-                    + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
-                    + "JOIN CuonSach cs ON cs.MaCuonSach = ct.MaCuonSach\n"
-                    + "JOIN SachCT sct ON sct.IDSachCT = cs.IDSachCT\n"
-                    + "JOIN Sach s ON s.IDSach = sct.IDSach\n"
-                    + "where pm.MaPhieuMuon = ?";
+            String sql = """
+                         SELECT dg.TenDOcGia,s.TenSach,pm.NgayMuon FROM DocGia dg 
+                               JOIN PhieuMuon pm ON pm.IDDocGia = dg.IDDocGia
+                               JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon
+                               JOIN CuonSach cs ON cs.idCuonSach = ct.idCuonSach
+                               JOIN SachCT sct ON sct.IDSachCT = cs.IDSachCT
+                               JOIN Sach s ON s.IDSach = sct.IDSach
+                         where pm.MaPhieuMuon = ?""";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, ma);
             ResultSet rs = ps.executeQuery();
@@ -59,17 +68,19 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT MaPM,MoTa,HinhPhat,NgayVP FROM ViPham\n"
+            String sql = "SELECT idViPham, MaPM,MoTa,HinhPhat,NgayVP FROM ViPham\n"
                     + "WHERE MaPM = ?";
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, ma);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
+                String id = rs.getString("idViPham");
                 String MaPM = rs.getString("MaPM");
                 String moTa = rs.getString("MoTa");
                 String hinhPhat = rs.getString("HinhPhat");
                 Date NgayVP = rs.getDate("NgayVP");
                 ViPham viPham = new ViPham();
+                viPham.setIdVP(id);
                 viPham.setMaPM(MaPM);
                 viPham.setMoTa(moTa);
                 viPham.setHinhPhat(hinhPhat);
@@ -94,7 +105,7 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
             String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg\n"
                     + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
                     + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
-                    + "JOIN CuonSach cs ON ct.MaCuonSach = cs.MaCuonSach\n"
+                    + "JOIN CuonSach cs ON ct.idCuonSach = cs.idCuonSach\n"
                     + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
                     + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
                     + "JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon";
@@ -187,4 +198,52 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
         }
         return dsbaoCaoPM;
     }
+
+    @Override
+    public List<DocGiaViPhamViewModel> getViewViPham() {
+        return null;
+    }
+
+    @Override
+    public void insertLoiVpCT(String idViPham, String idLoiViPham) {
+        DBConnection.ExcuteDungna(insertLoiVPCT, idViPham, idLoiViPham);
+    }
+
+    @Override
+    public List<ViPham> getAll() {
+        List<ViPham> _lst = new ArrayList<>();
+        try {
+            ResultSet rs = DBConnection.getDataFromQuery(sql);
+            while(rs.next()){
+                String id = rs.getString(1);
+                Date ngayViet = rs.getDate(2);
+                String hinhPhat = rs.getString(3);
+                String moTa = rs.getString(4);
+                String phieuMuon = rs.getString(5);
+                ViPham vp = new ViPham(id, ngayViet, hinhPhat, moTa, phieuMuon);
+                _lst.add(vp);
+            }
+            return _lst;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<String> getLoiThuocViPham(String id) {
+        List<String> _lst = new ArrayList<>();
+        try {
+            ResultSet rs = DBConnection.getDataFromQuery(getLoiViPham, id);
+            while(rs.next()){
+                String idLOI = rs.getString(1);
+                _lst.add(idLOI);
+            }
+            return _lst;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+    
 }

@@ -14,7 +14,8 @@ import java.util.List;
 public interface ISachService {
     public Sach insert(Sach khoSach);
     public Sach delete(String ma);
-    public Sach update(Sach khoSach);
+    public Sach update(Sach sach);
     public List<Sach> getAll();
     public Sach getByMa(String Ma);
+    public Sach getByID(String id);
 }

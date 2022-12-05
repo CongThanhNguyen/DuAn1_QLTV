@@ -5,6 +5,7 @@
 package ViewModels;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,6 +13,8 @@ import java.util.List;
  * @author Admin
  */
 public class PhieuNhapViewmodel {
+
+    private String idPhieuNhap;
     private String maSach;
     private String tenSach;
     private String img;
@@ -20,13 +23,16 @@ public class PhieuNhapViewmodel {
     private String nhaXuatBan;
     private List<String> theLoai;
     private Integer nxb;
+    private Date ngayNhap;
     private BigDecimal giaNhap;
     private String nhaCC;
+    private String seri;
 
     public PhieuNhapViewmodel() {
     }
 
-    public PhieuNhapViewmodel(String maSach, String tenSach, String img, List<String> tacGia, Integer soLuong, String nhaXuatBan, List<String> theLoai, Integer nxb, BigDecimal giaNhap, String nhaCC) {
+    public PhieuNhapViewmodel(String idPhieuNhap, String maSach, String tenSach, String img, List<String> tacGia, Integer soLuong, String nhaXuatBan, List<String> theLoai, Integer nxb, Date ngayNhap, BigDecimal giaNhap, String nhaCC, String seri) {
+        this.idPhieuNhap = idPhieuNhap;
         this.maSach = maSach;
         this.tenSach = tenSach;
         this.img = img;
@@ -35,8 +41,28 @@ public class PhieuNhapViewmodel {
         this.nhaXuatBan = nhaXuatBan;
         this.theLoai = theLoai;
         this.nxb = nxb;
+        this.ngayNhap = ngayNhap;
         this.giaNhap = giaNhap;
         this.nhaCC = nhaCC;
+        this.seri = seri;
+    }
+
+    public String getSeri() {
+        return seri;
+    }
+
+    public void setSeri(String seri) {
+        this.seri = seri;
+    }
+    
+    
+
+    public String getIdPhieuNhap() {
+        return idPhieuNhap;
+    }
+
+    public void setIdPhieuNhap(String idPhieuNhap) {
+        this.idPhieuNhap = idPhieuNhap;
     }
 
     public String getMaSach() {
@@ -53,6 +79,14 @@ public class PhieuNhapViewmodel {
 
     public void setTenSach(String tenSach) {
         this.tenSach = tenSach;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
 
     public List<String> getTacGia() {
@@ -95,6 +129,14 @@ public class PhieuNhapViewmodel {
         this.nxb = nxb;
     }
 
+    public Date getNgayNhap() {
+        return ngayNhap;
+    }
+
+    public void setNgayNhap(Date ngayNhap) {
+        this.ngayNhap = ngayNhap;
+    }
+
     public BigDecimal getGiaNhap() {
         return giaNhap;
     }
@@ -111,13 +153,5 @@ public class PhieuNhapViewmodel {
         this.nhaCC = nhaCC;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-    
     
 }

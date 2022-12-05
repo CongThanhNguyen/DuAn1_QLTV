@@ -9,18 +9,21 @@ import DomainModels.Sach;
 import DomainModels.SachCT;
 import Repositories.IPhieuNhapViewModelRepository;
 import Utilities.DBConnection;
+import Utilities.DBContext;
 import ViewModels.PhieuNhapViewmodel;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.*;
 
 /**
  *
  * @author Admin
  */
-public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelRepository{
+public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelRepository {
+    
     final SachRepository REPO_SACH = new SachRepository();
     final SachCTRepository REPO_SACHCT = new SachCTRepository();
     final PhieuNhapRepository REPO_PN = new PhieuNhapRepository();
@@ -36,7 +39,6 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
     String sql_NXB = """
                         SELECT TENNXB FROM NhaXuatBan JOIN NXBCT ON NXBCT.IDNhaXuatBan = NhaXuatBan.IDNhaXuatBan
                         JOIN SachCT ON NXBCT.IDSACHCT = ?""";
-
     @Override
     public PhieuNhapViewmodel getPhieuNhapView(String ma) {
         Sach sach = REPO_SACH.getByMa(ma);
@@ -48,17 +50,17 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
         List<String> _lstTheLoai = getEnityName(sql_TheLoai, idSach);
         String NhaCC = getEnityName(sql_NCC, PN.getId()).get(0);
         
-        PhieuNhapViewmodel view = new PhieuNhapViewmodel(sach.getMa(), sach.getTen(),
-                sachCT.getImg(), _lstTacGia, 0, NXB, _lstTheLoai, sachCT.getNamxb(),
-                PN.getGiaNhap(), NhaCC);
+        PhieuNhapViewmodel view = new PhieuNhapViewmodel(PN.getId(), sach.getMa(), sach.getTen(),
+                sachCT.getImg(), _lstTacGia, PN.getSl(), NXB, _lstTheLoai, sachCT.getNamxb(),PN.getNgay(),
+                PN.getGiaNhap(), NhaCC, sachCT.getSeri());
         return view;
     }
     
-    public List<String> getEnityName(String sql, Object ...args){
+    public List<String> getEnityName(String sql, Object... args) {
         List<String> _lst = new ArrayList<>();
         try {
             ResultSet rs = DBConnection.getDataFromQuery(sql, args);
-            while(rs.next()){
+            while (rs.next()) {
                 String ten = rs.getString(1);
                 _lst.add(ten);
             }
@@ -68,4 +70,25 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
         }
         return _lst;
     }
+    
+    @Override
+    public List<PhieuNhapViewmodel> getAll() {
+        ArrayList<PhieuNhapViewmodel> listpnv = new ArrayList<>();
+        String sql = "select PhieuNhap.IdPhieuNhap,PhieuNhap.NgayNhap,"
+                + "Sach.MaSach from PhieuNhap join SachCT on PhieuNhap.IDSachCT "
+                + "= SachCT.IDSachCT JOIN Sach on SachCT.IDSach = Sach.IDSach";
+        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
+            ResultSet rs = ps.executeQuery();
+            while (rs.next()) {
+                PhieuNhapViewmodel pnv = new PhieuNhapViewmodel();
+                pnv.setIdPhieuNhap(rs.getString("IdPhieuNhap"));
+                pnv.setNgayNhap(rs.getDate("NgayNhap"));
+                pnv.setMaSach(rs.getString("MaSach"));
+                listpnv.add(pnv);
+            }
+        } catch (Exception e) {
+        }
+        return listpnv;
+    }
+    
 }

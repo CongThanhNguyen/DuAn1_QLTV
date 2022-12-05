@@ -4,17 +4,16 @@
  */
 package Services.Impl;
 
-import DomainModels.Sach;
 import DomainModels.SachCT;
-import Repositories.ISachCTRepository;
 import Repositories.Impl.SachCTRepository;
+import Services.ISachCTService;
 import java.util.List;
 
 /**
  *
  * @author Admin
  */
-public class SachCTService implements ISachCTRepository{
+public class SachCTService implements ISachCTService{
     final SachCTRepository REPO;
 
     public SachCTService() {
@@ -50,8 +49,9 @@ public class SachCTService implements ISachCTRepository{
     public SachCT getByID(String ID) {
         return REPO.getByID(ID);
     }
-    
-    public List<SachCT> Seach(String tukhoa) {
-        return REPO.getBySearch(tukhoa);
+
+    @Override
+    public SachCT getByBarcode(String barcode) {
+        return REPO.getByBarcode(barcode);
     }
 }

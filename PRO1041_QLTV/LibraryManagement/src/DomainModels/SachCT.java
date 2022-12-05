@@ -15,17 +15,27 @@ public class SachCT {
     private Integer namxb;
     private String img;
     private BigDecimal giaIn;
+    private String seri;
     private Sach sach;
 
     public SachCT() {
     }
 
-    public SachCT(String id, Integer namxb, String img, BigDecimal giaIn, Sach sach) {
+    public SachCT(String id, Integer namxb, String img, BigDecimal giaIn, String seri, Sach sach) {
         this.id = id;
         this.namxb = namxb;
         this.img = img;
         this.giaIn = giaIn;
+        this.seri = seri;
         this.sach = sach;
+    }
+
+    public String getSeri() {
+        return seri;
+    }
+
+    public void setSeri(String seri) {
+        this.seri = seri;
     }
 
     public String getId() {
