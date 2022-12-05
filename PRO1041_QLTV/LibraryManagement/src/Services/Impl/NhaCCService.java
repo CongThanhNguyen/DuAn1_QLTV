@@ -4,7 +4,6 @@
  */
 package Services.Impl;
 
-
 import DomainModels.NhaCC;
 import Repositories.Impl.NhaCCRepository;
 import Services.INhaCCService;
@@ -14,12 +13,13 @@ import java.util.List;
  *
  * @author Admin
  */
-public class NhaCCService implements INhaCCService{
-  final NhaCCRepository REPO = new NhaCCRepository();
+public class NhaCCService implements INhaCCService {
 
-     public List<NhaCC> GetAll() {
+    final NhaCCRepository REPO = new NhaCCRepository();
+    
+    public List<NhaCC> GetAll() {
         try {
-           return REPO.getAll();
+            return REPO.getAll();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -38,12 +38,12 @@ public class NhaCCService implements INhaCCService{
     
     public Integer Sua(NhaCC Nhacc) {
         try {
-          return  REPO.sua(Nhacc);
+            return REPO.sua(Nhacc);
         } catch (Exception e) {
             e.printStackTrace();
             return -1;
         }
-    } 
+    }    
     
     public Integer xoa(String ten) {
         try {
@@ -53,16 +53,21 @@ public class NhaCCService implements INhaCCService{
             return -1;
         }
     }
-
+    
     @Override
     public List<NhaCC> getAll() {
         return REPO.getAll();
     }
-
+    
     @Override
     public NhaCC getByID(String id) {
         return REPO.getByID(id);
     }
     
+    @Override
+    public NhaCC getbyName(String ten) {
+        return REPO.getByName(ten);
+    
+    }
     
 }

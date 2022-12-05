@@ -17,18 +17,18 @@ import java.sql.SQLException;
  *
  * @author Admin
  */
-public class NhaCCRepository implements INhaCCRepository{
-     String sql = "Select * from NhaCC";
+public class NhaCCRepository implements INhaCCRepository {
+
+    String sql = "Select * from NhaCC";
     String sqlByID = "Select * from NhaCC where idNhaCC =?";
+    String sqlByName = "select * from NhaCC where TenNhaCC = ?";
     final String Insert_SQL = "INSERT INTO NhaCC (TenNhacc, Diachi, SDT, Email) values (?,?,?,?)";
     final String Delete_SQL = "DELETE FROM NhaCC where TenNhaCC = ?";
     final String UPDATE_SQL = "UPDATE NhaCC SET DIACHi = ?, SDT = ?, Email = ? where TenNhacc = ?";
-    
-    
 
     public Integer Them(NhaCC nhacc) {
         DBConnection.ExcuteDungna(Insert_SQL, nhacc.getTen(),
-                 nhacc.getDiaChi(), nhacc.getSdt(), nhacc.getEmail());
+                nhacc.getDiaChi(), nhacc.getSdt(), nhacc.getEmail());
 
         return 1;
     }
@@ -54,14 +54,14 @@ public class NhaCCRepository implements INhaCCRepository{
     public NhaCC getByID(String id) {
         return getBySql(sqlByID, id).get(0);
     }
-    
-    private List<NhaCC> getBySql(String sql, Object ...args){
+
+    private List<NhaCC> getBySql(String sql, Object... args) {
         List<NhaCC> _lst = new ArrayList<>();
         PreparedStatement ps = DBConnection.getStmt(sql, args);
         ResultSet rs;
         try {
             rs = ps.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 String id = rs.getString(1);
                 String hoTen = rs.getString(2);
                 String diaChi = rs.getString(3);
@@ -74,5 +74,10 @@ public class NhaCCRepository implements INhaCCRepository{
             return null;
         }
         return _lst;
+    }
+
+    @Override
+    public NhaCC getByName(String ten) {
+        return getBySql(sqlByName, ten).get(0);
     }
 }

@@ -319,7 +319,11 @@ public class FrmNhaCungCap extends javax.swing.JFrame {
       public void filltxt() {
         try {
             String cb = cbxNhaCC.getSelectedItem().toString();
+            NhaCC ncc = SERVICE.getbyName(cb);
             txtten.setText(cb);
+            txtemail.setText(ncc.getEmail());
+            txtdiachi.setText(ncc.getDiaChi());
+            txtsdt.setText(ncc.getSdt());
         } catch (NullPointerException e) {
         }
     }

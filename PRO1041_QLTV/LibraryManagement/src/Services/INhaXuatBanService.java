@@ -12,10 +12,23 @@ import java.util.List;
  * @author Admin
  */
 public interface INhaXuatBanService {
+
     public NhaXuatBan insert(NhaXuatBan nhaXuatBan);
+
     public NhaXuatBan delete(String ma);
+
     public NhaXuatBan update(NhaXuatBan nhaXuatBan);
+
     public List<NhaXuatBan> getAll();
+
     public NhaXuatBan getByID(String id);
+
     public int insertNXBCT(String idNXB, String idSachCt);
+
+    public void Them(NhaXuatBan nxb);
+
+    public void Sua(NhaXuatBan nxb);
+
+    public void Xoa(String ten);
+    public NhaXuatBan getByName(String ten);
 }

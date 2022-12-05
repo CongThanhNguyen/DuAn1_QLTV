@@ -17,5 +17,10 @@ public interface INhaXuatBanRepository {
     public NhaXuatBan update(NhaXuatBan nhaXuatBan);
     public List<NhaXuatBan> getAll();
     public NhaXuatBan getByID(String id);
+    public NhaXuatBan getByName(String ten);
     public int insertNXBCT(String idNXB, String idSachCT); 
+    
+    public void Them(NhaXuatBan nxb);
+    public void Sua(NhaXuatBan nxb);
+    public void Xoa(String ten);
 }
