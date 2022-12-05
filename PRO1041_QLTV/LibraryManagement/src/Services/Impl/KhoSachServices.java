@@ -29,4 +29,9 @@ public class KhoSachServices implements KhoSachService {
         return khoSach.getKhoSachView(ma);
     }
 
+    @Override
+    public List<KhoSachViewModels> getBySearch(String tuKhoa) {
+        return khoSach.getBySearch(tuKhoa);
+    }
+
 }

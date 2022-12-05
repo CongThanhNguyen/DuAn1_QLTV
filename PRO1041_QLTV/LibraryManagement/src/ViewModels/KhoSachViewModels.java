@@ -4,6 +4,8 @@
  */
 package ViewModels;
 
+import java.util.List;
+
 /**
  *
  * @author Apc
@@ -11,12 +13,12 @@ package ViewModels;
 public class KhoSachViewModels {
     private String MaSach;
     private String TenSach;
-    private String TenLoaiSach;
+    private List<String> TenLoaiSach;
 
     public KhoSachViewModels() {
     }
 
-    public KhoSachViewModels(String MaSach, String TenSach, String TenLoaiSach) {
+    public KhoSachViewModels(String MaSach, String TenSach, List<String> TenLoaiSach) {
         this.MaSach = MaSach;
         this.TenSach = TenSach;
         this.TenLoaiSach = TenLoaiSach;
@@ -38,11 +40,11 @@ public class KhoSachViewModels {
         this.TenSach = TenSach;
     }
 
-    public String getTenLoaiSach() {
+    public List<String> getTenLoaiSach() {
         return TenLoaiSach;
     }
 
-    public void setTenLoaiSach(String TenLoaiSach) {
+    public void setTenLoaiSach(List<String> TenLoaiSach) {
         this.TenLoaiSach = TenLoaiSach;
     }
 

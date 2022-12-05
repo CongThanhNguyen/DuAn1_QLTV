@@ -32,8 +32,8 @@ public class CuonSachService implements ICuonSachService{
     }
 
     @Override
-    public CuonSach update(CuonSach cuonSach) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public CuonSach update(int soLuong, CuonSach cuonSach, int soBatDau) {
+        return REPO.update(soLuong, cuonSach, soBatDau);
     }
 
     @Override
@@ -60,5 +60,5 @@ public class CuonSachService implements ICuonSachService{
     public CuonSach getByMaAndID(String id, String ma) {
         return REPO.getByMaAndID(id, ma);
     }
-    
+
 }

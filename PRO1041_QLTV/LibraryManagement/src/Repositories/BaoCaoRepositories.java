@@ -16,6 +16,8 @@ import java.util.List;
  */
 public interface BaoCaoRepositories {
     List<BaoCaoPMViewModels> getPhieuMuonByMa( String ma);
+    List<ViPham> getAll();
+    List<String> getLoiThuocViPham(String id);
     List<BaoCaoDSViewModels> LoadTableBaoCao();
     List<ViPham> getBaoCaoBymaPM(String ma);
     void Them(ViPham vp);
@@ -23,4 +25,5 @@ public interface BaoCaoRepositories {
     void Xoa( String ma);
     List<BaoCaoDSViewModels> getByMaDG(String maDG);
     List<DocGiaViPhamViewModel> getViewViPham();
+    void insertLoiVpCT(String idViPham, String idLoiViPham);
 }

@@ -25,7 +25,7 @@ public class TacGiaCTRepository implements ITacGiaChiTiet {
 
     String delete = "DELETE TacGiaCT where IdTacGia = ?";
 
-    private List<TacGiaCT> getBySQ(String sql, Object... args) {
+    private List<TacGiaCT> getBySQl(String sql, Object... args) {
         try {
             List<TacGiaCT> _lst = new ArrayList<>();
             ResultSet rs = DBConnection.getDataFromQuery(sql, args);

@@ -39,7 +39,6 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
     String sql_NXB = """
                         SELECT TENNXB FROM NhaXuatBan JOIN NXBCT ON NXBCT.IDNhaXuatBan = NhaXuatBan.IDNhaXuatBan
                         JOIN SachCT ON NXBCT.IDSACHCT = ?""";
-    
     @Override
     public PhieuNhapViewmodel getPhieuNhapView(String ma) {
         Sach sach = REPO_SACH.getByMa(ma);
@@ -52,8 +51,8 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
         String NhaCC = getEnityName(sql_NCC, PN.getId()).get(0);
         
         PhieuNhapViewmodel view = new PhieuNhapViewmodel(PN.getId(), sach.getMa(), sach.getTen(),
-                sachCT.getImg(), _lstTacGia, 0, NXB, _lstTheLoai, sachCT.getNamxb(),PN.getNgay(),
-                PN.getGiaNhap(), NhaCC);
+                sachCT.getImg(), _lstTacGia, PN.getSl(), NXB, _lstTheLoai, sachCT.getNamxb(),PN.getNgay(),
+                PN.getGiaNhap(), NhaCC, sachCT.getSeri());
         return view;
     }
     

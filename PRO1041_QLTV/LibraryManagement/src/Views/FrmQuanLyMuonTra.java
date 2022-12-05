@@ -36,6 +36,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -67,7 +68,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     public FrmQuanLyMuonTra() {
         initComponents();
         this.seticon();
-        this.setTable();
+        this.setTable(tblDSPM, tblPMDaTra, tblPMSHH, tblPMTS);
         this.getSoLuongSachMuon(1);
         lblNgayViet.setText(getCurrentTime()[0]+"-"+getCurrentTime()[1]+"-"+getCurrentTime()[2]);
         cuonSO=1;
@@ -130,6 +131,8 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         txtTuKhoa = new javax.swing.JTextField();
         pnScan = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        tblPMDaTra = new javax.swing.JTable();
         btnrefresh = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel7 = new javax.swing.JPanel();
@@ -547,6 +550,42 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         pnScan.add(jPanel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, 50));
 
+        jScrollPane4.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Phiếu mượn đã trả", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 14))); // NOI18N
+
+        tblPMDaTra.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        tblPMDaTra.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "Mã phiếu", "Tên độc giả", "Ngày viết"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPMDaTra.setGridColor(new java.awt.Color(255, 255, 255));
+        tblPMDaTra.setSelectionBackground(new java.awt.Color(125, 200, 150));
+        tblPMDaTra.setShowGrid(false);
+        jScrollPane4.setViewportView(tblPMDaTra);
+        if (tblPMDaTra.getColumnModel().getColumnCount() > 0) {
+            tblPMDaTra.getColumnModel().getColumn(0).setResizable(false);
+            tblPMDaTra.getColumnModel().getColumn(1).setResizable(false);
+            tblPMDaTra.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        pnScan.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 410, 120));
+        jScrollPane4.getAccessibleContext().setAccessibleParent(pnScan);
+
         jPanel1.add(pnScan, new org.netbeans.lib.awtextra.AbsoluteConstraints(370, 0, 410, 120));
 
         btnrefresh.setText("jLabel3");
@@ -808,7 +847,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             }
             for (CuonSach cuonSach : _lst) {
                 if (cuonSach!=null) {
-                    PhieuMuonCT pmct = new PhieuMuonCT(cuonSach, phieuMuon);
+                    PhieuMuonCT pmct = new PhieuMuonCT(null, cuonSach, phieuMuon);
                     SERVICE_PMCT.insert(pmct);
                 }
             }
@@ -876,6 +915,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             SERVICE.TraSach(ma, 1);
             JOptionPane.showMessageDialog(this, "Trả sách thành công!");
         }
+        _lst = SERVICE_MODEL.getAll();
         this.loadTable();
     }//GEN-LAST:event_btnTraSachActionPerformed
 
@@ -941,10 +981,12 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         DefaultTableModel model = (DefaultTableModel) tblDSPM.getModel();
         DefaultTableModel model1 = (DefaultTableModel) tblPMSHH.getModel();
         DefaultTableModel model2 = (DefaultTableModel) tblPMTS.getModel();
+        DefaultTableModel model3 = (DefaultTableModel) tblPMDaTra.getModel();
         
         model.setRowCount(0);
         model1.setRowCount(0);
         model2.setRowCount(0);
+        model3.setRowCount(0);
         Calendar c = Calendar.getInstance();
         int day = c.get(Calendar.DATE);
         for (PhieuMuonTableViewModel phieuMuonTableViewModel : _lst) {
@@ -957,6 +999,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getMaDocGia(),
                 phieuMuonTableViewModel.getTenDocGia(), phieuMuonTableViewModel.getNgayViet()
             };
+            model.addRow(rowDataPM);
             if(ngayPhaiTra-day<3 && phieuMuonTableViewModel.getTinhTrang()!=1){
                 Object[] rowDataPMHH = {
                     phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getMaDocGia(),
@@ -971,36 +1014,37 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 };
                 model2.addRow(rowDataPMTS);
             }
-            model.addRow(rowDataPM);
+            if(phieuMuonTableViewModel.getTinhTrang()==1){
+                Object[] rowDataPMDatra = {
+                    phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getTenDocGia(),
+                    tinhTrang, phieuMuonTableViewModel.getNgayViet()
+                };
+                model3.addRow(rowDataPMDatra);
+            }
         }
         tblDSPM.setModel(model);
         tblPMSHH.setModel(model1);
         tblPMTS.setModel(model2);
+        tblPMDaTra.setModel(model3);
     }
     
     private void seticon(){
         URL urlSearch = getClass().getResource("/Images/search.png");
         URL urlBarcode = getClass().getResource("/Images/barcode-read.png");
         URL urlRefreash = getClass().getResource("/Images/refresh.png");
+        btnrefresh.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
         btnTimKiem.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
         btnTimKiemTraSach.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
         IconBarcode.setIcon(setsize.setSizeAnh(urlBarcode, 24, 28));
-        btnrefresh.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
         btnrefresh1.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
     }
     
-    private void setTable(){
-        JTableHeader headerDSPM = tblDSPM.getTableHeader();
-        JTableHeader headerPMDH = tblPMSHH.getTableHeader();
-        JTableHeader headerOMTS = tblPMTS.getTableHeader();
-        
-        headerDSPM.setBackground(new Color(125,200,150));
-        headerPMDH.setBackground(new Color(125,200,150));
-        headerOMTS.setBackground(new Color(125,200,150));
-        
-        headerDSPM.setForeground(Color.white);
-        headerPMDH.setForeground(Color.white);
-        headerOMTS.setForeground(Color.white);
+    private void setTable(JTable... table){
+        for (JTable jTable : table) {
+            JTableHeader header= jTable.getTableHeader();
+            header.setBackground(new Color(125,200,150));
+            header.setForeground(Color.white);
+        }
         
     }
     private void setDefault(){
@@ -1156,6 +1200,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JLabel lblMaPhieu;
@@ -1176,6 +1221,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     private javax.swing.JRadioButton rdoThem;
     private javax.swing.JRadioButton rdoXoa;
     private javax.swing.JTable tblDSPM;
+    private javax.swing.JTable tblPMDaTra;
     private javax.swing.JTable tblPMSHH;
     private javax.swing.JTable tblPMTS;
     private javax.swing.JTextField txtCheckMa;

@@ -11,11 +11,12 @@ import Repositories.KhoSachRepository;
 import Utilities.DBConnection;
 import Utilities.DBContext;
 import ViewModels.KhoSachViewModels;
-import ViewModels.PhieuNhapViewmodel;
 import ViewModels.SachCTViewModel;
 import java.util.ArrayList;
 import java.util.List;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -29,35 +30,23 @@ public class KhoSachImpl implements KhoSachRepository {
 
     String sql_TheLoai = """
                          SELECT TenTL FROM TheLoaiSach JOIN TLSACHCT ON TheLoaiSach.IDTL = TLSACHCT.IdTLSach
-                         JOIN Sach ON TLSACHCT.IDSach = ?""";
+                         JOIN Sach ON sach.IDSach = TLSACHCT.IDSach where sach.IDSach = ? """;
     String sql_TacGia = """
                         SELECT TenTacGia FROM TacGia JOIN TacGiaCT ON TacGia.IDTacGia = TacGiaCT.IDTacGia
-                        JOIN Sach ON TacGiaCT.IDSach = ?""";
+                        JOIN Sach ON sach.IDSach = TacGiaCT.IDSach where sach.IDSach = ?""";
     String sql_NCC = """
                         SELECT TenNhaCC FROM NhaCC JOIN NHACCCT ON NHACCCT.IdNhacc = NhaCC.IdNhaCC
-                        JOIN PhieuNhap ON NHACCCT.IdPhieuNhap = ?""";
+                        JOIN PhieuNhap ON sach.IDSach = NHACCCT.IDSach where sach.IDSach = ?""";
     String sql_NXB = """
                         SELECT TENNXB FROM NhaXuatBan JOIN NXBCT ON NXBCT.IDNhaXuatBan = NhaXuatBan.IDNhaXuatBan
-                        JOIN SachCT ON NXBCT.IDSACHCT = ?""";
+                        join SachCT ON SachCT.IDSachCT = NXBCT.IDSACHCT where SachCT.IDSachCT = ?""";
+    String sql = "select * from sach";
+    String sql_search_ten = sql + " where Sach.TenSach like ?";
+    String sql_search_ma = sql + " where Sach.MaSach like ?";
 
     @Override
     public List<KhoSachViewModels> getALl() {
-        ArrayList<KhoSachViewModels> listks = new ArrayList<>();
-        String sql = "select Sach.MaSach,Sach.TenSach,TheLoaiSach.TenTL "
-                + "from Sach join TLSACHCT on TLSACHCT.IDSach = Sach.IDSach "
-                + "join TheLoaiSach on TheLoaiSach.IDTL = TLSACHCT.IdTLSach";
-        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
-            while (rs.next()) {
-                KhoSachViewModels ks = new KhoSachViewModels();
-                ks.setMaSach(rs.getString("MaSach"));
-                ks.setTenSach(rs.getString("TenSach"));
-                ks.setTenLoaiSach(rs.getString("TenTL"));
-                listks.add(ks);
-            }
-        } catch (Exception e) {
-        }
-
+        List<KhoSachViewModels> listks = getBySql(sql);
         return listks;
     }
 
@@ -90,6 +79,28 @@ public class KhoSachImpl implements KhoSachRepository {
             return null;
         }
         return _lst;
+    }
+    
+    private List<KhoSachViewModels> getBySql(String sql, Object...args){
+        List<Sach> sach = REPO_SACH.getBySQL(sql, args);
+        List<KhoSachViewModels> _lst = new ArrayList<>();
+        for (Sach sach1 : sach) {
+            String idSach = sach1.getId();
+            List<String> _lstTheLoai = getEnityName(sql_TheLoai, idSach);
+            KhoSachViewModels model = new KhoSachViewModels(sach1.getMa(), sach1.getTen(), _lstTheLoai);
+            _lst.add(model);
+        }
+        return _lst;
+    }
+
+    @Override
+    public List<KhoSachViewModels> getBySearch(String tuKhoa) {
+        tuKhoa = "%"+tuKhoa+"%";
+       List<KhoSachViewModels> _lst = getBySql(sql_search_ma, tuKhoa);
+       if(_lst.isEmpty()){
+           _lst = getBySql(sql_search_ten, tuKhoa);
+       }
+        return _lst;    
     }
 
 }

@@ -5,6 +5,7 @@
 package Views;
 
 import ViewModels.DocGiaViPhamViewModel;
+import java.net.URL;
 import javax.swing.ImageIcon;
 
 
@@ -40,7 +41,7 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         jLabel3 = new javax.swing.JLabel();
         lblID = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        cbxListLoi = new javax.swing.JComboBox<>();
 
         jPanel1.setBackground(new java.awt.Color(176, 212, 184));
         jPanel1.setMinimumSize(new java.awt.Dimension(350, 110));
@@ -104,8 +105,8 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         jLabel1.setText("Lỗi vi phạm");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 160, 80, -1));
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jPanel1.add(jComboBox1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 150, -1));
+        cbxListLoi.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jPanel1.add(cbxListLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 160, 150, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -136,12 +137,16 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
         ImageIcon imgSet = new ImageIcon(docgia.getImg());
         img.setIcon(imgSet);
         lblHinhPhat.setText(docgia.getHinhPhat());
+        cbxListLoi.removeAllItems();
+        for (String string : docgia.getLstLoi()) {
+            cbxListLoi.addItem(string);
+        }
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel btnGiaiQuyet;
+    private javax.swing.JComboBox<String> cbxListLoi;
     private javax.swing.JLabel img;
     private javax.swing.JPanel img_docGia;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;

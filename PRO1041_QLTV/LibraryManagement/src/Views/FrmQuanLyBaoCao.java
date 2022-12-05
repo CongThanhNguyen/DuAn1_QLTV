@@ -14,7 +14,9 @@ import ViewModels.BaoCaoDSViewModels;
 import ViewModels.BaoCaoPMViewModels;
 import java.awt.Color;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -25,8 +27,8 @@ import javax.swing.table.JTableHeader;
 public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     final SetSize setsize = new SetSize();
-    private BaoCaoServices baoCaoServices = new BaoCaoServicesImpl();
-    private  ViPhamService ViPhamService = new ViPhamService();
+    final  private BaoCaoServices baoCaoServices = new BaoCaoServicesImpl();
+    final private  ViPhamService ViPhamService = new ViPhamService();
 
     /**
      * Creates new form FrmQuanLyBaoCao
@@ -35,7 +37,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         initComponents();
         this.setTable();
         this.seticon();
-        loadtable();
+        this.loadtable();
         this.loadListLoi();
     }
 
@@ -43,7 +45,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         _lstLoi = new javax.swing.JPanel();
@@ -367,6 +368,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     private void btnThemLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLoiActionPerformed
         // TODO add your handling code here:
         ViPhamService.Them(new LoiVP(null, txtTenLoi.getText()));
+        JOptionPane.showMessageDialog(this, "Them thành công!");
         this.loadListLoi();
     }//GEN-LAST:event_btnThemLoiActionPerformed
     public ViPham GetText() {
@@ -385,7 +387,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         List<LoiVP> _lst = ViPhamService.getAll();
         for (LoiVP loiVP : _lst) {
             FrmLoiKhung loi = new FrmLoiKhung();
-            loi.chkLoi.setText(loiVP.getTen());
+            loi.setTen(loiVP.getTen());
             _lstLoi.add(loi);
         }
         _lstLoi.revalidate();
@@ -394,7 +396,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     //Load dữ liệu lên khung phiếu mượn
     private void btnXemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXemActionPerformed
         setPMView();
-        
     }//GEN-LAST:event_btnXemActionPerformed
 
     public void clearForm() {
@@ -410,7 +411,11 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     }
     private void btnThemBCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemBCActionPerformed
         ViPham vp = GetText();
-        baoCaoServices.Them(vp);
+        ViPham addnewest = baoCaoServices.Them(vp);
+        for (FrmLoiKhung frmLoiKhung : getLoiKhungSelected()) {
+            LoiVP loiVP = ViPhamService.getByTen(frmLoiKhung.getTen());
+            baoCaoServices.insertLoiVpCT(addnewest.getIdVP(), loiVP.getId());
+        }
         loadtable();
         clearForm();
     }//GEN-LAST:event_btnThemBCActionPerformed
@@ -460,10 +465,44 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     private void btnXoaLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaLoiActionPerformed
         // TODO add your handling code here:
+        for (FrmLoiKhung frmLoiKhung : getLoiKhungSelected()) {
+            LoiVP loi = ViPhamService.getByTen(frmLoiKhung.getTen());
+            ViPhamService.Xoa(loi.getId());
+        }
+        JOptionPane.showMessageDialog(this, "Xóa thành công!");
+        this.loadListLoi();
     }//GEN-LAST:event_btnXoaLoiActionPerformed
 
+    private List<FrmLoiKhung> getLoiKhung(){
+        _lstLoi.revalidate();
+        _lstLoi.repaint();
+        List<FrmLoiKhung> _lst = new ArrayList<>();
+        for (int i = 0; i < _lstLoi.getComponentCount(); i++) {
+            _lst.add((FrmLoiKhung) _lstLoi.getComponent(i));
+        }
+        return _lst;
+    }
+    
+    private List<FrmLoiKhung> getLoiKhungSelected(){
+        List<FrmLoiKhung> _lst = new ArrayList<>();
+        for (FrmLoiKhung frmLoiKhung : getLoiKhung()) {
+            if(frmLoiKhung.check()){
+                _lst.add(frmLoiKhung);
+            }
+        }
+        return _lst;
+    }
     private void btnSuaLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaLoiActionPerformed
         // TODO add your handling code here:
+        List<FrmLoiKhung> _lst = getLoiKhung();
+        if(_lst.size()>1){
+            JOptionPane.showMessageDialog(this, "Vui lòng chỉ sửa một lỗi!");
+            return;
+        }
+        String loiSua = txtTenLoi.getText();
+        LoiVP loiVP = ViPhamService.getByTen(_lst.get(0).getTen());
+        ViPhamService.Sua(loiSua, loiVP);
+        JOptionPane.showMessageDialog(this, "Sửa thành công!");
     }//GEN-LAST:event_btnSuaLoiActionPerformed
 
     // hàm load cbx 
@@ -520,7 +559,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     private javax.swing.JButton btnThemLoi;
     private javax.swing.JButton btnXem;
     private javax.swing.JButton btnXoaLoi;
-    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JComboBox<String> cbxSach;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;

@@ -26,11 +26,12 @@ public class PhieuNhapViewmodel {
     private Date ngayNhap;
     private BigDecimal giaNhap;
     private String nhaCC;
+    private String seri;
 
     public PhieuNhapViewmodel() {
     }
 
-    public PhieuNhapViewmodel(String idPhieuNhap, String maSach, String tenSach, String img, List<String> tacGia, Integer soLuong, String nhaXuatBan, List<String> theLoai, Integer nxb, Date ngayNhap, BigDecimal giaNhap, String nhaCC) {
+    public PhieuNhapViewmodel(String idPhieuNhap, String maSach, String tenSach, String img, List<String> tacGia, Integer soLuong, String nhaXuatBan, List<String> theLoai, Integer nxb, Date ngayNhap, BigDecimal giaNhap, String nhaCC, String seri) {
         this.idPhieuNhap = idPhieuNhap;
         this.maSach = maSach;
         this.tenSach = tenSach;
@@ -43,7 +44,18 @@ public class PhieuNhapViewmodel {
         this.ngayNhap = ngayNhap;
         this.giaNhap = giaNhap;
         this.nhaCC = nhaCC;
+        this.seri = seri;
     }
+
+    public String getSeri() {
+        return seri;
+    }
+
+    public void setSeri(String seri) {
+        this.seri = seri;
+    }
+    
+    
 
     public String getIdPhieuNhap() {
         return idPhieuNhap;

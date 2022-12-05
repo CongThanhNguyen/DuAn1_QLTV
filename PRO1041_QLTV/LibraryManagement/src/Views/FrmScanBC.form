@@ -106,7 +106,7 @@
         </Component>
         <Component class="javax.swing.JButton" name="btnLaySeri">
           <Properties>
-            <Property name="text" type="java.lang.String" value="&#x110;&#xf3;ng"/>
+            <Property name="text" type="java.lang.String" value="L&#x1ea5;y seri"/>
           </Properties>
           <Events>
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnLaySeriActionPerformed"/>
@@ -116,9 +116,6 @@
           </AuxValues>
         </Component>
         <Component class="javax.swing.JTextField" name="lblBarcode">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="jTextField1"/>
-          </Properties>
           <AuxValues>
             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
           </AuxValues>

@@ -90,5 +90,7 @@ public class PhieuMuonRepository implements IPhieuMuonRepository{
         int i = DBConnection.ExcuteDungna(update, loai, ma);
         return i==1?getByMa(ma):null;
     }
+
+
     
 }

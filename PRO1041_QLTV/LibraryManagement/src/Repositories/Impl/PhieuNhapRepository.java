@@ -29,7 +29,8 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
                     + " SoLuongNhap, GiaNhap) values (?,?,?,?,?,?)";
     String insert_nccct = "Insert into Nhaccct values(?,?)";
     String sql_by_id_sachct = "Select * from PhieuNhap where idSachCt = ?";
-    
+    String delete = "Delete from NhaCCCt where idphieuNhap = ? Delete from phieunhap where idphieunhap=?";
+
     @Override
     public PhieuNhap insert(PhieuNhap PN) {
         int i = DBConnection.ExcuteDungna(insert,PN.getIdSachCT(), PN.getMa(), PN.getNgay(), PN.getTinhtrang(), PN.getSl(), PN.getGiaNhap());
@@ -37,8 +38,9 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
     }
 
     @Override
-    public PhieuNhap delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public PhieuNhap delete(String id) {
+        int i = DBConnection.ExcuteDungna(delete, id, id);
+        return i==0?getByid(id):null;
     }
 
     @Override

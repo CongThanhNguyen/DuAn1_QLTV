@@ -16,4 +16,6 @@ public interface IViPhamService {
     void Them(LoiVP loiVP);
     void Sua(String ma,LoiVP loiVP);
     void Xoa(String ma);
+    LoiVP getByTen(String ten);
+    LoiVP getByid(String id);
 }

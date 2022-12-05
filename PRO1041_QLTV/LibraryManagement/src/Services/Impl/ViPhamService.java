@@ -15,7 +15,7 @@ import java.util.List;
  * @author Admin
  */
 public class ViPhamService implements IViPhamService{
-    final ViPhamRepository REPO;
+    final ViPhamRepositoryImpl REPO;
 
     public ViPhamService() {
         this.REPO = new ViPhamRepositoryImpl();
@@ -39,6 +39,16 @@ public class ViPhamService implements IViPhamService{
     @Override
     public void Xoa(String ma) {
         REPO.Xoa(ma);
+    }
+
+    @Override
+    public LoiVP getByTen(String ten) {
+        return REPO.getByTen(ten);
+    }
+
+    @Override
+    public LoiVP getByid(String id) {
+        return REPO.getByid(id);
     }
     
 }

@@ -17,6 +17,7 @@ import java.util.List;
  * @author Apc
  */
 public class BaoCaoServicesImpl implements BaoCaoServices{
+    
         
     private BaoCaoRepositories BaoCaoRepositories = new BaoCaoreposotoriesImpl();
     @Override
@@ -37,8 +38,9 @@ public class BaoCaoServicesImpl implements BaoCaoServices{
     }
 
     @Override
-    public void Them(ViPham vp) {
+    public ViPham Them(ViPham vp) {
         BaoCaoRepositories.Them(vp);
+        return getBaoCaoBymaPM(vp.getMaPM()).get(0);
     }
 
     @Override
@@ -57,14 +59,25 @@ public class BaoCaoServicesImpl implements BaoCaoServices{
         return timKiem;
     }
 
-    
+    @Override
+    public void insertLoiVpCT(String idViPham, String idLoiViPham) {
+        BaoCaoRepositories.insertLoiVpCT(idViPham, idLoiViPham);
+    }
 
-    
+    @Override
+    public List<ViPham> getAll() {
+        return BaoCaoRepositories.getAll();
+    }
 
-    
+    @Override
+    public List<String> getLoiThuocViPham(String id) {
+        return BaoCaoRepositories.getLoiThuocViPham(id);
+    }
 
-    
- 
-    
+    @Override
+    public List<ViPham> getBaoCaoBymaPM(String ma) {
+            return BaoCaoRepositories.getBaoCaoBymaPM(ma);
+    }
+
     
 }

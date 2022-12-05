@@ -14,7 +14,7 @@ import java.util.List;
 public interface ICuonSachRepository {
     public CuonSach insert(int soluong, CuonSach cuonSach, int soBatDau);
     public CuonSach delete(String id);
-    public CuonSach update(CuonSach cuonSach);
+    public CuonSach update(int soLuong, CuonSach cuonSach, int soBatDau);
     public List<CuonSach> getAll();
     public List<CuonSach> getByIDSachCT(String id);
     public List<CuonSach> getByID(String id);

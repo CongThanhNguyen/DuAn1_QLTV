@@ -22,7 +22,8 @@ import java.util.logging.Logger;
 public class SachRepository implements ISachRepository {
 
     String sql = "Select * from Sach";
-    String sql_by_ma = "Select * from Sach where MaSach = ?";
+    String sql_by_ma = "Select * from Sach where MaSach like ?";
+    String sql_by_ten = "Select * from Sach where tensach like ?";
     String sql_by_id = "Select * from Sach where IDSach = ?";
     String insert = "Insert into Sach(MaSach, TenSach) values(?,?)";
     final String update = "Sach set TenSach = ? where MaSach = ?";
@@ -60,7 +61,7 @@ public class SachRepository implements ISachRepository {
         return this.getBySQL(sql_by_ma, ma).get(0);
     }
 
-    private List<Sach> getBySQL(String sql, Object... args) {
+    public List<Sach> getBySQL(String sql, Object... args) {
         List<Sach> _lst = new ArrayList<>();
         PreparedStatement ps = DBConnection.getStmt(sql, args);
         ResultSet rs;
