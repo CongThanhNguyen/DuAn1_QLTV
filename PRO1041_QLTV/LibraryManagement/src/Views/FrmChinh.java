@@ -8,7 +8,9 @@ import Utilities.SetColor;
 import Utilities.SetSize;
 import java.awt.CardLayout;
 import java.awt.Component;
+import java.awt.Image;
 import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;  
 
 /**
@@ -75,6 +77,7 @@ public class FrmChinh extends javax.swing.JFrame {
         frmDiff = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Library Management");
 
         jPanel7.setBackground(new java.awt.Color(255, 255, 255));
         jPanel7.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -471,6 +474,10 @@ public class FrmChinh extends javax.swing.JFrame {
         iconThongKe.setIcon(setsize.setSizeAnh(urlThongKe, 20, 20));
         iconmatCuoi.setIcon(setsize.setSizeAnh(urlMatCuoi, 40, 40));
         btnDangXuat.setIcon(setsize.setSizeAnh(urlDangXuat, 20, 20));
+        URL url = getClass().getResource("/Images/iconTrangchu.png");
+        ImageIcon imgi = setsize.setSizeAnh(url, 24, 24);
+        Image img = imgi.getImage();
+        this.setIconImage(img);
     }
     
     public void setFrmChinh(Component frmSet){

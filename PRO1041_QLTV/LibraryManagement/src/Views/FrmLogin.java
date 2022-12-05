@@ -5,6 +5,10 @@
 package Views;
 
 import Services.Impl.DangNhapService;
+import Utilities.SetSize;
+import java.awt.Image;
+import java.net.URL;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,6 +17,7 @@ import javax.swing.JOptionPane;
  */
 public class FrmLogin extends javax.swing.JFrame {
     DangNhapService SERVICE = new DangNhapService();
+    SetSize setsize = new SetSize();
     /**
      * Creates new form FrmLogin
      */
@@ -20,6 +25,10 @@ public class FrmLogin extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
+        URL url = getClass().getResource("/Images/iconTrangchu.png");
+        ImageIcon imgi = setsize.setSizeAnh(url, 24, 24);
+        Image img = imgi.getImage();
+        this.setIconImage(img);
     }
 
     /**
@@ -51,6 +60,7 @@ public class FrmLogin extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Library Management");
         setMaximumSize(new java.awt.Dimension(960, 510));
         setPreferredSize(new java.awt.Dimension(1060, 510));
 
