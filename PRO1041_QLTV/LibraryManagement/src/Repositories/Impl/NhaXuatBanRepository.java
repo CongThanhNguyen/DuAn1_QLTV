@@ -25,7 +25,7 @@ public class NhaXuatBanRepository implements INhaXuatBanRepository {
     String sql = "Select * from NhaXuatBan";
     String sqlByID = "Select * from NhaXuatBan where id =?";
     String insert_NXBCT = "Insert into NXBCT values(?,?)";
-    String sqlByName = "select * from NhaXuatBan where TenNhaXuatBan = ?";
+    String sqlByName = "select * from NhaXuatBan where Tennxb = ?";
 
     @Override
     public NhaXuatBan insert(NhaXuatBan nxb) {
@@ -82,7 +82,7 @@ public class NhaXuatBanRepository implements INhaXuatBanRepository {
     @Override
     public void Them(NhaXuatBan nxb) {
         String sql = "insert into NhaXuatBan(TENNXB,DiaChi) values (?,?)";
-        try(Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, nxb.getTen());
             ps.setString(2, nxb.getDiaChi());
             ps.execute();
@@ -93,11 +93,25 @@ public class NhaXuatBanRepository implements INhaXuatBanRepository {
 
     @Override
     public void Sua(NhaXuatBan nxb) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "Update NhaXuatBan set DiaChi =? where TENNXB = ?";
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, nxb.getDiaChi());
+            ps.setString(2, nxb.getTen());
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Sửa thành công");
+        } catch (Exception e) {
+        }
     }
 
     @Override
-    public void Xoa(NhaXuatBan nxb) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void Xoa(String ten) {
+        String sql = "Delete NhaXuatBan where TENNXB = ?";
+        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setString(1, ten);
+
+            ps.executeUpdate();
+            JOptionPane.showMessageDialog(null, "Xóa thành công");
+        } catch (Exception e) {
+        }
     }
 }

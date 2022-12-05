@@ -22,5 +22,5 @@ public interface INhaXuatBanRepository {
     
     public void Them(NhaXuatBan nxb);
     public void Sua(NhaXuatBan nxb);
-    public void Xoa(NhaXuatBan nxb);
+    public void Xoa(String ten);
 }

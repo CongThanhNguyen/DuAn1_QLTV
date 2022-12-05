@@ -15,14 +15,17 @@ import java.util.List;
  * @author Admin
  */
 public class FrmNhaXuatBan extends javax.swing.JFrame {
+
     final SetSize setsize = new SetSize();
     final static NhaXuatBanService SERVICE = new NhaXuatBanService();
     static NhaXuatBan NXB_DUOCCHON;
-    static{
-        if(!SERVICE.getAll().isEmpty()){
+
+    static {
+        if (!SERVICE.getAll().isEmpty()) {
             NXB_DUOCCHON = SERVICE.getAll().get(0);
         }
     }
+
     /**
      * Creates new form FrmNhaXuatBan
      */
@@ -88,6 +91,11 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
 
         cbxNhaXuatBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         cbxNhaXuatBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        cbxNhaXuatBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                cbxNhaXuatBanMouseClicked(evt);
+            }
+        });
 
         txtThem.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(txtThem);
@@ -184,28 +192,57 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnCloseMouseClicked
 
+    public void clear() {
+        txtTen.setText("");
+        txtDiaChi.setText("");
+    }
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        // TODO add your handling code here:
-        this.dispose();
+        NhaXuatBan nxb = new NhaXuatBan();
+
+        if (txtThem.isSelected()) {
+            nxb.setTen(txtTen.getText());
+            nxb.setDiaChi(txtDiaChi.getText());
+            SERVICE.Them(nxb);
+            clear();
+            fillCbx();
+        } else if (txtXoa.isSelected()) {
+            String ten = txtTen.getText();
+            SERVICE.Xoa(ten);
+            clear();
+            fillCbx();
+        } else if (txtSua.isSelected()) {
+            nxb.setTen(txtTen.getText());
+            nxb.setDiaChi(txtDiaChi.getText());
+            SERVICE.Sua(nxb);
+            clear();
+            fillCbx();
+        }
         FrmPhieuNhap.fillCbxNXB();
         int index = this.cbxNhaXuatBan.getSelectedIndex();
         FrmPhieuNhap.cbxNhaXuatBan.setSelectedIndex(index);
         NXB_DUOCCHON = SERVICE.getAll().get(index);
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
-    private void seticon(){
+    private void cbxNhaXuatBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxNhaXuatBanMouseClicked
+        String ten = cbxNhaXuatBan.getSelectedItem().toString();
+        NhaXuatBan nxb = SERVICE.getByName(ten);
+        txtTen.setText(ten);
+        txtDiaChi.setText(nxb.getDiaChi());
+    }//GEN-LAST:event_cbxNhaXuatBanMouseClicked
+
+    private void seticon() {
         URL urldong = getClass().getResource("/Images/cross-small.png");
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
     }
 
-    private void fillCbx(){
-        List<NhaXuatBan>  _lst = SERVICE.getAll();
+    private void fillCbx() {
+        List<NhaXuatBan> _lst = SERVICE.getAll();
         cbxNhaXuatBan.removeAllItems();
         for (NhaXuatBan nhaXuatBan : _lst) {
             cbxNhaXuatBan.addItem(nhaXuatBan.getTen());
         }
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
     private javax.swing.JButton btnHoanThanh;
