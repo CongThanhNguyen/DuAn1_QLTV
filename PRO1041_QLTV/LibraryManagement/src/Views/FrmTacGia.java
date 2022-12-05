@@ -66,7 +66,7 @@ public class FrmTacGia extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(null));
+        jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Tác giả");
@@ -107,7 +107,7 @@ public class FrmTacGia extends javax.swing.JFrame {
         rdoXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
-        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder(null));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách tác giả"));
 
         tblTacGia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
