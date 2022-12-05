@@ -13,6 +13,6 @@ import Views.FrmNhaCungCap;
  */
 public class Application {
     public static void main(String[] args) {
-        new FrmNhaCungCap().setVisible(true);
+        new FrmLogin().setVisible(true);
     }
 }

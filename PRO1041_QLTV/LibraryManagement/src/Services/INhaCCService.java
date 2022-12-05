@@ -17,4 +17,5 @@ public interface INhaCCService {
     public Integer Sua(NhaCC Nhacc);
     public List<NhaCC> getAll();
     public NhaCC getByID(String id);
+    public NhaCC getbyName(String ten);
 }

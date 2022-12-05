@@ -130,7 +130,7 @@ public class TacGiaRepository implements ITacGiaRepository {
 
     @Override
     public void Sua(TacGia tg) {
-        String sql = "update TacGia  TenTacGia = ?,set DiaChi = ? where MaTacGia = ?";
+        String sql = "update TacGia set TenTacGia = ?,set DiaChi = ? where MaTacGia = ?";
         try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
             
             ps.setString(1, tg.getHoTen());
