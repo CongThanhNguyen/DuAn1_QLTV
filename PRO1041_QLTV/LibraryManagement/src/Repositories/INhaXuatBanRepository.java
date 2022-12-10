@@ -13,14 +13,10 @@ import java.util.List;
  */
 public interface INhaXuatBanRepository {
     public NhaXuatBan insert(NhaXuatBan nhaXuatBan);
-    public NhaXuatBan delete(String ma);
     public NhaXuatBan update(NhaXuatBan nhaXuatBan);
     public List<NhaXuatBan> getAll();
     public NhaXuatBan getByID(String id);
-    public NhaXuatBan getByName(String ten);
+    public NhaXuatBan getByNameNDiaChi(String ten, String diaChi);
     public int insertNXBCT(String idNXB, String idSachCT); 
-    
-    public void Them(NhaXuatBan nxb);
-    public void Sua(NhaXuatBan nxb);
-    public void Xoa(String ten);
+    public int deleteNXBCT(String idSachCT); 
 }

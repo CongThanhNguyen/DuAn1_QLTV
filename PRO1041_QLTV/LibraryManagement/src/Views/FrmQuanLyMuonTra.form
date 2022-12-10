@@ -348,19 +348,24 @@
                   </Layout>
                   <SubComponents>
                     <Container class="javax.swing.JPanel" name="pnSach1">
+                      <Properties>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[350, 31]"/>
+                        </Property>
+                      </Properties>
 
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblMaSach1" min="-2" pref="45" max="-2" attributes="0"/>
-                                  <EmptySpace max="32767" attributes="0"/>
-                                  <Component id="lblTenSach1" min="-2" max="-2" attributes="0"/>
+                                  <Component id="lblTenSach1" pref="215" max="32767" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblDNV1" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace type="separate" max="-2" attributes="0"/>
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cbxCuonSach1" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="lblCuonSo1" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -370,25 +375,17 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblMaSach1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblTenSach1" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbxCuonSach1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCuonSo1" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDNV1" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="9" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lblMaSach1">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="S&#xe1;ch 1"/>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-                          </AuxValues>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblTenSach1">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="T&#xea;n s&#xe1;ch 1"/>
@@ -405,38 +402,43 @@
                             <Property name="text" type="java.lang.String" value="Quy&#x1ec3;n s&#x1ed1;"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="cbxCuonSach1">
+                        <Component class="javax.swing.JLabel" name="lblCuonSo1">
                           <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="96" green="c8" red="7d" type="rgb"/>
-                            </Property>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="1">
-                                <StringItem index="0" value="15"/>
-                              </StringArray>
-                            </Property>
+                            <Property name="text" type="java.lang.String" value="0"/>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblDNV1">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="jLabel3"/>
+                          </Properties>
+                          <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="pnSach2">
+                      <Properties>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[350, 31]"/>
+                        </Property>
+                      </Properties>
 
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblMaSach2" min="-2" pref="45" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblTenSach2" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <Component id="lblTenSach2" pref="206" max="32767" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="lblDNV2" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="jLabel4" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cbxCuonSach2" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="lblCuonSo2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -446,25 +448,17 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblMaSach2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblTenSach2" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbxCuonSach2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCuonSo2" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDNV2" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="9" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lblMaSach2">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="S&#xe1;ch 2"/>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-                          </AuxValues>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblTenSach2">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="T&#xea;n s&#xe1;ch 2"/>
@@ -481,38 +475,43 @@
                             <Property name="text" type="java.lang.String" value="Quy&#x1ec3;n s&#x1ed1;"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="cbxCuonSach2">
+                        <Component class="javax.swing.JLabel" name="lblCuonSo2">
                           <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="96" green="c8" red="7d" type="rgb"/>
-                            </Property>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="1">
-                                <StringItem index="0" value="15"/>
-                              </StringArray>
-                            </Property>
+                            <Property name="text" type="java.lang.String" value="0"/>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblDNV2">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="jLabel5"/>
+                          </Properties>
+                          <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                           </AuxValues>
                         </Component>
                       </SubComponents>
                     </Container>
                     <Container class="javax.swing.JPanel" name="pnSach3">
+                      <Properties>
+                        <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
+                          <Dimension value="[350, 31]"/>
+                        </Property>
+                      </Properties>
 
                       <Layout>
                         <DimensionLayout dim="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="lblMaSach3" min="-2" pref="45" max="-2" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
                                   <Component id="lblTenSach3" max="32767" attributes="0"/>
-                                  <EmptySpace max="-2" attributes="0"/>
+                                  <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                  <Component id="lblDNV3" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="21" max="-2" attributes="0"/>
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="cbxCuonSach3" min="-2" pref="50" max="-2" attributes="0"/>
+                                  <Component id="lblCuonSo3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -522,25 +521,17 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <EmptySpace max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="3" attributes="0">
-                                      <Component id="lblMaSach3" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="lblTenSach3" alignment="3" min="-2" max="-2" attributes="0"/>
                                       <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                                      <Component id="cbxCuonSach3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblCuonSo3" alignment="3" min="-2" max="-2" attributes="0"/>
+                                      <Component id="lblDNV3" alignment="3" min="-2" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace max="32767" attributes="0"/>
+                                  <EmptySpace pref="9" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                         </DimensionLayout>
                       </Layout>
                       <SubComponents>
-                        <Component class="javax.swing.JLabel" name="lblMaSach3">
-                          <Properties>
-                            <Property name="text" type="java.lang.String" value="S&#xe1;ch 3"/>
-                          </Properties>
-                          <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
-                          </AuxValues>
-                        </Component>
                         <Component class="javax.swing.JLabel" name="lblTenSach3">
                           <Properties>
                             <Property name="text" type="java.lang.String" value="T&#xea;n s&#xe1;ch 3"/>
@@ -557,19 +548,19 @@
                             <Property name="text" type="java.lang.String" value="Quy&#x1ec3;n s&#x1ed1;"/>
                           </Properties>
                         </Component>
-                        <Component class="javax.swing.JComboBox" name="cbxCuonSach3">
+                        <Component class="javax.swing.JLabel" name="lblCuonSo3">
                           <Properties>
-                            <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                              <Color blue="96" green="c8" red="7d" type="rgb"/>
-                            </Property>
-                            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-                              <StringArray count="1">
-                                <StringItem index="0" value="15"/>
-                              </StringArray>
-                            </Property>
+                            <Property name="text" type="java.lang.String" value="0"/>
                           </Properties>
                           <AuxValues>
-                            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+                            <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
+                          </AuxValues>
+                        </Component>
+                        <Component class="javax.swing.JLabel" name="lblDNV3">
+                          <Properties>
+                            <Property name="text" type="java.lang.String" value="jLabel6"/>
+                          </Properties>
+                          <AuxValues>
                             <AuxValue name="JavaCodeGenerator_VariableModifier" type="java.lang.Integer" value="9"/>
                           </AuxValues>
                         </Component>

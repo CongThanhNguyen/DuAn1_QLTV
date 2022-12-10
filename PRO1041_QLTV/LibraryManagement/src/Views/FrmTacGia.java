@@ -8,9 +8,12 @@ import DomainModels.TacGia;
 import Services.Impl.TacGiaService;
 import Utilities.SetSize;
 import java.awt.Color;
+import java.io.File;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileSystemView;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
 
@@ -22,9 +25,9 @@ public class FrmTacGia extends javax.swing.JFrame {
 
     final SetSize setsize = new SetSize();
     final TacGiaService SERVICE = new TacGiaService();
-    static List<TacGia> LST_TACGIA_DUOCCHON = new ArrayList<>();
-    int i = 10;
-
+    int i = 20000;
+    public String icon ="";
+    private boolean updateImg = false;
     /**
      * Creates new form FrmTacGgia
      */
@@ -57,23 +60,33 @@ public class FrmTacGia extends javax.swing.JFrame {
         btnClose = new javax.swing.JLabel();
         rdoThem = new javax.swing.JRadioButton();
         rdoSua = new javax.swing.JRadioButton();
-        rdoXoa = new javax.swing.JRadioButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTacGia = new javax.swing.JTable();
         jTextField3 = new javax.swing.JTextField();
         btnSearch = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        imgAnhTG = new javax.swing.JLabel();
+        btnTaianh = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
+        lblMa = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Tác giả");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 7, -1, -1));
 
-        jLabel2.setText("Tên");
+        jLabel2.setText("Mã");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 50, 50, -1));
 
         jLabel3.setText("Địa chỉ");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 120, 46, -1));
+        jPanel2.add(txtTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 77, 200, -1));
+        jPanel2.add(txtDiaChi, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 117, 200, -1));
 
         btnHoanThanh.setBackground(new java.awt.Color(125, 200, 150));
         btnHoanThanh.setText("Hoàn thành");
@@ -83,43 +96,52 @@ public class FrmTacGia extends javax.swing.JFrame {
                 btnHoanThanhActionPerformed(evt);
             }
         });
+        jPanel2.add(btnHoanThanh, new org.netbeans.lib.awtextra.AbsoluteConstraints(160, 330, -1, -1));
 
+        btnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClose.setPreferredSize(new java.awt.Dimension(20, 20));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseMouseClicked(evt);
             }
         });
+        jPanel2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(397, 1, 22, -1));
 
         rdoThem.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoThem);
+        rdoThem.setSelected(true);
         rdoThem.setText("Thêm");
         rdoThem.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel2.add(rdoThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 330, -1, -1));
 
         rdoSua.setBackground(new java.awt.Color(255, 255, 255));
         buttonGroup1.add(rdoSua);
         rdoSua.setText("Sửa");
         rdoSua.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        rdoXoa.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(rdoXoa);
-        rdoXoa.setText("Xóa");
-        rdoXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jPanel2.add(rdoSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(80, 330, -1, -1));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("Danh sách tác giả"));
 
         tblTacGia.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null},
-                {null, null},
-                {null, null},
-                {null, null}
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
             },
             new String [] {
-                "Mã tác giả", "Tác giả"
+                "Mã tác giả", "Tác giả", "Địa chỉ"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tblTacGia.setGridColor(new java.awt.Color(255, 255, 255));
         tblTacGia.setSelectionBackground(new java.awt.Color(125, 200, 150));
         tblTacGia.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -128,100 +150,65 @@ public class FrmTacGia extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(tblTacGia);
+        if (tblTacGia.getColumnModel().getColumnCount() > 0) {
+            tblTacGia.getColumnModel().getColumn(0).setResizable(false);
+            tblTacGia.getColumnModel().getColumn(1).setResizable(false);
+            tblTacGia.getColumnModel().getColumn(2).setResizable(false);
+        }
+
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(1, 185, 416, 130));
 
         jTextField3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField3ActionPerformed(evt);
             }
         });
+        jPanel2.add(jTextField3, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 157, 135, -1));
 
         btnSearch.setText(".");
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearch.setPreferredSize(new java.awt.Dimension(20, 20));
+        jPanel2.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(383, 157, -1, -1));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addComponent(btnHoanThanh)
-                                .addGap(83, 83, 83))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addComponent(rdoThem)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(rdoSua)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(rdoXoa))
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtDiaChi, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                            .addComponent(txtTen))))
-                                .addGap(16, 16, 16))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(103, Short.MAX_VALUE)
-                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgAnhTG, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdoThem)
-                    .addComponent(rdoSua)
-                    .addComponent(rdoXoa))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnHoanThanh)
-                .addGap(8, 8, 8))
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(imgAnhTG, javax.swing.GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE)
         );
+
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 40, 90, 100));
+
+        btnTaianh.setBackground(new java.awt.Color(125, 200, 150));
+        btnTaianh.setText("Tải ảnh");
+        btnTaianh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTaianhActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnTaianh, new org.netbeans.lib.awtextra.AbsoluteConstraints(28, 150, -1, -1));
+
+        jLabel4.setText("Tên");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(145, 80, 46, -1));
+
+        lblMa.setText("IS AUTO");
+        jPanel2.add(lblMa, new org.netbeans.lib.awtextra.AbsoluteConstraints(203, 50, 110, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 364, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -230,6 +217,7 @@ public class FrmTacGia extends javax.swing.JFrame {
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
         // TODO add your handling code here:
         this.dispose();
+        FrmChinh.setFrmChinh(new FrmQuanLyKhoSach());
     }//GEN-LAST:event_btnCloseMouseClicked
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -253,53 +241,65 @@ public class FrmTacGia extends javax.swing.JFrame {
     }
 
     public void clear() {
+        lblMa.setText("IS AUTO");
         txtDiaChi.setText("");
         txtTen.setText("");
     }
 
     private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        TacGia tg = new TacGia();
+        TacGia tg = getFormData();
         if (rdoThem.isSelected()) {
-            String ma = roleMa();
-            tg.setMa(ma);
-            tg.setHoTen(txtTen.getText());
-            tg.setDiaChi(txtDiaChi.getText());
-            SERVICE.insert(tg);
-            clear();
-            loadTable();
+            tg.setMa(this.roleMa());
+            SERVICE.insert(tg, this);
         } else if (rdoSua.isSelected()) {
-            tg.setHoTen(txtTen.getText());
-            tg.setDiaChi(txtDiaChi.getText());
-            SERVICE.Sua(tg);
-            clear();
-            loadTable();
-
-        } else if (rdoXoa.isSelected()) {
-            String ten = txtTen.getText();
-            tg.setHoTen(ten);
-            SERVICE.Xoa(ten);
-            clear();
-            loadTable();
-        } else {
-            String hoten = "";
-            LST_TACGIA_DUOCCHON = this.getTacGiaSelected();
-            for (TacGia tacGia : LST_TACGIA_DUOCCHON) {
-                hoten += tacGia.getHoTen() + "-";
+            String ma = lblMa.getText();
+            if(ma.equalsIgnoreCase("is auto")){
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn tác giả để thay dổi!");
+                return;
             }
-            hoten = hoten.substring(0, hoten.length() - 1);
-            FrmPhieuNhap.lblTacGia.setText(hoten);
-            this.dispose();
+            tg = SERVICE.getByMa(ma);
+            TacGia tgUpdate = getFormData();
+            tgUpdate.setMa(tg.getMa());
+            tgUpdate.setImg(icon);
+            SERVICE.update(tgUpdate, this);
         }
+        this.loadTable();
+        this.clear();
     }//GEN-LAST:event_btnHoanThanhActionPerformed
 
+    private TacGia getFormData(){
+        TacGia tg = new TacGia();
+        tg.setHoTen(txtTen.getText());
+        tg.setDiaChi(txtDiaChi.getText());
+        tg.setImg(icon);
+        return tg;
+    }
     private void tblTacGiaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTacGiaMouseClicked
-        int i = tblTacGia.getSelectedRow();
-        String ma = tblTacGia.getValueAt(i, 0).toString();
+        int row = tblTacGia.getSelectedRow();
+        String ma = tblTacGia.getValueAt(row, 0).toString();
         TacGia tg = SERVICE.getByMa(ma);
+        lblMa.setText(ma);
         txtDiaChi.setText(tg.getDiaChi());
         txtTen.setText(tg.getHoTen());
+        icon = tg.getImg();
+        this.setImgDisplay(icon);
     }//GEN-LAST:event_tblTacGiaMouseClicked
 
+    private void btnTaianhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTaianhActionPerformed
+        // TODO add your handling code here:
+        JFileChooser choose = new JFileChooser(FileSystemView.getFileSystemView().getHomeDirectory());
+        choose.showDialog(this, "Confirm");
+        File file = choose.getSelectedFile();
+        icon = file.getAbsolutePath();
+        int index = icon.lastIndexOf("\\");
+        icon ="/Images/imgTacGia/"+ icon.substring(index+1);
+        this.setImgDisplay(icon);
+    }//GEN-LAST:event_btnTaianhActionPerformed
+
+    private void setImgDisplay(String src){
+        URL img = getClass().getResource(src);
+        imgAnhTG.setIcon(setsize.setSizeAnh(img, 90, 100));
+    }
     private void seticon() {
         URL urlSearch = getClass().getResource("/Images/search.png");
         URL urldong = getClass().getResource("/Images/cross-small.png");
@@ -316,41 +316,35 @@ public class FrmTacGia extends javax.swing.JFrame {
         List<TacGia> _lst = SERVICE.getAll();
         DefaultTableModel model = (DefaultTableModel) tblTacGia.getModel();
         model.setRowCount(0);
-        for (TacGia tacGia : _lst) {
-            Object rowData[] = {
-                tacGia.getMa(), tacGia.getHoTen()
-            };
-            model.addRow(rowData);
+        if(!_lst.isEmpty()){
+            for (TacGia tacGia : _lst) {
+                Object rowData[] = {
+                    tacGia.getMa(), tacGia.getHoTen(), tacGia.getDiaChi()
+                };
+                model.addRow(rowData);
+            }
         }
         tblTacGia.setModel(model);
     }
-
-    public List<TacGia> getTacGiaSelected() {
-        List<TacGia> _lst = new ArrayList<>();
-        int start = tblTacGia.getSelectedRow();
-        int end = tblTacGia.getSelectedRowCount() + start;
-        for (int i = start; i < end; i++) {
-            String ma = (String) tblTacGia.getValueAt(i, 0);
-            TacGia tg = SERVICE.getByMa(ma);
-            _lst.add(tg);
-        }
-        return _lst;
-    }
-
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
     private javax.swing.JButton btnHoanThanh;
     private javax.swing.JLabel btnSearch;
+    private javax.swing.JButton btnTaianh;
     private javax.swing.ButtonGroup buttonGroup1;
+    private javax.swing.JLabel imgAnhTG;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextField3;
+    private javax.swing.JLabel lblMa;
     private javax.swing.JRadioButton rdoSua;
     private javax.swing.JRadioButton rdoThem;
-    private javax.swing.JRadioButton rdoXoa;
     private javax.swing.JTable tblTacGia;
     private javax.swing.JTextField txtDiaChi;
     private javax.swing.JTextField txtTen;

@@ -4,8 +4,11 @@
  */
 package Views;
 
+import DomainModels.PhieuNhap;
+import DomainModels.SachCT;
 import Services.Impl.PhieuNhapService;
 import Services.Impl.PhieuNhapViewModelService;
+import Services.Impl.SachCTService;
 import Utilities.SetSize;
 import ViewModels.PhieuNhapViewmodel;
 import java.awt.Color;
@@ -25,6 +28,7 @@ public class FrmDSPN extends javax.swing.JFrame {
     DefaultTableModel tblModel = new DefaultTableModel();
     final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
     final PhieuNhapService SERVICE = new PhieuNhapService();
+    final SachCTService SERVICE_SACHCT = new SachCTService();
 
     /**
      * Creates new form FrmDSPN
@@ -221,10 +225,12 @@ public class FrmDSPN extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tblDS.getSelectedRow();
         FrmPhieuNhap phieuNhap = new FrmPhieuNhap();
+        PhieuNhap PN = SERVICE.getByID((String) tblDS.getValueAt(row, 0));
         phieuNhap.checkSach(false);
         phieuNhap.xemChiTiet();
-        phieuNhap.setDisplay((String) tblDS.getValueAt(row, 0));
+        phieuNhap.setDisplay(PN.getId());
         phieuNhap.setVisible(true);
+
     }//GEN-LAST:event_tblDSMouseClicked
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

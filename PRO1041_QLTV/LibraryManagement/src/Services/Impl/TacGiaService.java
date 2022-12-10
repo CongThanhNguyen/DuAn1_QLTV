@@ -4,10 +4,13 @@
  */
 package Services.Impl;
 
+import DomainModels.Sach;
 import DomainModels.TacGia;
 import Repositories.Impl.TacGiaRepository;
 import Services.ITacGiaService;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,18 +25,17 @@ public class TacGiaService implements ITacGiaService {
     }
     
     @Override
-    public void insert(TacGia tacGia) {
-        REPO.insert(tacGia);
+    public void insert(TacGia tacGia, Component c) {
+        TacGia tg = REPO.insert(tacGia);
+        String mess = tg==null?"Thêm tác giả thất bại!":"Thêm tác giả thành công!";
+        JOptionPane.showMessageDialog(c, mess);
     }
     
     @Override
-    public TacGia delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-    
-    @Override
-    public TacGia update(TacGia tacGia) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(TacGia tacGia, Component c) {
+        TacGia tg = REPO.update(tacGia);
+        String mess = tg==null?"Sửa tác giả thất bại!":"Sửa tác giả thành công!";
+        JOptionPane.showMessageDialog(c, mess);
     }
     
     @Override
@@ -47,23 +49,13 @@ public class TacGiaService implements ITacGiaService {
     }
     
     @Override
-    public int insertTGCT(String idsach, String idTG) {
-        return REPO.InsertTacGiaCT(idsach, idTG);
-    }
-    
+    public void insertTGCT(String idsach, String idTG) {
+        REPO.InsertTacGiaCT(idsach, idTG);
+    } 
+
     @Override
-    public int UpdateTacGiaCT(TacGia tacgia) {
-        return REPO.UpdateTacGiaCT(tacgia);
-    }
-    
-    @Override
-    public void Xoa(String ten) {
-        REPO.Xoa(ten);
-    }
-    
-    @Override
-    public void Sua(TacGia tg) {
-        REPO.Sua(tg);
+    public int deleteTacGiaCT(Sach sach) {
+        return REPO.deleteTacGiaCT(sach);
     }
     
 }

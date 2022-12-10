@@ -7,6 +7,7 @@ package Views;
 import DomainModels.CuonSach;
 import DomainModels.Sach;
 import DomainModels.SachCT;
+import Services.Impl.SachCTService;
 import Utilities.ScanBarcode;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.LuminanceSource;
@@ -20,7 +21,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
-import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  *
@@ -28,8 +29,10 @@ import javax.swing.JLabel;
  */
 public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFactory{
         private Executor executor = Executors.newSingleThreadScheduledExecutor((ThreadFactory) this);
+        final SachCTService SERVICE_SACHCT = new SachCTService();
         final ScanBarcode scan = new ScanBarcode();
         public static int where = -1;
+        public static String SERI = "";
     /**
      * Creates new form FrmScanBC
      */
@@ -114,15 +117,25 @@ public class FrmScanBC extends javax.swing.JFrame implements Runnable, ThreadFac
     private void btnLaySeriActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLaySeriActionPerformed
         // TODO add your handling code here:
         ScanBarcode.webcam.close();
-        if(where==0){
-            FrmPhieuNhap.lblSeri.setText(lblBarcode.getText());
-        } else{
-            SachCT sachCT = FrmQuanLyMuonTra.SERVICE_SACHCT.getByBarcode(lblBarcode.getText());
-            Sach sach = FrmQuanLyMuonTra.SERVICE_SACH.getByID(sachCT.getSach().getId());
-            List<CuonSach> cs = FrmQuanLyMuonTra.SERVICE_CS.getByIDSachCT(sachCT.getId());
-            cs.sort((CuonSach o1, CuonSach o2) -> o1.getMa()>o2.getMa()?1:-1);
-            FrmQuanLyMuonTra.setSoQuyen(sach, cs);
-        }
+            switch (where) {
+                case 0 -> FrmPhieuNhap.lblSeri.setText(lblBarcode.getText());
+                case 1 -> {
+                    CuonSach cs = FrmQuanLyMuonTra.SERVICE_CS.getByID(lblBarcode.getText()).get(0);
+                    Sach sach = FrmQuanLyMuonTra.SERVICE_SACH.getByID(cs.getSachct().getSach().getId());
+                    FrmQuanLyMuonTra.setSoQuyen(sach, cs);
+                }
+                case 2 -> {
+                    FrmQuanLyKhoSach frm = new FrmQuanLyKhoSach();
+                    String seri = lblBarcode.getText();
+                    SachCT sachct = SERVICE_SACHCT.getByBarcode(seri);
+                    frm.setViewSach(sachct.getSach().getMa());
+                    JPanel panel = FrmQuanLyKhoSach.pnSachView;
+                    FrmPhieuNhap frmPN = new FrmPhieuNhap();
+                    frmPN.setSachDaCo(panel);
+                    frmPN.setVisible(true);
+                    SERI = seri;
+                }
+            }
         this.dispose();
     }//GEN-LAST:event_btnLaySeriActionPerformed
 

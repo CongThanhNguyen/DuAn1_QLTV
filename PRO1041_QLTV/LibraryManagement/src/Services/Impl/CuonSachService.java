@@ -28,12 +28,12 @@ public class CuonSachService implements ICuonSachService{
 
     @Override
     public CuonSach delete(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return REPO.delete(id);
     }
 
     @Override
-    public CuonSach update(int soLuong, CuonSach cuonSach, int soBatDau) {
-        return REPO.update(soLuong, cuonSach, soBatDau);
+    public CuonSach update(CuonSach cuonSach) {
+        return REPO.update(cuonSach);
     }
 
     @Override
@@ -59,6 +59,11 @@ public class CuonSachService implements ICuonSachService{
     @Override
     public CuonSach getByMaAndID(String id, String ma) {
         return REPO.getByMaAndID(id, ma);
+    }
+
+    @Override
+    public List<CuonSach> getByTinhTrangNID(String tinhTrang, String id) {
+        return REPO.getByTinhTrangNID(tinhTrang, id);
     }
 
 }

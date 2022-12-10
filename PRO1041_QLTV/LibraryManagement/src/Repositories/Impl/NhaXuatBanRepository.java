@@ -7,39 +7,35 @@ package Repositories.Impl;
 import DomainModels.NhaXuatBan;
 import Repositories.INhaXuatBanRepository;
 import Utilities.DBConnection;
-import Utilities.DBContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.*;
-import javax.swing.JOptionPane;
 
 /**
  *
  * @author Admin
  */
 public class NhaXuatBanRepository implements INhaXuatBanRepository {
-
     String sql = "Select * from NhaXuatBan";
-    String sqlByID = "Select * from NhaXuatBan where id =?";
+    String sqlByID = "Select * from NhaXuatBan where idNhaXuatBan =?";
     String insert_NXBCT = "Insert into NXBCT values(?,?)";
-    String sqlByName = "select * from NhaXuatBan where Tennxb = ?";
+    String delete_NXBCT = "delete NXBCT  where idSachCT=?";
+    String insert = "Insert into NhaXuatBan(TENNXB, DiaChi) values(?,?)";
+    String update = "update NhaXuatBan set TenNXB = ?, DiaChi = ? where idNhaXuatBan =?";
+    String sqlByNameNDiaChi = "select * from NhaXuatBan where Tennxb = ? and DiaChi =?";
 
     @Override
     public NhaXuatBan insert(NhaXuatBan nxb) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int i = DBConnection.ExcuteDungna(insert, nxb.getTen(), nxb.getDiaChi());
+        return i==1?getByNameNDiaChi(nxb.getTen(), nxb.getDiaChi()):null;
     }
 
-    @Override
-    public NhaXuatBan delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
     @Override
     public NhaXuatBan update(NhaXuatBan nxb) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        int i = DBConnection.ExcuteDungna(update, nxb.getTen(), nxb.getDiaChi(), nxb.getId());
+        return i==1?getByID(nxb.getId()):null;
     }
 
     @Override
@@ -75,43 +71,14 @@ public class NhaXuatBanRepository implements INhaXuatBanRepository {
     }
 
     @Override
-    public NhaXuatBan getByName(String ten) {
-        return getBySql(sqlByName, ten).get(0);
+    public NhaXuatBan getByNameNDiaChi(String ten, String diaChi) {
+        List<NhaXuatBan> nxb = getBySql(sqlByNameNDiaChi, ten, diaChi);
+        return !nxb.isEmpty()?getBySql(sqlByNameNDiaChi, ten, diaChi).get(0):null;
     }
 
     @Override
-    public void Them(NhaXuatBan nxb) {
-        String sql = "insert into NhaXuatBan(TENNXB,DiaChi) values (?,?)";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, nxb.getTen());
-            ps.setString(2, nxb.getDiaChi());
-            ps.execute();
-            JOptionPane.showMessageDialog(null, "Thêm thành công");
-        } catch (Exception e) {
-        }
+    public int deleteNXBCT(String idSachCT) {
+        return DBConnection.ExcuteDungna(delete_NXBCT, idSachCT);
     }
 
-    @Override
-    public void Sua(NhaXuatBan nxb) {
-        String sql = "Update NhaXuatBan set DiaChi =? where TENNXB = ?";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, nxb.getDiaChi());
-            ps.setString(2, nxb.getTen());
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Sửa thành công");
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public void Xoa(String ten) {
-        String sql = "Delete NhaXuatBan where TENNXB = ?";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, ten);
-
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Xóa thành công");
-        } catch (Exception e) {
-        }
-    }
 }

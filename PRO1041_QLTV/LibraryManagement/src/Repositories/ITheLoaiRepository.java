@@ -13,10 +13,10 @@ import java.util.List;
  */
 public interface ITheLoaiRepository {
     public TheLoaiSach insert(TheLoaiSach loaiSach);
-    public TheLoaiSach delete(String ma);
     public TheLoaiSach update(TheLoaiSach loaiSach);
     public List<TheLoaiSach> getAll();
     public TheLoaiSach getByID(String ID);
     public TheLoaiSach getByName(String name);
     public int insertTheLoaiCT(String idSach, String idTheLoai);
+    public int deleteTheLoaiCT(String idSach);
 }

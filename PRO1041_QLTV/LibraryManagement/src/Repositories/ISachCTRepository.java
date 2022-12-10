@@ -19,5 +19,5 @@ public interface ISachCTRepository {
     public SachCT getByIDSach(String ID);
     public SachCT getByID(String ID);
     public SachCT getByBarcode(String barcode);
-
+    public int CountCSBYIDSachCT (String id);
 }

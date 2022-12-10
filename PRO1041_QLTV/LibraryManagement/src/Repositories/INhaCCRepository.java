@@ -12,10 +12,9 @@ import java.util.List;
  * @author Admin
  */
 public interface INhaCCRepository {
-   public Integer Them(NhaCC nhacc);
-    public Integer xoa(String ten);
-    public Integer sua(NhaCC nhacc);
+    public NhaCC Insert(NhaCC nhacc);
+    public NhaCC Update(NhaCC nhacc);
     public List<NhaCC> getAll();
     public NhaCC getByID(String id);
-    public NhaCC getByName(String ten);
+    public NhaCC getByNameNDiaChi(String ten,String diaChi);
 }

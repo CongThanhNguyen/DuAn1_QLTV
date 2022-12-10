@@ -34,6 +34,17 @@ public class ValidateData {
         return false;
     }
     
+    //Hàm kiểm tra số điện thoại hợp lệ
+    public Boolean isEmail(String sdt){
+        String reg = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$";
+        Pattern p = Pattern.compile(reg);
+        Matcher m = p.matcher(sdt);
+        if(m.matches()){
+            return true;
+        }
+        return false;
+    }
+    
     public static void main(String[] args) {
         while(true){
             Scanner sc = new Scanner(System.in);

@@ -3,54 +3,64 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuenMatKhau.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/IPhieuNhapRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuMuonCTRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/PhieuNhapService.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Utilities/SetSize.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/SachCTRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/NhaXuatBanRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmDocGiaViPham.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/CuonSachRepository.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmPhieuNhap.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/KhoSachRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/TheLoaiSachRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuMuonRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/PhieuNhapViewModelService.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/DomainModels/PhieuNhap.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/IPhieuNhapService.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/KhoSachService.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyBaoCao.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuNhapRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmLogin.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/TacGiaCTRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyMuonTra.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/BaoCaoRepositories.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/SachService.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/ICuonSachRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/KhoSachServices.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/SachRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/INhaXuatBanRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/ViewModels/PhieuMuonTableViewModel.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/ViPhamRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/CuonSachService.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyViPham.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/SachCTService.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyDocGia.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyKhoSach.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/KhoSachImpl.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/NhaCCRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Utilities/SetSize.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/ViewModels/SachCTViewModel.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/IPhieuMuonViewModelService.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/CuonSachRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmPhieuNhap.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuMuonViewModelRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/KhoSachRepository.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/IPhieuNhapService.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuNhapRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/DomainModels/ViPham.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmChinh.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/ViewModels/DocGiaViPhamViewModel.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/BaoCaoRepositories.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/BaoCaoServices.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/SachService.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/ICuonSachRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/TacGiaRepository.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/KhoSachServices.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/SachRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/ICuonSachService.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/INhaXuatBanRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmDSPN.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmSach.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/ViPhamRepositoryImpl.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/ViPhamRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/BaoCaoreposotoriesImpl.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Application/Application.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/BaoCaoServicesImpl.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/CuonSachService.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyViPham.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmTrangChu.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/SachCTService.java</file>
+            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Services/Impl/PhieuMuonViewModelService.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyThongKe.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/ViewModels/BaoCaoPMViewModels.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Views/FrmQuanLyKhoSach.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/PhieuNhapViewModelRepository.java</file>
             <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/IPhieuNhapViewModelRepository.java</file>
-            <file>file:/C:/Users/Admin/Desktop/FPT%20polytechnic/IT/DuAn1_QLTV/PRO1041_QLTV/LibraryManagement/src/Repositories/Impl/KhoSachImpl.java</file>
         </group>
     </open-files>
 </project-private>

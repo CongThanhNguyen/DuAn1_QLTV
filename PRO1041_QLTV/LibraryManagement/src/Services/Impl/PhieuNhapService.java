@@ -20,8 +20,6 @@ public class PhieuNhapService implements IPhieuNhapService{
         this.REPO = new PhieuNhapRepository();
     }
 
-    
-
     @Override
     public PhieuNhap insert(PhieuNhap phieuNhap) {
         return REPO.insert(phieuNhap);

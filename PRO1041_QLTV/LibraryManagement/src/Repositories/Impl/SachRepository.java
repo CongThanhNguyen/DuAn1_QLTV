@@ -26,7 +26,7 @@ public class SachRepository implements ISachRepository {
     String sql_by_ten = "Select * from Sach where tensach like ?";
     String sql_by_id = "Select * from Sach where IDSach = ?";
     String insert = "Insert into Sach(MaSach, TenSach) values(?,?)";
-    final String update = "Sach set TenSach = ? where MaSach = ?";
+    final String update = "update Sach set TenSach = ? where MaSach = ?";
 
     @Override
     public Sach insert(Sach sach) {

@@ -7,7 +7,9 @@ package Services.Impl;
 import DomainModels.NhaXuatBan;
 import Repositories.Impl.NhaXuatBanRepository;
 import Services.INhaXuatBanService;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,18 +24,24 @@ public class NhaXuatBanService implements INhaXuatBanService {
     }
     
     @Override
-    public NhaXuatBan insert(NhaXuatBan nhaXuatBan) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void insert(NhaXuatBan nhaXuatBan, Component c) {
+        NhaXuatBan nxb = REPO.getByNameNDiaChi(nhaXuatBan.getTen(), nhaXuatBan.getDiaChi());
+        String mess = nxb!=null?"Nhà xuất bản đã có sẵn trong danh sách":"";
+        if(!mess.equals("")){
+            JOptionPane.showMessageDialog(c, mess);
+            return;
+        }
+        nxb = REPO.insert(nhaXuatBan);
+        mess = nxb!=null?"Thêm nhà xuất bản thành công":"Thêm nhà xuất bản thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
     
-    @Override
-    public NhaXuatBan delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     @Override
-    public NhaXuatBan update(NhaXuatBan nhaXuatBan) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(NhaXuatBan nhaXuatBan, Component c) {
+        NhaXuatBan nxb = REPO.update(nhaXuatBan);
+        String mess = nxb!=null?"Sửa nhà xuất bản thành công":"Sửa nhà xuất bản thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
     
     @Override
@@ -52,23 +60,14 @@ public class NhaXuatBanService implements INhaXuatBanService {
     }
     
     @Override
-    public void Them(NhaXuatBan nxb) {
-        REPO.Them(nxb);
+    public NhaXuatBan getByNameNDiaChi(String ten, String diaChi) {
+        return REPO.getByNameNDiaChi(ten, diaChi);
     }
-    
+
     @Override
-    public void Sua(NhaXuatBan nxb) {
-        REPO.Sua(nxb);
+    public int deleteNXBCT(String idSachCT) {
+        return REPO.deleteNXBCT(idSachCT);
     }
-    
-    @Override
-    public void Xoa(String ten) {
-        REPO.Xoa(ten);
-    }
-    
-    @Override
-    public NhaXuatBan getByName(String ten) {
-        return REPO.getByName(ten);
-    }
+
     
 }
