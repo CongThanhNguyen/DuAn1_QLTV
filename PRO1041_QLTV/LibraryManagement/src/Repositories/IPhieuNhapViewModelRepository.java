@@ -15,4 +15,6 @@ import java.util.List;
 public interface IPhieuNhapViewModelRepository {
     public PhieuNhapViewmodel getPhieuNhapView(String ma, PhieuNhap PN);
     public List<PhieuNhapViewmodel> getAll();
+    public List<PhieuNhapViewmodel> getByMa(String ma);
+    
 }

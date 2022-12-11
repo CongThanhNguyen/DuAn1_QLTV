@@ -26,8 +26,8 @@ public class SachCTService implements ISachCTService{
     }
 
     @Override
-    public SachCT delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(SachCT sachCT) {
+        REPO.delete(sachCT);
     }
 
     @Override

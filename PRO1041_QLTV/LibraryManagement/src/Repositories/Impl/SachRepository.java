@@ -21,12 +21,15 @@ import java.util.logging.Logger;
  */
 public class SachRepository implements ISachRepository {
 
-    String sql = "Select * from Sach";
-    String sql_by_ma = "Select * from Sach where MaSach like ?";
-    String sql_by_ten = "Select * from Sach where tensach like ?";
-    String sql_by_id = "Select * from Sach where IDSach = ?";
-    String insert = "Insert into Sach(MaSach, TenSach) values(?,?)";
+    final String sql = "Select * from Sach";
+    final String sql_by_ma = "Select * from Sach where MaSach like ?";
+    final String sql_by_ten = "Select * from Sach where tensach like ?";
+    final String sql_by_id = "Select * from Sach where IDSach = ?";
+    final String insert = "Insert into Sach(MaSach, TenSach) values(?,?)";
     final String update = "update Sach set TenSach = ? where MaSach = ?";
+    final String delete = "Delete from sach where maSach=? ";
+    final String deleteTLCT = "Delete from TLSachCT where idSach=? ";
+    final String deleteTGCT = "Delete from TacGiaCT where idSach=? ";
 
     @Override
     public Sach insert(Sach sach) {
@@ -41,8 +44,9 @@ public class SachRepository implements ISachRepository {
     }
 
     @Override
-    public Sach delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Sach delete(Sach sach) {
+        int i = DBConnection.ExcuteDungna(deleteTLCT +deleteTGCT+delete, sach.getId(), sach.getId(), sach.getMa());
+        return i==0?sach:null;
     }
 
     @Override

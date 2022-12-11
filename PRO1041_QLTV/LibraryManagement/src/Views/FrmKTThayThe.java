@@ -112,9 +112,11 @@ public class FrmKTThayThe extends javax.swing.JFrame {
     private void btnAllActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAllActionPerformed
         // TODO add your handling code here:
         check=true;
-        FrmSach.thayTheAll50(FrmSach.tblSachTrongKho.getRowCount());
+        int i = FrmSach.thayTheAll50(FrmSach.tblSachTrongKho.getRowCount(), this);
         FrmSach.loadTable(SERVICE_CS.getByIDSachCT(FrmSach.sachCT.getId()));
-        JOptionPane.showMessageDialog(this, "Đã thay thế các cuốn sách <=50%");
+        if(i!=0){
+            JOptionPane.showMessageDialog(this, "Đã thay thế các cuốn sách <=50%");
+        }
         check=false;
         this.dispose();
     }//GEN-LAST:event_btnAllActionPerformed

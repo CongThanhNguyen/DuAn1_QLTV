@@ -18,5 +18,7 @@ public interface IPhieuNhapService {
     public List<PhieuNhap> getAll();
     public PhieuNhap getByMa(String Ma);
     public int InsertNCCCT(String idPhieuNhap, String nhaCC); 
+    public String getIDNCCBYIDpn(String idphieuNhap);
+    public List<PhieuNhap> getByidSachCT(String id);
     public PhieuNhap getByID(String id);
 }

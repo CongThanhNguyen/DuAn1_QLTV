@@ -54,5 +54,15 @@ public class PhieuNhapService implements IPhieuNhapService{
     public PhieuNhap getByID(String id) {
         return REPO.getByid(id);
     }
+
+    @Override
+    public List<PhieuNhap> getByidSachCT(String id) {
+        return REPO.getByidSachCT(id);
+    }
+
+    @Override
+    public String getIDNCCBYIDpn(String idphieuNhap) {
+        return REPO.getIDNCCBYIDpn(idphieuNhap);
+    }
     
 }

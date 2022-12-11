@@ -17,16 +17,14 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Admin
  */
 public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelRepository {
-    
-    final SachRepository REPO_SACH = new SachRepository();
-    final SachCTRepository REPO_SACHCT = new SachCTRepository();
-    final PhieuNhapRepository REPO_PN = new PhieuNhapRepository();
     String sql_TheLoai = """
                          SELECT DIStinct TenTL FROM TheLoaiSach JOIN TLSACHCT ON TheLoaiSach.IDTL = TLSACHCT.IdTLSach
                          JOIN Sach ON TLSACHCT.IDSach = ?""";
@@ -39,8 +37,13 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
     String sql_NXB = """
                         SELECT DIStinct TENNXB FROM NhaXuatBan JOIN NXBCT ON NXBCT.IDNhaXuatBan = NhaXuatBan.IDNhaXuatBan
                         JOIN SachCT ON NXBCT.IDSACHCT = ?""";
+    String sql = "select PhieuNhap.IdPhieuNhap,PhieuNhap.NgayNhap,"
+                + "Sach.MaSach from PhieuNhap join SachCT on PhieuNhap.IDSachCT "
+                + "= SachCT.IDSachCT JOIN Sach on SachCT.IDSach = Sach.IDSach";
     @Override
     public PhieuNhapViewmodel getPhieuNhapView(String ma, PhieuNhap PN) {
+        SachCTRepository REPO_SACHCT = new SachCTRepository();
+        SachRepository REPO_SACH = new SachRepository();
         Sach sach = REPO_SACH.getByMa(ma);
         String idSach = sach.getId();
         SachCT sachCT = REPO_SACHCT.getByIDSach(idSach);
@@ -72,12 +75,14 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
     
     @Override
     public List<PhieuNhapViewmodel> getAll() {
+        return getBySql(sql);
+    }
+    
+    public List<PhieuNhapViewmodel> getBySql(String sql, Object ...args) {
         ArrayList<PhieuNhapViewmodel> listpnv = new ArrayList<>();
-        String sql = "select PhieuNhap.IdPhieuNhap,PhieuNhap.NgayNhap,"
-                + "Sach.MaSach from PhieuNhap join SachCT on PhieuNhap.IDSachCT "
-                + "= SachCT.IDSachCT JOIN Sach on SachCT.IDSach = Sach.IDSach";
-        try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
-            ResultSet rs = ps.executeQuery();
+            ResultSet rs;
+        try {
+            rs = DBConnection.getDataFromQuery(sql, args);
             while (rs.next()) {
                 PhieuNhapViewmodel pnv = new PhieuNhapViewmodel();
                 pnv.setIdPhieuNhap(rs.getString("IdPhieuNhap"));
@@ -85,9 +90,15 @@ public class PhieuNhapViewModelRepository implements IPhieuNhapViewModelReposito
                 pnv.setMaSach(rs.getString("MaSach"));
                 listpnv.add(pnv);
             }
-        } catch (Exception e) {
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuNhapViewModelRepository.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listpnv;
+    }
+
+    @Override
+    public List<PhieuNhapViewmodel> getByMa(String ma) {
+        return getBySql(sql +" where masach=?", ma);
     }
     
 }

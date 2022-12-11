@@ -24,11 +24,6 @@ import java.util.logging.Logger;
  * @author huong
  */
 public class KhoSachImpl implements KhoSachRepository {
-
-    final SachRepository REPO_SACH = new SachRepository();
-    final SachCTRepository REPO_SACHCT = new SachCTRepository();
-    final PhieuNhapRepository REPO_PN = new PhieuNhapRepository();
-
     String sql_TheLoai = """
                          SELECT TenTL FROM TheLoaiSach JOIN TLSACHCT ON TheLoaiSach.IDTL = TLSACHCT.IdTLSach
                          JOIN Sach ON sach.IDSach = TLSACHCT.IDSach where sach.IDSach = ? """;
@@ -53,10 +48,13 @@ public class KhoSachImpl implements KhoSachRepository {
 
     @Override
     public SachCTViewModel getKhoSachView(String ma) {
+        SachRepository REPO_SACH = new SachRepository();
+        SachCTRepository REPO_SACHCT = new SachCTRepository();
+        PhieuNhapRepository REPO_PN = new PhieuNhapRepository();
         Sach sach = REPO_SACH.getByMa(ma);
         String idSach = sach.getId();
         SachCT sachCT = REPO_SACHCT.getByIDSach(idSach);
-        PhieuNhap PN = REPO_PN.getByidSachCT(sachCT.getId());
+        PhieuNhap PN = REPO_PN.getByidSachCT(sachCT.getId()).get(0);
         List<String> _lstTacGia = getEnityName(sql_TacGia, idSach);
         String NXB = getEnityName(sql_NXB, sachCT.getId()).get(0);
         List<String> _lstTheLoai = getEnityName(sql_TheLoai, idSach);
@@ -83,6 +81,7 @@ public class KhoSachImpl implements KhoSachRepository {
     }
     
     private List<KhoSachViewModels> getBySql(String sql, Object...args){
+        SachRepository REPO_SACH = new SachRepository();
         List<Sach> sach = REPO_SACH.getBySQL(sql, args);
         List<KhoSachViewModels> _lst = new ArrayList<>();
         for (Sach sach1 : sach) {

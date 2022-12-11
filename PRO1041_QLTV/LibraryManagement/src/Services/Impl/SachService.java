@@ -7,7 +7,9 @@ package Services.Impl;
 import DomainModels.Sach;
 import Repositories.Impl.SachRepository;
 import Services.ISachService;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,8 +29,11 @@ public class SachService implements ISachService {
     }
     
     @Override
-    public Sach delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(Sach sach, Component c) {
+        Sach getSachD = REPO.delete(sach);
+        String mess;
+        mess = getSachD==null?"Xóa sách thành công":"Xóa sách thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
     
     @Override

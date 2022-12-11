@@ -21,4 +21,5 @@ public interface ICuonSachRepository {
     public List<CuonSach> getByID(String id);
     public List<CuonSach> getByMa(String id);
     public CuonSach getByMaAndID(String id, String ma);
+    public List<CuonSach> getSachDuocMuon(String idsachCt);
 }

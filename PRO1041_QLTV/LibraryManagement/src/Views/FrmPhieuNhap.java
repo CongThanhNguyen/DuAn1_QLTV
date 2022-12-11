@@ -617,7 +617,10 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
             SachCT sachCT = insertSachCT(sach);
             this.insertNXBCT(sachCT);
             this.insertCS(sachCT);
-            PhieuNhap pn = SERVICE.insert(getPhieuNhapFormData(sachCT.getId()));
+            PhieuNhap pn = getPhieuNhapFormData(sachCT.getId());
+            pn.setId(null);
+            pn.setTinhtrang(false);
+            pn = SERVICE.insert(pn);
             this.insertNhaCCCT(pn);
             }
             this.dispose();
@@ -709,7 +712,7 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
         for (String string : view.getTacGia()) {
             hoten += string+"-";
         }
-//        hoten = hoten.substring(0, hoten.length()-1);
+        hoten = hoten.substring(0, hoten.length()-1);
         lblTacGia.setText(hoten);
         txtSoLuongNhap.setText(view.getSoLuong()+"");
         cbxNhaXuatBan.setSelectedItem(view.getNhaXuatBan());
@@ -803,10 +806,8 @@ public class FrmPhieuNhap extends javax.swing.JFrame {
 
     public static void fillChkTL(){
         TheLoaiService service = new TheLoaiService();
-        JComponent btn = (JComponent) boxTheLoai.getComponent(0);
         List<TheLoaiSach> _lst = service.getAll();
         boxTheLoai.removeAll();
-        boxTheLoai.add(btn);
         for (TheLoaiSach theLoaiSach : _lst) {
             JCheckBox chk = new JCheckBox(theLoaiSach.getTen());
             chk.setBackground(Color.white);

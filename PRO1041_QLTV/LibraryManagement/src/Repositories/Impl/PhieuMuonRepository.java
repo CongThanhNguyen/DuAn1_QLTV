@@ -21,7 +21,6 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class PhieuMuonRepository implements IPhieuMuonRepository{
-    final DocGiaRepository REPO_DG = new DocGiaRepository();
     
     String sql_all = "Select * from PhieuMuon";
     String sql_by_ma= "Select * from PhieuMuon where MaPhieuMuon = ?";
@@ -59,6 +58,7 @@ public class PhieuMuonRepository implements IPhieuMuonRepository{
     }
     
     private List<PhieuMuon> getBySql(String sql, Object... args){
+        DocGiaRepository REPO_DG = new DocGiaRepository();
         try {
             List<PhieuMuon> _lst = new ArrayList<>();
             ResultSet rs = DBConnection.getDataFromQuery(sql, args);

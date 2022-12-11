@@ -5,6 +5,7 @@
 package Services;
 
 import DomainModels.CuonSach;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface ICuonSachService {
     public CuonSach insert(int soluong, CuonSach cuonSach, int soBatDau);
-    public CuonSach delete(String id);
+    public void delete(String id, Component c);
     public List<CuonSach> getAll();
     public List<CuonSach> getByIDSachCT(String id);
     public List<CuonSach> getByID(String id);
@@ -21,5 +22,6 @@ public interface ICuonSachService {
     public CuonSach getByMaAndID(String id, String ma);
     public CuonSach update(CuonSach cuonSach);
     public List<CuonSach> getByTinhTrangNID(String tinhTrang, String id);
+    public List<CuonSach> getSachDuocMuon(String idsachCt);
     
 }

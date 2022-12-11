@@ -16,7 +16,13 @@ import javax.swing.JOptionPane;
  * @author Admin
  */
 public class NhaCCService implements INhaCCService {
-    final NhaCCRepository REPO = new NhaCCRepository();
+    final NhaCCRepository REPO;
+
+    public NhaCCService() {
+        this.REPO = new NhaCCRepository();
+    }
+    
+    
 
     @Override
     public void Insert(NhaCC nhacc, Component c) {

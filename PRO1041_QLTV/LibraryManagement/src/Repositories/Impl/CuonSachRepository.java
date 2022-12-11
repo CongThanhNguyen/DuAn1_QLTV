@@ -5,6 +5,8 @@
 package Repositories.Impl;
 
 import DomainModels.CuonSach;
+import DomainModels.PhieuMuon;
+import DomainModels.PhieuMuonCT;
 import DomainModels.SachCT;
 import Repositories.ICuonSachRepository;
 import Utilities.DBConnection;
@@ -20,15 +22,16 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class CuonSachRepository implements ICuonSachRepository{
-    final SachCTRepository REPO_SACHCT = new SachCTRepository();
     String getAll = "Select * from CuonSach orderby maCuonSach asc";
     String getByIDSachCT = "Select * from CuonSach where IDSachCT = ?";
+    String getSachDuocMuon = "Select * from CuonSach where IDSachCT = ? and TrangThai = 0";
     String getByTTNID = "Select * from CuonSach where IDSachCT = ? and tinhTrang <=? order by tinhTrang DESC";
     String getByIDAndMa = "Select * from CuonSach where IDSachCT = ? and MaCuonSach = ?";
     String getByMa = "Select * from CuonSach where MaCuonSach = ?";
     String getByIDCuonSach = "Select * from CuonSach where IDCuonSach = ?";
     String insert = "exec addcuonsach ?, ?, ?";
-    String delete = "delete from cuonsach where idCuonSach=?";
+    String deletePM = "Delete from phieuMuonct where idcuonsach=? Delete from phieumuon where idphieuMuon=? ";
+    String delete = "Delete from cuonsach where idCuonSach=?";
     String upDate = "Update CuonSach set tinhTrang = ?, trangthai=? where MaCuonSach = ? and IdSachCT = ?";
     @Override
     public CuonSach insert(int soLuong, CuonSach cuonSach, int soBatDau) {
@@ -38,6 +41,11 @@ public class CuonSachRepository implements ICuonSachRepository{
 
     @Override
     public CuonSach delete(String id) {
+        PhieuMuonCTRepository REPO_PMCT = new PhieuMuonCTRepository();
+        List<PhieuMuonCT> pmct = REPO_PMCT.getByIDCuonSach(id);
+        if(!pmct.isEmpty()){
+            DBConnection.ExcuteDungna(deletePM, id, pmct.get(0).getPhieuMuon().getId());
+        }
         int i = DBConnection.ExcuteDungna(delete, id);
         return i==0?getByIDSachCT(id).get(0):null;
     }
@@ -61,6 +69,7 @@ public class CuonSachRepository implements ICuonSachRepository{
     }
     
     public List<CuonSach> getBySQL(String sql, Object ...args){
+        SachCTRepository REPO_SACHCT = new SachCTRepository();
         List<CuonSach> _lst = new ArrayList<>();
         try {
             ResultSet rs = DBConnection.getDataFromQuery(sql, args);
@@ -99,5 +108,10 @@ public class CuonSachRepository implements ICuonSachRepository{
     @Override
     public List<CuonSach> getByTinhTrangNID(String tinhTrang, String id) {
         return getBySQL(getByTTNID, id, tinhTrang);
+    }
+
+    @Override
+    public List<CuonSach> getSachDuocMuon(String idsachct) {
+        return getBySQL(getSachDuocMuon, idsachct);
     }
 }

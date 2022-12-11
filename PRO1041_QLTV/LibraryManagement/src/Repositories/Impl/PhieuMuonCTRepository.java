@@ -21,8 +21,6 @@ import java.util.logging.Logger;
  * @author Admin
  */
 public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
-    final CuonSachRepository REPO_CS = new CuonSachRepository();
-    final PhieuMuonRepository REPO_PM = new PhieuMuonRepository();
     
     String sql_all = "Select * from PhieuMuonCT";
     String sql_byManID = "Select * from PhieuMuonCT where maPhieuMuon =? and IdCuonSach=?";
@@ -31,7 +29,7 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
             + " CuonSach on PhieuMuonCT.idCuonSach = CuonSach.idCuonSach where CuonSach.IDSachCT=?";
     String insert = "Insert into PhieuMuonCT(IDCuonSach, maPhieuMuon) values(?,?)";
     String Delete = "Delete from phieuMuonCT where maPhieuMuon = ?";
-    String sql_by_idSachCT= "Select * from PhieuMuonCT where IdCuonSach = ?";
+    String sql_by_idCuonSach= "Select * from PhieuMuonCT where IdCuonSach = ?";
     
     @Override
     public PhieuMuonCT insert(PhieuMuonCT phieuMuonCT) {
@@ -62,6 +60,8 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
     }
     
     private List<PhieuMuonCT> getBySql(String sql, Object... args){
+        PhieuMuonRepository REPO_PM = new PhieuMuonRepository();
+        CuonSachRepository REPO_CS = new CuonSachRepository();
         try {
             List<PhieuMuonCT> _lst = new ArrayList<>();
             ResultSet rs = DBConnection.getDataFromQuery(sql, args);
@@ -87,7 +87,7 @@ public class PhieuMuonCTRepository implements IPhieuMuonCTRepository{
     }
     @Override
     public List<PhieuMuonCT> getByIDCuonSach(String id) {
-        return getBySql(sql_by_idSachCT, id);
+        return getBySql(sql_by_idCuonSach, id);
     }
 
     @Override

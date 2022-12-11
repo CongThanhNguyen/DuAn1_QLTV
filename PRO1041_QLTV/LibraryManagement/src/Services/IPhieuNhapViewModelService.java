@@ -15,5 +15,5 @@ import java.util.List;
 public interface IPhieuNhapViewModelService {
     public PhieuNhapViewmodel getPhieuNhapView(String ma, PhieuNhap PN);
     public List<PhieuNhapViewmodel> getAll();
-
+    public List<PhieuNhapViewmodel> getByMa(String ma);
 }

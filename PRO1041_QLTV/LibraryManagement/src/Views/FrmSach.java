@@ -13,6 +13,7 @@ import DomainModels.TacGia;
 import DomainModels.TheLoaiSach;
 import Services.Impl.CuonSachService;
 import Services.Impl.KhoSachServices;
+import Services.Impl.NhaCCService;
 import Services.Impl.NhaXuatBanService;
 import Services.Impl.PhieuNhapService;
 import Services.Impl.PhieuNhapViewModelService;
@@ -26,6 +27,7 @@ import ViewModels.SachCTViewModel;
 import static Views.FrmPhieuNhap.icon;
 import static Views.FrmPhieuNhap.suaAnh;
 import java.awt.Color;
+import java.awt.Component;
 import java.io.File;
 import java.math.BigDecimal;
 import java.net.URL;
@@ -55,7 +57,8 @@ public class FrmSach extends javax.swing.JFrame {
     final TheLoaiService SERVICE_TLS = new TheLoaiService();
     final TacGiaService SERVICE_TG = new TacGiaService();
     final NhaXuatBanService SERVICE_NXB = new NhaXuatBanService();
-    final PhieuNhapService SERVICE_PN = new PhieuNhapService();
+    final static NhaCCService SERVICE_NCC = new NhaCCService();
+    final static PhieuNhapService SERVICE_PN = new PhieuNhapService();
     final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
     final static CuonSachService SERVICE_CS = new CuonSachService();
     private Set<Integer> _lstTblSelected = new HashSet<>() ;
@@ -92,7 +95,7 @@ public class FrmSach extends javax.swing.JFrame {
             }
         }
         cbxNhaXuatBan.setSelectedItem(sct.getNhaXuatBan());
-//        hoten = hoten.substring(0, hoten.length() - 1);
+        hoten = hoten.substring(0, hoten.length() - 1);
         lblTacGia.setText(hoten);
         txtSoLuongNhap.setText(String.valueOf(sct.getSoLuong()));
         txtDonGia.setText(String.valueOf(sct.getGiaNhap()));
@@ -117,10 +120,8 @@ public class FrmSach extends javax.swing.JFrame {
 
     public static void fillChkTL() {
         TheLoaiService service = new TheLoaiService();
-        JComponent btn = (JComponent) boxTheLoai.getComponent(0);
         List<TheLoaiSach> _lst = service.getAll();
         boxTheLoai.removeAll();
-        boxTheLoai.add(btn);
         for (TheLoaiSach theLoaiSach : _lst) {
             JCheckBox chk = new JCheckBox(theLoaiSach.getTen());
             chk.setBackground(Color.white);
@@ -190,7 +191,6 @@ public class FrmSach extends javax.swing.JFrame {
         btnThayThe = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(920, 400));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
@@ -328,6 +328,11 @@ public class FrmSach extends javax.swing.JFrame {
         btnXoa.setText("jLabel3");
         btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnXoa.setPreferredSize(new java.awt.Dimension(20, 20));
+        btnXoa.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnXoaMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -625,8 +630,13 @@ public class FrmSach extends javax.swing.JFrame {
         List<CuonSach> _lstcs= SERVICE_CS.getByIDSachCT(sachctnew.getId());
         int sl = Integer.parseInt(txtSoLuongNhap.getText());
         if(sl<_lstcs.size()){
+        List<CuonSach> _lstCSMuon = SERVICE_CS.getSachDuocMuon(sachCT.getId());
+        if(!_lstCSMuon.isEmpty()){
+            JOptionPane.showMessageDialog(this, "Cuốn sách đang được mượn!\n Không thể xóa!");
+            return;
+        }
             for (int i = sl; i < _lstcs.size(); i++) {
-                SERVICE_CS.delete(SERVICE_CS.getByMaAndID(sachctnew.getId(), i+1+"").getId());
+                SERVICE_CS.delete(SERVICE_CS.getByMaAndID(sachctnew.getId(), i+1+"").getId(), this);
             }
         }else if(sl>_lstcs.size()){
             JOptionPane.showMessageDialog(this, "Vui lòng viết phiếu nhập nếu muốn thêm số lượng!");
@@ -641,6 +651,12 @@ public class FrmSach extends javax.swing.JFrame {
                 cs.setTinhTrang(tinhTrang);
                 SERVICE_CS.update(cs);
             }
+        }
+        if(FrmSachCanThay.where==1){
+            FrmSachCanThay frmSCThay = new FrmSachCanThay();
+            frmSCThay.loadTable();
+            FrmSachCanThay.where=0;
+            frmSCThay.setVisible(true);
         }
         this.dispose();
         FrmChinh.setFrmChinh(new FrmQuanLyKhoSach());
@@ -715,7 +731,6 @@ public class FrmSach extends javax.swing.JFrame {
         // TODO add your handling code here:
         String select = (String) cbxsapXepTrangThai.getSelectedItem();
         select = select.substring(2);
-        Sach sach = SERVICE_SACH.getByMa(lblMaSach.getText());
         SachCT sachct = SERVICE_SACHCT.getByIDSach(sach.getId());
         this.loadTable(SERVICE_CS.getByTinhTrangNID(select, sachct.getId()));
     }//GEN-LAST:event_cbxsapXepTrangThaiItemStateChanged
@@ -744,10 +759,7 @@ public class FrmSach extends javax.swing.JFrame {
                                 SERVICE_CS.update(cs);
                             }
                         }
-                        FrmPhieuNhap frmPN = new FrmPhieuNhap();
-                        BigDecimal gia = BigDecimal.valueOf(Double.valueOf(txtDonGia.getText()));
-                        PhieuNhap PN = new PhieuNhap(null, frmPN.roleMaPhieuNhap(), sachCT.getId(), frmPN.setNgayNhap(), true, countSL, gia);
-                        SERVICE_PN.insert(PN);
+                        insertPN(countSL, this);
                         JOptionPane.showMessageDialog(this, "Đã thay thế những sách được chọn");
                     }
                     this.loadTable(SERVICE_CS.getByIDSachCT(sachCT.getId()));
@@ -755,6 +767,26 @@ public class FrmSach extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnThayTheActionPerformed
+
+    private void btnXoaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXoaMouseClicked
+        // TODO add your handling code here:
+        int i = JOptionPane.showConfirmDialog(this, "Chắc chắn muốn xóa?");
+        if(i==0){
+            List<CuonSach> _lstCSMuon = SERVICE_CS.getSachDuocMuon(sachCT.getId());
+            if(!_lstCSMuon.isEmpty()){
+                JOptionPane.showMessageDialog(this, "Cuốn sách đang được mượn!\n Không thể xóa!");
+                return;
+            }
+            List<CuonSach> _lstCS = SERVICE_CS.getByIDSachCT(sachCT.getId());
+            for (CuonSach cuonSach : _lstCS) {
+                SERVICE_CS.delete(cuonSach.getId(), this);
+            }
+            SERVICE_SACHCT.delete(sachCT);
+            SERVICE_SACH.delete(sach, this);
+            this.dispose();
+            FrmChinh.setFrmChinh(new FrmQuanLyKhoSach());
+        }
+    }//GEN-LAST:event_btnXoaMouseClicked
 
     private void seticon() {
         URL urldong = getClass().getResource("/Images/cross-small.png");
@@ -765,7 +797,7 @@ public class FrmSach extends javax.swing.JFrame {
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
     }
 
-    public static int thayTheAll50(int countSL){
+    public static int thayTheAll50(int countSL, Component c){
         for (int i = 0; i < tblSachTrongKho.getRowCount(); i++) {
             CuonSach cs = SERVICE_CS.getByIDSachCT(sachCT.getId()).get(0);
             Integer ma = Integer.parseInt((String) tblSachTrongKho.getValueAt(i, 0));
@@ -779,7 +811,24 @@ public class FrmSach extends javax.swing.JFrame {
                 SERVICE_CS.update(cs);
             }
         }
+        insertPN(countSL, c);
         return countSL;
+    }
+    
+    public static void insertPN(int countSL, Component c){
+        if(countSL==0){
+            JOptionPane.showMessageDialog(c, "Không có cuốn sách nào cần thay thế!");
+            return;
+        }
+        FrmPhieuNhap frmPN = new FrmPhieuNhap();
+        BigDecimal gia = BigDecimal.valueOf(Double.valueOf(txtDonGia.getText()));
+        List<PhieuNhap> _lst = SERVICE_PN.getByidSachCT(sachCT.getId());
+        PhieuNhap PN1 = _lst.get(0);
+        PhieuNhap PN = new PhieuNhap(null, frmPN.roleMaPhieuNhap(), sachCT.getId(), frmPN.setNgayNhap(), true, countSL, gia);
+        PN = SERVICE_PN.insert(PN);
+        String idNCC = SERVICE_PN.getIDNCCBYIDpn(PN1.getId());
+        SERVICE_PN.InsertNCCCT(PN.getId(), idNCC);
+        
     }
     public void setEdit() {
         txtDonGia.setEditable(false);
@@ -834,7 +883,7 @@ public class FrmSach extends javax.swing.JFrame {
     private javax.swing.JLabel lblSoLuong;
     public static javax.swing.JLabel lblTacGia;
     public static javax.swing.JTable tblSachTrongKho;
-    private javax.swing.JTextField txtDonGia;
+    public static javax.swing.JTextField txtDonGia;
     private javax.swing.JTextField txtNamXuatBan;
     private javax.swing.JTextField txtSoLuongNhap;
     private javax.swing.JTextField txtTenSach;

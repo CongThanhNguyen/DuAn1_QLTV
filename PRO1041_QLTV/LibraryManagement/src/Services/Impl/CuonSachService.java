@@ -7,7 +7,9 @@ package Services.Impl;
 import DomainModels.CuonSach;
 import Repositories.Impl.CuonSachRepository;
 import Services.ICuonSachService;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -27,8 +29,12 @@ public class CuonSachService implements ICuonSachService{
     }
 
     @Override
-    public CuonSach delete(String id) {
-        return REPO.delete(id);
+    public void delete(String id, Component c) {
+        CuonSach cs= REPO.delete(id);
+        String mess = cs==null?"":"Cuốn sách đang được mượn\n Không thể xóa hoặc giảm số lượng";
+        if(!mess.equals("")){
+            JOptionPane.showMessageDialog(c, mess);
+        }
     }
 
     @Override
@@ -64,6 +70,11 @@ public class CuonSachService implements ICuonSachService{
     @Override
     public List<CuonSach> getByTinhTrangNID(String tinhTrang, String id) {
         return REPO.getByTinhTrangNID(tinhTrang, id);
+    }
+
+    @Override
+    public List<CuonSach> getSachDuocMuon(String idsachCt) {
+        return REPO.getSachDuocMuon(idsachCt);
     }
 
 }

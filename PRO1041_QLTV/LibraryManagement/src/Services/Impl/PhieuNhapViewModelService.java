@@ -16,7 +16,12 @@ import java.util.List;
  */
 public class PhieuNhapViewModelService implements IPhieuNhapViewModelService {
 
-    final PhieuNhapViewModelRepository REPO = new PhieuNhapViewModelRepository();
+    final PhieuNhapViewModelRepository REPO;
+
+    public PhieuNhapViewModelService() {
+        REPO = new PhieuNhapViewModelRepository();
+    }
+    
 
     @Override
     public PhieuNhapViewmodel getPhieuNhapView(String ma, PhieuNhap pn) {
@@ -26,6 +31,11 @@ public class PhieuNhapViewModelService implements IPhieuNhapViewModelService {
     @Override
     public List<PhieuNhapViewmodel> getAll() {
         return REPO.getAll();
+    }
+
+    @Override
+    public List<PhieuNhapViewmodel> getByMa(String ma) {
+        return REPO.getByMa(ma);
     }
 
 }

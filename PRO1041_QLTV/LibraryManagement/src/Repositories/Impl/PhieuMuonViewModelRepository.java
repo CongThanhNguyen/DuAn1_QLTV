@@ -24,11 +24,6 @@ import ViewModels.PhieuMuonViewModel;
  * @author Admin
  */
 public class PhieuMuonViewModelRepository implements IPhieuMuonViewModelRepository{
-    final PhieuMuonRepository REPO_PM =new PhieuMuonRepository();
-    final PhieuMuonCTRepository REPO_PMCT =new PhieuMuonCTRepository();
-    final SachRepository REPO_SACH = new SachRepository();
-    final SachCTRepository REPO_SCT = new SachCTRepository();
-    final CuonSachRepository REPO_CS = new CuonSachRepository();
     String sql="""
                SELECT DISTINCT DocGia.MaDocGia, TenDOcGia, PhieuMuon.MaPhieuMuon, NgayMuon, NgayTra, TinhTrang from DocGia
                join PhieuMuon on PhieuMuon.IDDocGia = DocGia.IDDocGia
@@ -43,6 +38,8 @@ public class PhieuMuonViewModelRepository implements IPhieuMuonViewModelReposito
 
     @Override
     public PhieuMuonViewModel getByMaPhieu(String ma) {
+        PhieuMuonRepository REPO_PM =new PhieuMuonRepository();
+        PhieuMuonCTRepository REPO_PMCT =new PhieuMuonCTRepository();
         PhieuMuon pm = REPO_PM.getByMa(ma);
         List<PhieuMuonCT> pmct = REPO_PMCT.getByMa(ma);
         List<CuonSach> cuonSach = new ArrayList<>();

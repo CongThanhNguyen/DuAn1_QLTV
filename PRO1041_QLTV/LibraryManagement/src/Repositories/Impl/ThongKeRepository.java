@@ -17,7 +17,6 @@ import java.util.List;
  * @author Admin
  */
 public class ThongKeRepository implements IThongKeRepository{
-    final SachRepository REPO_SACH = new SachRepository();
     String sql_sach_yeu_Thich = """
                                   select masach, tensach, count(masach) as luotmuon from sach
                                 			join SachCT on sach.IDSach = SachCT.IDSach

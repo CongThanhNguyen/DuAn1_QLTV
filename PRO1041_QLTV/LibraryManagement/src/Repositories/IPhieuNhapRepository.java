@@ -18,6 +18,7 @@ public interface IPhieuNhapRepository {
     public List<PhieuNhap> getAll();
     public PhieuNhap getByMa(String Ma);
     public PhieuNhap getByid(String id);
-    public PhieuNhap getByidSachCT(String id);
+    public List<PhieuNhap> getByidSachCT(String id);
+    public String getIDNCCBYIDpn(String idphieuNhap);
     public int InsertNCCCT(String idPhieuNhap, String nhaCC); 
 }

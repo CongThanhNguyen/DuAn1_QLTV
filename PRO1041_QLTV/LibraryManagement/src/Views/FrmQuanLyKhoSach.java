@@ -60,7 +60,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         setTable(tblKhoSach);
         this.seticon();
         this.fillTable(ksSV.getAll());
-        this.setViewSach(SERVICE_SACH.getAll().isEmpty()?null:"MS20001");
+        this.setViewSach(SERVICE_SACH.getAll().isEmpty()?null:SERVICE_SACH.getAll().get(0).getMa());
     }
 
     public void fillTable(List<KhoSachViewModels> listKS) 
@@ -72,7 +72,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
             for (String string : khoSachViewModels.getTenLoaiSach()) {
                 theLoai += string+", ";
             }
-//            theLoai = theLoai.substring(0, theLoai.length()-2);
+            theLoai = theLoai.substring(0, theLoai.length()-2);
             Object[] row = new Object[]{
                 khoSachViewModels.getMaSach(),
                 khoSachViewModels.getTenSach(),
@@ -140,7 +140,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         jPanel3 = new javax.swing.JPanel();
         btnTimKiem = new javax.swing.JLabel();
         btnrefresh = new javax.swing.JLabel();
-        btnSuaSach1 = new javax.swing.JPanel();
+        btnSachCanThay = new javax.swing.JPanel();
         lblXCT7 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblKhoSach = new javax.swing.JTable();
@@ -368,20 +368,20 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         });
         jPanel4.add(btnrefresh, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 220, 32, 32));
 
-        btnSuaSach1.setBackground(new java.awt.Color(125, 200, 150));
-        btnSuaSach1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(125, 200, 150), null, null));
-        btnSuaSach1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnSuaSach1.addMouseListener(new java.awt.event.MouseAdapter() {
+        btnSachCanThay.setBackground(new java.awt.Color(125, 200, 150));
+        btnSachCanThay.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(125, 200, 150), null, null));
+        btnSachCanThay.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnSachCanThay.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnSuaSach1MouseClicked(evt);
+                btnSachCanThayMouseClicked(evt);
             }
         });
 
         lblXCT7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblXCT7.setText("Sách cần thay");
-        btnSuaSach1.add(lblXCT7);
+        btnSachCanThay.add(lblXCT7);
 
-        jPanel4.add(btnSuaSach1, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 120, 30));
+        jPanel4.add(btnSachCanThay, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 130, 120, 30));
 
         jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
         jScrollPane1.setBorder(javax.swing.BorderFactory.createTitledBorder("KHO SÁCH"));
@@ -510,7 +510,7 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
             for (String string : view.getTacGia()) {
                 hoten += string + "-";
             }
-//            hoten = hoten.substring(0, hoten.length() - 1);
+            hoten = hoten.substring(0, hoten.length() - 1);
             String theloai = "";
             for (String string : view.getTheLoai()) {
                 theloai += string + "-";
@@ -535,9 +535,10 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
         fillTable(ksSV.getAll());
     }//GEN-LAST:event_btnrefreshMouseClicked
 
-    private void btnSuaSach1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSuaSach1MouseClicked
+    private void btnSachCanThayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSachCanThayMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_btnSuaSach1MouseClicked
+        new FrmSachCanThay().setVisible(true);
+    }//GEN-LAST:event_btnSachCanThayMouseClicked
 
     private void seticon() {
         imgBook.setIcon(setsize.setSizeAnh(getClass().getResource("/Images/imgSach/book-demo.jpg"), 170, 250));
@@ -548,8 +549,8 @@ public class FrmQuanLyKhoSach extends javax.swing.JPanel {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel btnSachCanThay;
     private javax.swing.JPanel btnSuaSach;
-    private javax.swing.JPanel btnSuaSach1;
     private javax.swing.JLabel btnTimKiem;
     private javax.swing.JPanel btnVietPhieuNhap;
     private javax.swing.JPanel btnXemChiTiet;
