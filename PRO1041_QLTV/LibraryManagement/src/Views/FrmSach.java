@@ -616,6 +616,7 @@ public class FrmSach extends javax.swing.JFrame {
         SachCT sachctnew = SERVICE_SACHCT.getByIDSach(sachnew.getId());
         sachctnew.setNamxb(Integer.parseInt(txtNamXuatBan.getText()));
         sachctnew.setSeri(lblSeri.getText());
+        sachctnew.setGiaIn(BigDecimal.valueOf(Double.valueOf(txtDonGia.getText())));
         SERVICE_SACHCT.update(sachctnew);
         if(suaAnh==1){
             sachctnew.setImg(icon);
@@ -837,11 +838,27 @@ public class FrmSach extends javax.swing.JFrame {
         cbxNhaXuatBan.setEditor(cbxNhaXuatBan.getEditor());
         txtTenSach.setEditable(false);
         jPanel3.remove(btnHoanThanh);
+        jPanel3.remove(btnThayThe);
         jPanel3.remove(btnTaiAnh);
         jPanel3.remove(btnQLTT);
         jPanel3.remove(IconBarcode);
         jPanel3.remove(btnTacGia);
+        jPanel3.remove(btnQLTT);
         tblSachTrongKho.setEnabled(false);
+        jPanel3.revalidate();
+        jPanel3.repaint();
+    }
+    public void setSachCanThay(){
+        txtDonGia.setEditable(false);
+        txtNamXuatBan.setEditable(false);
+        txtSoLuongNhap.setEditable(false);
+        cbxNhaXuatBan.setEditor(cbxNhaXuatBan.getEditor());
+        txtTenSach.setEditable(false);
+        jPanel3.remove(btnTaiAnh);
+        jPanel3.remove(btnQLTT);
+        jPanel3.remove(IconBarcode);
+        jPanel3.remove(btnTacGia);
+        jPanel3.remove(btnQLTT);
         jPanel3.revalidate();
         jPanel3.repaint();
     }

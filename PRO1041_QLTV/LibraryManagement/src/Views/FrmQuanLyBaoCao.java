@@ -56,7 +56,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         jLabel12 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JLabel();
         btnXoaLoi = new javax.swing.JButton();
-        btnSuaLoi = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnThemBC = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
@@ -107,7 +106,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
                 btnThemLoiActionPerformed(evt);
             }
         });
-        jPanel1.add(btnThemLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 40, 78, -1));
+        jPanel1.add(btnThemLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 40, 78, -1));
 
         jScrollPane3.setBackground(new java.awt.Color(125, 180, 125));
         jScrollPane3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Danh sách báo cáo", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12), new java.awt.Color(255, 255, 255))); // NOI18N
@@ -169,16 +168,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
                 btnXoaLoiActionPerformed(evt);
             }
         });
-        jPanel1.add(btnXoaLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 40, -1, -1));
-
-        btnSuaLoi.setBackground(new java.awt.Color(125, 200, 150));
-        btnSuaLoi.setText("Sửa  lỗi");
-        btnSuaLoi.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSuaLoiActionPerformed(evt);
-            }
-        });
-        jPanel1.add(btnSuaLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 40, 80, -1));
+        jPanel1.add(btnXoaLoi, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 40, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setText("Báo cáo lỗi");
@@ -367,6 +357,10 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
 
     private void btnThemLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemLoiActionPerformed
         // TODO add your handling code here:
+        if(txtTenLoi.getText().equals("")){
+            JOptionPane.showMessageDialog(this, "Vui lòng nhập tên lỗi!");
+            return;
+        }
         ViPhamService.Them(new LoiVP(null, txtTenLoi.getText()));
         JOptionPane.showMessageDialog(this, "Them thành công!");
         this.loadListLoi();
@@ -416,6 +410,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
             LoiVP loiVP = ViPhamService.getByTen(frmLoiKhung.getTen());
             baoCaoServices.insertLoiVpCT(addnewest.getIdVP(), loiVP.getId());
         }
+        JOptionPane.showMessageDialog(this, "Thêm thành công!");
         loadtable();
         clearForm();
     }//GEN-LAST:event_btnThemBCActionPerformed
@@ -450,6 +445,7 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         ViPham vp = GetText();
         String ma = txtMaPM.getText();
         baoCaoServices.Sua(ma, vp);
+        JOptionPane.showMessageDialog(this, "Sửa thành công!");
         loadtable();
         clearForm();
     }//GEN-LAST:event_btnSuabcActionPerformed
@@ -492,19 +488,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
         }
         return _lst;
     }
-    private void btnSuaLoiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaLoiActionPerformed
-        // TODO add your handling code here:
-        List<FrmLoiKhung> _lst = getLoiKhung();
-        if(_lst.size()>1){
-            JOptionPane.showMessageDialog(this, "Vui lòng chỉ sửa một lỗi!");
-            return;
-        }
-        String loiSua = txtTenLoi.getText();
-        LoiVP loiVP = ViPhamService.getByTen(_lst.get(0).getTen());
-        ViPhamService.Sua(loiSua, loiVP);
-        JOptionPane.showMessageDialog(this, "Sửa thành công!");
-    }//GEN-LAST:event_btnSuaLoiActionPerformed
-
     // hàm load cbx 
     private void fillcbc() {
         cbxSach.removeAllItems();
@@ -553,7 +536,6 @@ public class FrmQuanLyBaoCao extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel _lstLoi;
     private javax.swing.JLabel btnSearch;
-    private javax.swing.JButton btnSuaLoi;
     private javax.swing.JButton btnSuabc;
     private javax.swing.JButton btnThemBC;
     private javax.swing.JButton btnThemLoi;

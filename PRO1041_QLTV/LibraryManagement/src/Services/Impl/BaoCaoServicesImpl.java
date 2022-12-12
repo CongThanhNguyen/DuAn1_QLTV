@@ -54,7 +54,7 @@ public class BaoCaoServicesImpl implements BaoCaoServices{
 
     @Override
     public void Xoa(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        BaoCaoRepositories.Xoa(ma);
     }
 
     @Override

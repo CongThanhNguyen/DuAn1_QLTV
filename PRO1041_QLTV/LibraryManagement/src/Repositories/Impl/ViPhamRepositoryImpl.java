@@ -61,7 +61,7 @@ public class ViPhamRepositoryImpl implements ViPhamRepository{
 
     @Override
     public void Sua(String ma, LoiVP loiVP) {
-        String sql = " UPDATE [dbo].[LoiViPham]\n"
+        String sql = " UPDATE [dbo].[LoiViPham] set tenLoi=?\n"
                 + " WHERE [IDLoiViPham] = ?";
         try ( Connection con = DBContext.getConnection();  PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, loiVP.getTen());

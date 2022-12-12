@@ -142,6 +142,7 @@ public class FrmSachCanThay extends javax.swing.JFrame {
         int row = tblSachCanThay.getSelectedRow();
         KhoSachService ksSV = new KhoSachServices();
         FrmSach fmrSach = new FrmSach();
+        fmrSach.setSachCanThay();
         fmrSach.setDisplay(ksSV.getKhoSachView((String) tblSachCanThay.getValueAt(row, 0)));
         fmrSach.setVisible(true);
         where =1;

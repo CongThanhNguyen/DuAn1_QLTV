@@ -269,7 +269,7 @@ public class FrmQuanLyThongKe extends javax.swing.JPanel {
     
     //Hàm lấy mẫu table theo sách được mượn
     private void setTableSachDuocMuon(){
-        DefaultTableModel model = setContentTable("TÊN ĐỘC GIẢ", "MÃ SÁCH", "TÊN SÁCH", "NGÀY MƯỢN");
+        DefaultTableModel model = setContentTable("TÊN ĐỘC GIẢ", "MÃ SÁCH", "TÊN SÁCH", "Số lượng đang mượn");
         tblThongKe.setModel(model);
     }
     

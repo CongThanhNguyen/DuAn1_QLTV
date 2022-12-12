@@ -115,7 +115,6 @@ public class FrmDocGiaKhung extends javax.swing.JPanel {
 
     private void btnXemThongTinMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnXemThongTinMouseClicked
         // TODO add your handling code here:
-        System.out.println(lblMa.getText());
         String ma = lblMa.getText();
         DocGia docgia = service.getByMa(ma);
         FrmDocGia docgiarm = new FrmDocGia();
