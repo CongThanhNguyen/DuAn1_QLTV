@@ -17,9 +17,13 @@ import java.util.List;
  * @author Apc
  */
 public class BaoCaoServicesImpl implements BaoCaoServices{
+    private BaoCaoRepositories BaoCaoRepositories;
+
+    public BaoCaoServicesImpl() {
+        BaoCaoRepositories = new BaoCaoreposotoriesImpl();
+    }
     
-        
-    private BaoCaoRepositories BaoCaoRepositories = new BaoCaoreposotoriesImpl();
+    
     @Override
     public List<BaoCaoPMViewModels> getPhieuMuonByMa(String ma) {
         List<BaoCaoPMViewModels> baoCaoPMViewModelses = BaoCaoRepositories.getPhieuMuonByMa(ma);

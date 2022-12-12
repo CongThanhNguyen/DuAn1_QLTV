@@ -8,7 +8,9 @@ import DomainModels.TheLoaiSach;
 import Repositories.ITheLoaiRepository;
 import Repositories.Impl.TheLoaiSachRepository;
 import Services.ITheLoaiSachService;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -22,18 +24,23 @@ public class TheLoaiService implements ITheLoaiSachService{
     }
     
     @Override
-    public TheLoaiSach insert(TheLoaiSach loaiSach) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void insert(TheLoaiSach loaiSach, Component c) {
+        TheLoaiSach Exist = REPO.getByName(loaiSach.getTen());
+        String mess = Exist!=null?"Thể loại sách đã tồn tại trong danh sách":"";
+        if(!mess.equals("")){
+            JOptionPane.showMessageDialog(c, mess);
+            return;
+        }
+        TheLoaiSach tls = REPO.insert(loaiSach);
+        mess = tls!=null?"Thêm thể loại sách thành công":"Thêm thể loại sách thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
 
     @Override
-    public TheLoaiSach delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public TheLoaiSach update(TheLoaiSach loaiSach) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void update(TheLoaiSach loaiSach, Component c) {
+        TheLoaiSach tls = REPO.update(loaiSach);
+        String mess = tls!=null?"Sửa thể loại sách thành công":"Sửa thể loại sách thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
 
     @Override
@@ -54,6 +61,12 @@ public class TheLoaiService implements ITheLoaiSachService{
     @Override
     public int insertTLCT(String idSach, String idtl) {
         return REPO.insertTheLoaiCT(idSach, idtl);
+    }
+
+
+    @Override
+    public int deleteTheLoaiCT(String idSach) {
+        return REPO.deleteTheLoaiCT(idSach);
     }
     
 }

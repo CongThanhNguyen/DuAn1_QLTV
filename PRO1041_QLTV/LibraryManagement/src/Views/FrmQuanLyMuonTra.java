@@ -103,20 +103,20 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         btnHoanThanh = new javax.swing.JButton();
         pnSachMuon = new javax.swing.JPanel();
         pnSach1 = new javax.swing.JPanel();
-        lblMaSach1 = new javax.swing.JLabel();
         lblTenSach1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        cbxCuonSach1 = new javax.swing.JComboBox<>();
+        lblCuonSo1 = new javax.swing.JLabel();
+        lblDNV1 = new javax.swing.JLabel();
         pnSach2 = new javax.swing.JPanel();
-        lblMaSach2 = new javax.swing.JLabel();
         lblTenSach2 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        cbxCuonSach2 = new javax.swing.JComboBox<>();
+        lblCuonSo2 = new javax.swing.JLabel();
+        lblDNV2 = new javax.swing.JLabel();
         pnSach3 = new javax.swing.JPanel();
-        lblMaSach3 = new javax.swing.JLabel();
         lblTenSach3 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
-        cbxCuonSach3 = new javax.swing.JComboBox<>();
+        lblCuonSo3 = new javax.swing.JLabel();
+        lblDNV3 = new javax.swing.JLabel();
         cbxSlSachMuon = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
         rdoThem = new javax.swing.JRadioButton();
@@ -215,15 +215,16 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
         pnSachMuon.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 0));
 
-        lblMaSach1.setText("Sách 1");
+        pnSach1.setPreferredSize(new java.awt.Dimension(350, 31));
 
         lblTenSach1.setText("Tên sách 1");
         lblTenSach1.setPreferredSize(new java.awt.Dimension(160, 16));
 
         jLabel2.setText("Quyển số");
 
-        cbxCuonSach1.setBackground(new java.awt.Color(125, 200, 150));
-        cbxCuonSach1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "15" }));
+        lblCuonSo1.setText("0");
+
+        lblDNV1.setText("jLabel3");
 
         javax.swing.GroupLayout pnSach1Layout = new javax.swing.GroupLayout(pnSach1);
         pnSach1.setLayout(pnSach1Layout);
@@ -231,13 +232,13 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             pnSach1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSach1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblMaSach1, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(lblTenSach1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblTenSach1, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDNV1)
+                .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxCuonSach1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblCuonSo1)
                 .addContainerGap())
         );
         pnSach1Layout.setVerticalGroup(
@@ -245,24 +246,25 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             .addGroup(pnSach1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnSach1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMaSach1)
                     .addComponent(lblTenSach1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2)
-                    .addComponent(cbxCuonSach1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblCuonSo1)
+                    .addComponent(lblDNV1))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pnSachMuon.add(pnSach1);
 
-        lblMaSach2.setText("Sách 2");
+        pnSach2.setPreferredSize(new java.awt.Dimension(350, 31));
 
         lblTenSach2.setText("Tên sách 2");
         lblTenSach2.setPreferredSize(new java.awt.Dimension(160, 16));
 
         jLabel4.setText("Quyển số");
 
-        cbxCuonSach2.setBackground(new java.awt.Color(125, 200, 150));
-        cbxCuonSach2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "15" }));
+        lblCuonSo2.setText("0");
+
+        lblDNV2.setText("jLabel5");
 
         javax.swing.GroupLayout pnSach2Layout = new javax.swing.GroupLayout(pnSach2);
         pnSach2.setLayout(pnSach2Layout);
@@ -270,13 +272,13 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             pnSach2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSach2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblMaSach2, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblTenSach2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTenSach2, javax.swing.GroupLayout.DEFAULT_SIZE, 206, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDNV2)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxCuonSach2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblCuonSo2)
                 .addContainerGap())
         );
         pnSach2Layout.setVerticalGroup(
@@ -284,24 +286,25 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             .addGroup(pnSach2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnSach2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMaSach2)
                     .addComponent(lblTenSach2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4)
-                    .addComponent(cbxCuonSach2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblCuonSo2)
+                    .addComponent(lblDNV2))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pnSachMuon.add(pnSach2);
 
-        lblMaSach3.setText("Sách 3");
+        pnSach3.setPreferredSize(new java.awt.Dimension(350, 31));
 
         lblTenSach3.setText("Tên sách 3");
         lblTenSach3.setPreferredSize(new java.awt.Dimension(160, 16));
 
         jLabel7.setText("Quyển số");
 
-        cbxCuonSach3.setBackground(new java.awt.Color(125, 200, 150));
-        cbxCuonSach3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "15" }));
+        lblCuonSo3.setText("0");
+
+        lblDNV3.setText("jLabel6");
 
         javax.swing.GroupLayout pnSach3Layout = new javax.swing.GroupLayout(pnSach3);
         pnSach3.setLayout(pnSach3Layout);
@@ -309,13 +312,13 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             pnSach3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnSach3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblMaSach3, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblTenSach3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblDNV3)
+                .addGap(21, 21, 21)
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(cbxCuonSach3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblCuonSo3)
                 .addContainerGap())
         );
         pnSach3Layout.setVerticalGroup(
@@ -323,11 +326,11 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             .addGroup(pnSach3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(pnSach3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMaSach3)
                     .addComponent(lblTenSach3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
-                    .addComponent(cbxCuonSach3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblCuonSo3)
+                    .addComponent(lblDNV3))
+                .addContainerGap(9, Short.MAX_VALUE))
         );
 
         pnSachMuon.add(pnSach3);
@@ -790,11 +793,9 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         if(cuonSO==4){
             JOptionPane.showMessageDialog(this, "Đã mượn tối đa!");
         }
-        String ma = txtCheckMa.getText();
-        Sach sach = SERVICE_SACH.getByMa(ma);
-        SachCT sachCT = SERVICE_SACHCT.getByIDSach(sach.getId());
-        List<CuonSach> cs = SERVICE_CS.getByIDSachCT(sachCT.getId());
-        cs.sort((CuonSach o1, CuonSach o2) -> o1.getMa()>o2.getMa()?1:-1);
+        CuonSach cs = SERVICE_CS.getByID(txtCheckMa.getText()).get(0);
+        Sach sach = SERVICE_SACH.getByMa(cs.getSachct().getSach().getMa());
+        
         FrmQuanLyMuonTra.setSoQuyen(sach, cs);
     }//GEN-LAST:event_btnCheckMaSachActionPerformed
 
@@ -833,7 +834,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             PhieuMuon pm = this.getFormData();
             SERVICE.insert(pm);
             PhieuMuon phieuMuon = SERVICE.getByMa(pm.getMa());
-            Object [] quyenSO = {cbxCuonSach1.getSelectedItem(), cbxCuonSach2.getSelectedItem(), cbxCuonSach3.getSelectedItem()};
+            Object [] quyenSO = {lblCuonSo1.getText(), lblCuonSo2.getText(), lblCuonSo3.getText()};
             List<CuonSach> _lst = new ArrayList<>();
             for (SachCT sachCT : _lstSachCT) {
                 if(sachCT != null){
@@ -851,6 +852,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                     SERVICE_PMCT.insert(pmct);
                 }
             }
+            JOptionPane.showMessageDialog(this, "Thêm thành công");
         }else{
             PhieuMuon pm = SERVICE.getByMa(lblMaPhieu.getText());
             List<PhieuMuonCT> _lst = SERVICE_PMCT.getByMa(pm.getMa());
@@ -858,6 +860,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 SERVICE_PMCT.delete(phieuMuonCT.getPhieuMuon().getMa());
             }
             SERVICE.delete(pm.getId());
+            JOptionPane.showMessageDialog(this, "Xóa thành công");
         }
         _lst = SERVICE_MODEL.getAll();
         this.loadTable();
@@ -872,7 +875,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         int sl = model.getCuonSach().size()-1;
         cbxSlSachMuon.setSelectedIndex(sl);
         for (Sach sach : model.getSach()) {
-            setSoQuyen(sach, model.getCuonSach());
+            setSoQuyen(sach, model.getCuonSach().get(0));
         }
         lblTenDocGia.setText(model.getDocGia().getHoTen());
         cuonSO=sl;
@@ -912,8 +915,19 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         }
         int a = JOptionPane.showConfirmDialog(this, "Trả sách?");
         if(a==0){
+            FrmCapNhatTTSach capnhattt = new FrmCapNhatTTSach();
+            List<PhieuMuonCT> _lstPMCT = SERVICE_PMCT.getByMa(ma);
+            List<Sach> _lstsach = new ArrayList<>();
+            List<CuonSach> _lstcs = new ArrayList<>();
+            
+            capnhattt.getSL(_lstPMCT.size());
+            for (PhieuMuonCT phieuMuonCT : _lstPMCT) {
+                _lstcs.add(phieuMuonCT.getCuonSach());
+                _lstsach.add(phieuMuonCT.getCuonSach().getSachct().getSach());
+            }
+            capnhattt.setDisplay(_lstsach, _lstcs);
+            capnhattt.setVisible(true);
             SERVICE.TraSach(ma, 1);
-            JOptionPane.showMessageDialog(this, "Trả sách thành công!");
         }
         _lst = SERVICE_MODEL.getAll();
         this.loadTable();
@@ -975,6 +989,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 ex.printStackTrace();
             }
         }
+        JOptionPane.showMessageDialog(this, "Đã gửi mail thông báo!");
     }//GEN-LAST:event_btnGuiMailActionPerformed
     
     private void loadTable(){
@@ -1000,7 +1015,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                 phieuMuonTableViewModel.getTenDocGia(), phieuMuonTableViewModel.getNgayViet()
             };
             model.addRow(rowDataPM);
-            if(ngayPhaiTra-day<3 && phieuMuonTableViewModel.getTinhTrang()!=1){
+            if(ngayPhaiTra-day<2 && phieuMuonTableViewModel.getTinhTrang()!=1){
                 Object[] rowDataPMHH = {
                     phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getMaDocGia(),
                     tinhTrang, phieuMuonTableViewModel.getNgayTra()
@@ -1016,8 +1031,8 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             }
             if(phieuMuonTableViewModel.getTinhTrang()==1){
                 Object[] rowDataPMDatra = {
-                    phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getTenDocGia(),
-                    tinhTrang, phieuMuonTableViewModel.getNgayViet()
+                    phieuMuonTableViewModel.getMaPhieuMuon(), phieuMuonTableViewModel.getTenDocGia()
+                    , phieuMuonTableViewModel.getNgayViet()
                 };
                 model3.addRow(rowDataPMDatra);
             }
@@ -1030,12 +1045,12 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     
     private void seticon(){
         URL urlSearch = getClass().getResource("/Images/search.png");
-        URL urlBarcode = getClass().getResource("/Images/barcode-read.png");
         URL urlRefreash = getClass().getResource("/Images/refresh.png");
+        URL urlBarcode = getClass().getResource("/Images/barcode-read.png");
+        IconBarcode.setIcon(setsize.setSizeAnh(urlBarcode, 24, 28));
         btnrefresh.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
         btnTimKiem.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
         btnTimKiemTraSach.setIcon(setsize.setSizeAnh(urlSearch, 20, 20));
-        IconBarcode.setIcon(setsize.setSizeAnh(urlBarcode, 24, 28));
         btnrefresh1.setIcon(setsize.setSizeAnh(urlRefreash, 24, 24));
     }
     
@@ -1053,8 +1068,6 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         lblTenDocGia.setText("Tên độc giả");
         cbxSoNgayMuon.setSelectedIndex(0);
         lblTenSach1.setText("Tên sách 1");
-        cbxCuonSach1.removeAllItems();
-        cbxCuonSach1.addItem("15");
         cuonSO=1;
     }
     
@@ -1068,28 +1081,26 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         pnSachMuon.repaint();
     }
     
-    public static int setViewSachMuon(JLabel sachThu, Sach sach, JComboBox cbx, List<CuonSach> _lst){
+    public static int setViewSachMuon(JLabel sachThu, Sach sach, JLabel cuonso, JLabel doNguyen, CuonSach cs){
         sachThu.setText(sach.getTen());
-        cbx.removeAllItems();
-        for (CuonSach c : _lst) {
-            cbx.addItem(c.getMa()+"");
-        }
+        cuonso.setText(cs.getMa()+"");
+        doNguyen.setText(cs.getTinhTrang()+"%");
         cuonSO ++;
         return cuonSO;
     }
     
-    public static void setSoQuyen(Sach sach, List<CuonSach> cs){
+    public static void setSoQuyen(Sach sach, CuonSach cs){
         switch (cuonSO) {
             case 1 ->{ 
-                        FrmQuanLyMuonTra.setViewSachMuon(lblTenSach1, sach, cbxCuonSach1, cs);
+                        FrmQuanLyMuonTra.setViewSachMuon(lblTenSach1, sach, lblCuonSo1, lblDNV1, cs);
                         _lstSachCT[0] = SERVICE_SACHCT.getByIDSach(sach.getId());
                     }
             case 2 ->{
-                        FrmQuanLyMuonTra.setViewSachMuon(lblTenSach2, sach, cbxCuonSach2, cs);
+                        FrmQuanLyMuonTra.setViewSachMuon(lblTenSach2, sach, lblCuonSo2, lblDNV2, cs);
                         _lstSachCT[1] = SERVICE_SACHCT.getByIDSach(sach.getId());
                     }
             case 3 ->{
-                        FrmQuanLyMuonTra.setViewSachMuon(lblTenSach3, sach, cbxCuonSach3, cs);
+                        FrmQuanLyMuonTra.setViewSachMuon(lblTenSach3, sach, lblCuonSo3, lblDNV3, cs);
                         _lstSachCT[2] = SERVICE_SACHCT.getByIDSach(sach.getId());
                     }
         }
@@ -1180,9 +1191,6 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     private javax.swing.JLabel btnrefresh1;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.ButtonGroup buttonGroup2;
-    public static javax.swing.JComboBox<String> cbxCuonSach1;
-    public static javax.swing.JComboBox<String> cbxCuonSach2;
-    public static javax.swing.JComboBox<String> cbxCuonSach3;
     private javax.swing.JComboBox<String> cbxSlSachMuon;
     private javax.swing.JComboBox<String> cbxSoNgayMuon;
     private javax.swing.JLabel jLabel1;
@@ -1203,10 +1211,13 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField4;
+    public static javax.swing.JLabel lblCuonSo1;
+    public static javax.swing.JLabel lblCuonSo2;
+    public static javax.swing.JLabel lblCuonSo3;
+    public static javax.swing.JLabel lblDNV1;
+    public static javax.swing.JLabel lblDNV2;
+    public static javax.swing.JLabel lblDNV3;
     private javax.swing.JLabel lblMaPhieu;
-    public static javax.swing.JLabel lblMaSach1;
-    public static javax.swing.JLabel lblMaSach2;
-    public static javax.swing.JLabel lblMaSach3;
     private javax.swing.JLabel lblNgayViet;
     private javax.swing.JLabel lblPhieuMuon;
     private javax.swing.JLabel lblTenDocGia;

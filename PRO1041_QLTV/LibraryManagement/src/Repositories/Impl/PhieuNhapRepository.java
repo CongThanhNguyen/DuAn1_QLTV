@@ -28,8 +28,10 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
     String insert = "Insert into phieunhap(IDSachCT, MaPhieuNhap, NgayNhap, TinhTrang,"
                     + " SoLuongNhap, GiaNhap) values (?,?,?,?,?,?)";
     String insert_nccct = "Insert into Nhaccct values(?,?)";
+    String sql_nccct = "select IDNhacc from Nhaccct where idPhieuNhap=?";
     String sql_by_id_sachct = "Select * from PhieuNhap where idSachCt = ?";
-    String delete = "Delete from NhaCCCt where idphieuNhap = ? Delete from phieunhap where idphieunhap=?";
+    String deleteNhaccct = "Delete from NhaCCCt where idphieuNhap = ? ";
+    String delete =  "Delete from phieunhap where idphieunhap=?";
 
     @Override
     public PhieuNhap insert(PhieuNhap PN) {
@@ -39,7 +41,13 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
 
     @Override
     public PhieuNhap delete(String id) {
-        int i = DBConnection.ExcuteDungna(delete, id, id);
+        PhieuNhap PN = getByid(id);
+        List<PhieuNhap> _lst = getByidSachCT(PN.getIdSachCT());
+        int i=0;
+        for (PhieuNhap phieuNhap : _lst) {
+            DBConnection.ExcuteDungna(deleteNhaccct, phieuNhap.getId());
+            i = DBConnection.ExcuteDungna(delete, phieuNhap.getId());
+        }
         return i==0?getByid(id):null;
     }
 
@@ -98,8 +106,26 @@ public class PhieuNhapRepository implements IPhieuNhapRepository{
     }
 
     @Override
-    public PhieuNhap getByidSachCT(String id) {
-        return getBySQL(sql_by_id_sachct, id).get(0);
+    public List<PhieuNhap> getByidSachCT(String id) {
+        return getBySQL(sql_by_id_sachct, id);
+    }
+
+    @Override
+    public String getIDNCCBYIDpn(String idphieuNhap) {
+        try {
+            ResultSet rs= DBConnection.getDataFromQuery(sql_nccct, idphieuNhap);
+            String id="";
+            while(rs.next()){
+                if(rs.getString(1).equals("")){
+                    continue;
+                }
+                id = rs.getString(1);
+            }
+            return id;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return null;
+        }
     }
     
 }

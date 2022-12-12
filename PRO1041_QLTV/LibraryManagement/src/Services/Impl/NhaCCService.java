@@ -7,67 +7,57 @@ package Services.Impl;
 import DomainModels.NhaCC;
 import Repositories.Impl.NhaCCRepository;
 import Services.INhaCCService;
+import java.awt.Component;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Admin
  */
 public class NhaCCService implements INhaCCService {
+    final NhaCCRepository REPO;
 
-    final NhaCCRepository REPO = new NhaCCRepository();
-    
-    public List<NhaCC> GetAll() {
-        try {
-            return REPO.getAll();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    public NhaCCService() {
+        this.REPO = new NhaCCRepository();
     }
     
-    public Integer Them(NhaCC nhacc) {
-        try {
-            return REPO.Them(nhacc);
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
+    
+
+    @Override
+    public void Insert(NhaCC nhacc, Component c) {
+        NhaCC ncc = REPO.getByNameNDiaChi(nhacc.getTen(), nhacc.getDiaChi());
+        String mess = ncc!=null?"Nhà cung cấp đã có sẵn trong danh sách":"";
+        if(!mess.equals("")){
+            JOptionPane.showMessageDialog(c, mess);
+            return;
         }
+        ncc = REPO.Insert(nhacc);
+        mess = ncc!=null?"Thêm nhà cung cấp thành công":"Thêm nhà cung cấp thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
-    
-    public Integer Sua(NhaCC Nhacc) {
-        try {
-            return REPO.sua(Nhacc);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
-    }    
-    
-    public Integer xoa(String ten) {
-        try {
-            return REPO.xoa(ten);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return -1;
-        }
+
+    @Override
+    public void Update(NhaCC nhacc, Component c) {
+        NhaCC ncc = REPO.Update(nhacc);
+        String mess = ncc!=null?"Sửa nhà cung cấp thành công":"Sửa nhà cung cấp thất bại";
+        JOptionPane.showMessageDialog(c, mess);
     }
-    
+
     @Override
     public List<NhaCC> getAll() {
         return REPO.getAll();
     }
-    
+
     @Override
     public NhaCC getByID(String id) {
         return REPO.getByID(id);
     }
-    
+
     @Override
-    public NhaCC getbyName(String ten) {
-        return REPO.getByName(ten);
-    
+    public NhaCC getByNameNDiaChi(String ten, String diaChi) {
+        return REPO.getByNameNDiaChi(ten, diaChi);
     }
+    
     
 }

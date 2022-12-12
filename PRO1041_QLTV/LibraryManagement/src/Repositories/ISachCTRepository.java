@@ -4,6 +4,8 @@
  */
 package Repositories;
 
+import DomainModels.NhaXuatBan;
+import DomainModels.Sach;
 import DomainModels.SachCT;
 import java.util.List;
 
@@ -13,11 +15,12 @@ import java.util.List;
  */
 public interface ISachCTRepository {
     public SachCT insert(SachCT sachCT);
-    public SachCT delete(String ma);
+    public SachCT delete(SachCT sach);
     public SachCT update(SachCT sachCT);
     public List<SachCT> getAll();
     public SachCT getByIDSach(String ID);
     public SachCT getByID(String ID);
     public SachCT getByBarcode(String barcode);
-
+    public int CountCSBYIDSachCT (String id);
+    
 }

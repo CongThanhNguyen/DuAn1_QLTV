@@ -5,6 +5,7 @@
 package Services;
 
 import DomainModels.NhaCC;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -12,10 +13,9 @@ import java.util.List;
  * @author Admin
  */
 public interface INhaCCService {
-   public Integer Them(NhaCC nhacc);
-     public Integer xoa(String ten);
-    public Integer Sua(NhaCC Nhacc);
+    public void Insert(NhaCC nhacc, Component c);
+    public void Update(NhaCC nhacc, Component c);
     public List<NhaCC> getAll();
     public NhaCC getByID(String id);
-    public NhaCC getbyName(String ten);
+    public NhaCC getByNameNDiaChi(String ten,String diaChi);
 }

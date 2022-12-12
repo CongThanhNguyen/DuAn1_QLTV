@@ -5,6 +5,7 @@
 package Services;
 
 import DomainModels.TheLoaiSach;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -12,11 +13,11 @@ import java.util.List;
  * @author Admin
  */
 public interface ITheLoaiSachService {
-    public TheLoaiSach insert(TheLoaiSach loaiSach);
-    public TheLoaiSach delete(String ma);
-    public TheLoaiSach update(TheLoaiSach loaiSach);
+    public void insert(TheLoaiSach loaiSach, Component c);
+    public void update(TheLoaiSach loaiSach, Component c);
     public List<TheLoaiSach> getAll();
     public TheLoaiSach getByID(String ID);
     public TheLoaiSach getByName(String name);
     public int insertTLCT(String idSach, String idtl);
+    public int deleteTheLoaiCT(String idSach);
 }

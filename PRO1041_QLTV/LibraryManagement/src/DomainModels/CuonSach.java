@@ -12,16 +12,18 @@ public class CuonSach {
     private String id;
     private Integer ma;
     private SachCT sachct;
-    private Float trangThai;
+    private Float tinhTrang;
+    private Boolean TrangThai;
 
     public CuonSach() {
     }
 
-    public CuonSach(String id, int ma, SachCT sachct, float trangThai) {
+    public CuonSach(String id, int ma, SachCT sachct, float tinhTrang, boolean TrangThai) {
         this.id = id;
         this.ma = ma;
         this.sachct = sachct;
-        this.trangThai = trangThai;
+        this.tinhTrang = tinhTrang;
+        this.TrangThai = TrangThai;
     }
 
     public String getId() {
@@ -32,11 +34,11 @@ public class CuonSach {
         this.id = id;
     }
 
-    public int getMa() {
+    public Integer getMa() {
         return ma;
     }
 
-    public void setMa(int ma) {
+    public void setMa(Integer ma) {
         this.ma = ma;
     }
 
@@ -48,13 +50,22 @@ public class CuonSach {
         this.sachct = sachct;
     }
 
-    public float getTrangThai() {
-        return trangThai;
+    public Float getTinhTrang() {
+        return tinhTrang;
     }
 
-    public void setTrangThai(float trangThai) {
-        this.trangThai = trangThai;
+    public void setTinhTrang(Float tinhTrang) {
+        this.tinhTrang = tinhTrang;
     }
+
+    public Boolean getTrangThai() {
+        return TrangThai;
+    }
+
+    public void setTrangThai(Boolean TrangThai) {
+        this.TrangThai = TrangThai;
+    }
+
     
     
 }

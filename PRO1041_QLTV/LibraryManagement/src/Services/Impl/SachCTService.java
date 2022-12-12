@@ -26,13 +26,13 @@ public class SachCTService implements ISachCTService{
     }
 
     @Override
-    public SachCT delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void delete(SachCT sachCT) {
+        REPO.delete(sachCT);
     }
 
     @Override
     public SachCT update(SachCT sachCT) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return REPO.update(sachCT);
     }
 
     @Override
@@ -53,5 +53,10 @@ public class SachCTService implements ISachCTService{
     @Override
     public SachCT getByBarcode(String barcode) {
         return REPO.getByBarcode(barcode);
+    }
+
+    @Override
+    public int CountCSBYIDSachCT(String id) {
+        return REPO.CountCSBYIDSachCT(id);
     }
 }

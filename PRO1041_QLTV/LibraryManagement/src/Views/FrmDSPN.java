@@ -4,8 +4,11 @@
  */
 package Views;
 
+import DomainModels.PhieuNhap;
+import DomainModels.SachCT;
 import Services.Impl.PhieuNhapService;
 import Services.Impl.PhieuNhapViewModelService;
+import Services.Impl.SachCTService;
 import Utilities.SetSize;
 import ViewModels.PhieuNhapViewmodel;
 import java.awt.Color;
@@ -25,6 +28,7 @@ public class FrmDSPN extends javax.swing.JFrame {
     DefaultTableModel tblModel = new DefaultTableModel();
     final PhieuNhapViewModelService SERVICE_VIEW = new PhieuNhapViewModelService();
     final PhieuNhapService SERVICE = new PhieuNhapService();
+    final SachCTService SERVICE_SACHCT = new SachCTService();
 
     /**
      * Creates new form FrmDSPN
@@ -35,13 +39,12 @@ public class FrmDSPN extends javax.swing.JFrame {
         this.seticon();
         this.setTable();
         this.setLocationRelativeTo(null);
-        fillTable();
+        this.fillTable(SERVICE_VIEW.getAll());
     }
 
-    public void fillTable(){
+    public void fillTable(List<PhieuNhapViewmodel> pnv){
         tblModel.setRowCount(0);
         tblModel = (DefaultTableModel) tblDS.getModel();
-        List<PhieuNhapViewmodel> pnv = SERVICE_VIEW.getAll();
         for (PhieuNhapViewmodel phieuNhapViewmodel : pnv) {
             Object[] row = new Object[]{
               phieuNhapViewmodel.getIdPhieuNhap(),
@@ -64,11 +67,9 @@ public class FrmDSPN extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDS = new javax.swing.JTable();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jTextField1 = new javax.swing.JTextField();
+        txtMa = new javax.swing.JTextField();
         btnXoa = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
         btnSearch = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -108,15 +109,6 @@ public class FrmDSPN extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblDS);
 
-        jComboBox1.setBackground(new java.awt.Color(125, 200, 150));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBox1ActionPerformed(evt);
-            }
-        });
-
         btnXoa.setBackground(new java.awt.Color(125, 200, 150));
         btnXoa.setText("Xóa");
         btnXoa.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -134,55 +126,51 @@ public class FrmDSPN extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setText("Sắp xếp");
-
         btnSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnSearch.setPreferredSize(new java.awt.Dimension(20, 20));
+        btnSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnSearchMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(btnXoa)
+                        .addGap(18, 18, 18)
+                        .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 166, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())))
+                        .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1))
-                    .addComponent(btnClose, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(45, 45, 45)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel3)
-                        .addComponent(btnXoa))
+                        .addComponent(btnXoa)
+                        .addComponent(txtMa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 212, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -195,9 +183,11 @@ public class FrmDSPN extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 318, Short.MAX_VALUE)
+            .addGap(0, 303, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createSequentialGroup()
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE)))
         );
 
         pack();
@@ -213,7 +203,7 @@ public class FrmDSPN extends javax.swing.JFrame {
         int row = tblDS.getSelectedRow();
         String id = (String) tblDS.getValueAt(row, 0);
         SERVICE.delete(id);
-        this.fillTable();
+        this.fillTable(SERVICE_VIEW.getAll());
         JOptionPane.showMessageDialog(this, "Xóa thành công");
     }//GEN-LAST:event_btnXoaActionPerformed
 
@@ -221,15 +211,19 @@ public class FrmDSPN extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tblDS.getSelectedRow();
         FrmPhieuNhap phieuNhap = new FrmPhieuNhap();
+        PhieuNhap PN = SERVICE.getByID((String) tblDS.getValueAt(row, 0));
         phieuNhap.checkSach(false);
         phieuNhap.xemChiTiet();
-        phieuNhap.setDisplay((String) tblDS.getValueAt(row, 0));
+        phieuNhap.setDisplay(PN.getId());
         phieuNhap.setVisible(true);
+
     }//GEN-LAST:event_tblDSMouseClicked
 
-    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+    private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox1ActionPerformed
+        String ma = txtMa.getText();
+        this.fillTable(SERVICE_VIEW.getByMa(ma));
+    }//GEN-LAST:event_btnSearchMouseClicked
 
     private void seticon() {
         URL urldong = getClass().getResource("/Images/cross-small.png");
@@ -246,12 +240,10 @@ public class FrmDSPN extends javax.swing.JFrame {
     private javax.swing.JLabel btnClose;
     private javax.swing.JLabel btnSearch;
     private javax.swing.JButton btnXoa;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTable tblDS;
+    private javax.swing.JTextField txtMa;
     // End of variables declaration//GEN-END:variables
 }

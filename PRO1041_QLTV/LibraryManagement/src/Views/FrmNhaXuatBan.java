@@ -7,8 +7,12 @@ package Views;
 import DomainModels.NhaXuatBan;
 import Services.Impl.NhaXuatBanService;
 import Utilities.SetSize;
+import java.awt.Color;
 import java.net.URL;
 import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.JTableHeader;
 
 /**
  *
@@ -18,13 +22,6 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
 
     final SetSize setsize = new SetSize();
     final static NhaXuatBanService SERVICE = new NhaXuatBanService();
-    static NhaXuatBan NXB_DUOCCHON;
-
-    static {
-        if (!SERVICE.getAll().isEmpty()) {
-            NXB_DUOCCHON = SERVICE.getAll().get(0);
-        }
-    }
 
     /**
      * Creates new form FrmNhaXuatBan
@@ -34,7 +31,8 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.seticon();
-        this.fillCbx();
+        this.setTable();
+        this.loadTable();
     }
 
     /**
@@ -55,23 +53,31 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
         txtDiaChi = new javax.swing.JTextField();
         btnHoanThanh = new javax.swing.JButton();
         btnClose = new javax.swing.JLabel();
-        cbxNhaXuatBan = new javax.swing.JComboBox<>();
-        txtThem = new javax.swing.JRadioButton();
-        txtSua = new javax.swing.JRadioButton();
-        txtXoa = new javax.swing.JRadioButton();
+        rdoThem = new javax.swing.JRadioButton();
+        rdoSua = new javax.swing.JRadioButton();
+        jLabel4 = new javax.swing.JLabel();
+        lblID = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblNhaXuaBan = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Nhà xuất bản");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 7, -1, -1));
 
         jLabel2.setText("Tên");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 70, 46, -1));
 
         jLabel3.setText("Địa chỉ");
+        jPanel2.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(183, 70, 46, -1));
+        jPanel2.add(txtTen, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 67, 100, -1));
+        jPanel2.add(txtDiaChi, new org.netbeans.lib.awtextra.AbsoluteConstraints(241, 67, 100, -1));
 
         btnHoanThanh.setBackground(new java.awt.Color(125, 200, 150));
         btnHoanThanh.setText("Hoàn thành");
@@ -81,97 +87,66 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
                 btnHoanThanhActionPerformed(evt);
             }
         });
+        jPanel2.add(btnHoanThanh, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 107, -1, -1));
 
+        btnClose.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnClose.setPreferredSize(new java.awt.Dimension(20, 20));
         btnClose.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnCloseMouseClicked(evt);
             }
         });
+        jPanel2.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(334, 7, 22, -1));
 
-        cbxNhaXuatBan.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        cbxNhaXuatBan.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        cbxNhaXuatBan.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                cbxNhaXuatBanMouseClicked(evt);
+        rdoThem.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdoThem);
+        rdoThem.setSelected(true);
+        rdoThem.setText("Thêm");
+        jPanel2.add(rdoThem, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 108, -1, -1));
+
+        rdoSua.setBackground(new java.awt.Color(255, 255, 255));
+        buttonGroup1.add(rdoSua);
+        rdoSua.setText("Sửa");
+        jPanel2.add(rdoSua, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 108, -1, -1));
+
+        jLabel4.setText("ID");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(7, 33, 46, -1));
+
+        lblID.setText("IS AUTO");
+        jPanel2.add(lblID, new org.netbeans.lib.awtextra.AbsoluteConstraints(65, 33, 270, -1));
+
+        jScrollPane1.setBackground(new java.awt.Color(255, 255, 255));
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+
+        tblNhaXuaBan.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null},
+                {null, null, null},
+                {null, null, null},
+                {null, null, null}
+            },
+            new String [] {
+                "ID", "Tên NXB", "Địa Chỉ"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
             }
         });
+        tblNhaXuaBan.setGridColor(new java.awt.Color(255, 255, 255));
+        tblNhaXuaBan.setSelectionBackground(new java.awt.Color(125, 200, 150));
+        tblNhaXuaBan.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblNhaXuaBanMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tblNhaXuaBan);
 
-        txtThem.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(txtThem);
-        txtThem.setText("Thêm");
-
-        txtSua.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(txtSua);
-        txtSua.setText("Sửa");
-
-        txtXoa.setBackground(new java.awt.Color(255, 255, 255));
-        buttonGroup1.add(txtXoa);
-        txtXoa.setText("Xóa");
-
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
-                .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(cbxNhaXuatBan, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtThem)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtSua)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtXoa))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtTen, javax.swing.GroupLayout.DEFAULT_SIZE, 216, Short.MAX_VALUE)
-                            .addComponent(txtDiaChi))))
-                .addGap(0, 34, Short.MAX_VALUE))
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(135, 135, 135)
-                .addComponent(btnHoanThanh)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1)
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtThem)
-                                .addComponent(txtSua)
-                                .addComponent(txtXoa))
-                            .addComponent(cbxNhaXuatBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(txtTen, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3)
-                    .addComponent(txtDiaChi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(11, 11, 11)
-                .addComponent(btnHoanThanh)
-                .addGap(21, 21, 21))
-        );
+        jPanel2.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(4, 158, 350, 130));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -181,7 +156,9 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -190,72 +167,84 @@ public class FrmNhaXuatBan extends javax.swing.JFrame {
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
         // TODO add your handling code here:
         this.dispose();
+        FrmChinh.setFrmChinh(new FrmQuanLyKhoSach());
     }//GEN-LAST:event_btnCloseMouseClicked
 
+    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
+        // TODO add your handling code here:
+        NhaXuatBan nxb = getFormData();
+        if(rdoThem.isSelected()){
+            SERVICE.insert(nxb, this);
+        }else{
+            String id = lblID.getText();
+            if(id.equalsIgnoreCase("IS AUTO")){
+                JOptionPane.showMessageDialog(this, "Vui lòng chọn nhà xuất bản để tiếp tục!");
+                return;
+            }
+            nxb.setId(id);
+            SERVICE.update(nxb, this);
+        }
+        this.loadTable();
+        this.clear();
+    }//GEN-LAST:event_btnHoanThanhActionPerformed
+
+    private void tblNhaXuaBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblNhaXuaBanMouseClicked
+        // TODO add your handling code here:
+        int row = tblNhaXuaBan.getSelectedRow();
+        NhaXuatBan nxb = SERVICE.getByID((String) tblNhaXuaBan.getValueAt(row, 0));
+        txtTen.setText(nxb.getTen());
+        lblID.setText(nxb.getId());
+        txtDiaChi.setText(nxb.getDiaChi());
+    }//GEN-LAST:event_tblNhaXuaBanMouseClicked
+
+    private NhaXuatBan getFormData(){
+        String ten = txtTen.getText();
+        String diaChi = txtDiaChi.getText();
+        return new NhaXuatBan(null, ten, diaChi);
+    }
+    
+    private void loadTable(){
+        DefaultTableModel model = (DefaultTableModel) tblNhaXuaBan.getModel();
+        model.setRowCount(0);
+        List<NhaXuatBan> _lst = SERVICE.getAll();
+        for (NhaXuatBan nhaXuatBan : _lst) {
+            Object rowData[] = {
+                nhaXuatBan.getId(), nhaXuatBan.getTen(), nhaXuatBan.getDiaChi()
+            };
+            model.addRow(rowData);
+        }
+        tblNhaXuaBan.setModel(model);
+    }
     public void clear() {
         txtTen.setText("");
         txtDiaChi.setText("");
+        lblID.setText("IS AUTO");
     }
-    private void btnHoanThanhActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHoanThanhActionPerformed
-        NhaXuatBan nxb = new NhaXuatBan();
-
-        if (txtThem.isSelected()) {
-            nxb.setTen(txtTen.getText());
-            nxb.setDiaChi(txtDiaChi.getText());
-            SERVICE.Them(nxb);
-            clear();
-            fillCbx();
-        } else if (txtXoa.isSelected()) {
-            String ten = txtTen.getText();
-            SERVICE.Xoa(ten);
-            clear();
-            fillCbx();
-        } else if (txtSua.isSelected()) {
-            nxb.setTen(txtTen.getText());
-            nxb.setDiaChi(txtDiaChi.getText());
-            SERVICE.Sua(nxb);
-            clear();
-            fillCbx();
-        }
-        FrmPhieuNhap.fillCbxNXB();
-        int index = this.cbxNhaXuatBan.getSelectedIndex();
-        FrmPhieuNhap.cbxNhaXuatBan.setSelectedIndex(index);
-        NXB_DUOCCHON = SERVICE.getAll().get(index);
-    }//GEN-LAST:event_btnHoanThanhActionPerformed
-
-    private void cbxNhaXuatBanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cbxNhaXuatBanMouseClicked
-        String ten = cbxNhaXuatBan.getSelectedItem().toString();
-        NhaXuatBan nxb = SERVICE.getByName(ten);
-        txtTen.setText(ten);
-        txtDiaChi.setText(nxb.getDiaChi());
-    }//GEN-LAST:event_cbxNhaXuatBanMouseClicked
-
     private void seticon() {
         URL urldong = getClass().getResource("/Images/cross-small.png");
         btnClose.setIcon(setsize.setSizeAnh(urldong, 20, 20));
     }
-
-    private void fillCbx() {
-        List<NhaXuatBan> _lst = SERVICE.getAll();
-        cbxNhaXuatBan.removeAllItems();
-        for (NhaXuatBan nhaXuatBan : _lst) {
-            cbxNhaXuatBan.addItem(nhaXuatBan.getTen());
-        }
+    
+    private void setTable() {
+        JTableHeader header = tblNhaXuaBan.getTableHeader();
+        header.setBackground(new Color(125, 200, 150));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel btnClose;
     private javax.swing.JButton btnHoanThanh;
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JComboBox<String> cbxNhaXuatBan;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblID;
+    private javax.swing.JRadioButton rdoSua;
+    private javax.swing.JRadioButton rdoThem;
+    private javax.swing.JTable tblNhaXuaBan;
     private javax.swing.JTextField txtDiaChi;
-    private javax.swing.JRadioButton txtSua;
     private javax.swing.JTextField txtTen;
-    private javax.swing.JRadioButton txtThem;
-    private javax.swing.JRadioButton txtXoa;
     // End of variables declaration//GEN-END:variables
 }

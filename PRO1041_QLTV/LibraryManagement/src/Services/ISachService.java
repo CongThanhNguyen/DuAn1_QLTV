@@ -5,6 +5,7 @@
 package Services;
 
 import DomainModels.Sach;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -13,7 +14,7 @@ import java.util.List;
  */
 public interface ISachService {
     public Sach insert(Sach khoSach);
-    public Sach delete(String ma);
+    public void delete(Sach sach, Component c);
     public Sach update(Sach sach);
     public List<Sach> getAll();
     public Sach getByMa(String Ma);

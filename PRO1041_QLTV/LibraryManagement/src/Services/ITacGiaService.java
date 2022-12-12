@@ -4,7 +4,9 @@
  */
 package Services;
 
+import DomainModels.Sach;
 import DomainModels.TacGia;
+import java.awt.Component;
 import java.util.List;
 
 /**
@@ -12,22 +14,10 @@ import java.util.List;
  * @author Admin
  */
 public interface ITacGiaService {
-
-    public void insert(TacGia tacGia);
-
-    public TacGia delete(String ma);
-
-    public TacGia update(TacGia tacGia);
-
+    public void insert(TacGia tacGia, Component c);
+    public void update(TacGia tacGia, Component c);
     public List<TacGia> getAll();
-
-    public void Xoa(String ten);
-
-    public void Sua(TacGia tg);
-
     public TacGia getByMa(String ma);
-
-    public int insertTGCT(String idsach, String idTG);
-
-    public int UpdateTacGiaCT(TacGia tacgia);
+    public void insertTGCT(String idsach, String idTG);
+    public int deleteTacGiaCT(Sach sach);
 }

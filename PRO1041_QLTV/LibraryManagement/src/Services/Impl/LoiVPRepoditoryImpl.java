@@ -15,7 +15,12 @@ import java.util.List;
  * @author Apc
  */
 public class LoiVPRepoditoryImpl implements LoiVPServices{
-    private ViPhamRepository loiVPrepository = new ViPhamRepositoryImpl();
+    private ViPhamRepository loiVPrepository;
+
+    public LoiVPRepoditoryImpl() {
+        loiVPrepository = new ViPhamRepositoryImpl();
+    }
+    
     
     @Override
     public List<LoiVP> getLoiVPs() {

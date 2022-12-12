@@ -17,7 +17,7 @@ import javax.swing.JLabel;
  *
  * @author Admin
  */
-public class FrmChinh extends javax.swing.JFrame {
+public final class FrmChinh extends javax.swing.JFrame {
     final private SetSize setsize =new SetSize();
     final private SetColor setcolor =new SetColor();
     //Đây là form chính
@@ -480,7 +480,7 @@ public class FrmChinh extends javax.swing.JFrame {
         this.setIconImage(img);
     }
     
-    public void setFrmChinh(Component frmSet){
+    public static void setFrmChinh(Component frmSet){
         frmDiff.removeAll();
         frmDiff.setLayout(new CardLayout(0, 0));
         frmDiff.add(frmSet);
@@ -503,7 +503,7 @@ public class FrmChinh extends javax.swing.JFrame {
     private javax.swing.JPanel btnThongke;
     private javax.swing.JPanel btnTrangChu;
     private javax.swing.JPanel btnViPham;
-    private javax.swing.JPanel frmDiff;
+    public static javax.swing.JPanel frmDiff;
     private javax.swing.JLabel iconBaoCao;
     private javax.swing.JLabel iconDocGia;
     private javax.swing.JLabel iconHome;

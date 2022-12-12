@@ -13,16 +13,19 @@ public class TacGia {
     private String ma;
     private String hoTen;
     private String diaChi;
+    private String img;
 
     public TacGia() {
     }
 
-    public TacGia(String id, String ma, String hoTen, String diaChi) {
+    public TacGia(String id, String ma, String hoTen, String diaChi, String img) {
         this.id = id;
         this.ma = ma;
         this.hoTen = hoTen;
         this.diaChi = diaChi;
+        this.img = img;
     }
+    
 
     public String getId() {
         return id;
@@ -54,6 +57,14 @@ public class TacGia {
 
     public void setDiaChi(String diaChi) {
         this.diaChi = diaChi;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
     }
     
     

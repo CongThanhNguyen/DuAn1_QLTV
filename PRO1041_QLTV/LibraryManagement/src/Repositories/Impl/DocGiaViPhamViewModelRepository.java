@@ -12,7 +12,6 @@ import ViewModels.DocGiaViPhamViewModel;
  * @author Admin
  */
 public class DocGiaViPhamViewModelRepository implements IDocGiaViPhamViewModelRepository{
-    final DocGiaRepository REPO_DG = new DocGiaRepository();
     
     @Override
     public DocGiaViPhamViewModel getDocGiaViPham() {

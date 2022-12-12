@@ -4,19 +4,15 @@
  */
 package Repositories.Impl;
 
+import DomainModels.Sach;
 import Repositories.ITacGiaRepository;
 import DomainModels.TacGia;
 import Utilities.DBConnection;
-import Utilities.DBContext;
 import java.util.List;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.sql.*;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -24,43 +20,24 @@ import javax.swing.JOptionPane;
  */
 public class TacGiaRepository implements ITacGiaRepository {
 
-    String sql = "Select * from TacGia";
+    String sql = "Select * from TacGia order by MaTacGia ASC";
     String sql_by_ma = "Select * from TacGia where MaTacGia = ?";
     String sql_by_id = "Select * from TacGia where IDTacGia = ?";
     String insert_tacgiaCT = "Insert into TacGiaCT(idSach, IDTacGia) values (?,?)";
-    String update_tacgiaCT = "Update TacGia set TenTacGia = ? where IdTacGia = ?";
+    String delete_tacgiaCT = "delete TacGiaCT where IDSach = ?";
     String delelte = "DELETE TacGia where IdTacGia = ?";
-
+    String insert = "insert into TacGia(MaTacGia,TenTacGia,DiaChi, img) values (?,?,?,?)";
+    String update = "Update TacGia set TenTacGia = ?, DiaChi = ?, img =? where MaTacGia = ?";
     @Override
-    public void insert(TacGia tacGia) {
-        String sql = "insert into TacGia(MaTacGia,TenTacGia,DiaChi) values (?,?,?)";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, tacGia.getMa());
-            ps.setString(2, tacGia.getHoTen());
-            ps.setString(3, tacGia.getDiaChi());
-            ps.execute();
-            JOptionPane.showMessageDialog(null, "Thêm thành công");
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public TacGia delete(String id) {
-        int i = DBConnection.ExcuteDungna(delelte, id);
-        return i == 1 ? getByID(id) : null;
-
+    public TacGia insert(TacGia tacGia) {
+        int i = DBConnection.ExcuteDungna(insert, tacGia.getMa(), tacGia.getHoTen(), tacGia.getDiaChi(), tacGia.getImg());
+        return i==1?getByMa(tacGia.getMa()):null;
     }
 
     @Override
     public TacGia update(TacGia tacGia) {
-        String sql = "Update TacGia set TenTacGia = ? where IDTacGia = ?";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, tacGia.getHoTen());
-            ps.setString(2, tacGia.getId());
-            ps.executeUpdate();
-        } catch (Exception e) {
-        }
-        return null;
+        int i = DBConnection.ExcuteDungna(update, tacGia.getHoTen(), tacGia.getDiaChi(), tacGia.getImg(), tacGia.getMa());
+        return i==1?getByMa(tacGia.getMa()):null;
     }
 
     @Override
@@ -84,7 +61,8 @@ public class TacGiaRepository implements ITacGiaRepository {
                 String Ma = rs.getString(2);
                 String hoTen = rs.getString(3);
                 String diaChi = rs.getString(4);
-                TacGia tacGia = new TacGia(id, Ma, hoTen, diaChi);
+                String img = rs.getString(5);
+                TacGia tacGia = new TacGia(id, Ma, hoTen, diaChi, img);
                 _lst.add(tacGia);
             }
         } catch (SQLException ex) {
@@ -109,36 +87,7 @@ public class TacGiaRepository implements ITacGiaRepository {
     }
 
     @Override
-    public int UpdateTacGiaCT(TacGia tacGia) {
-        PreparedStatement ps = DBConnection.getStmt(update_tacgiaCT, tacGia.getHoTen(), tacGia.getId());
-        try {
-            return ps.executeUpdate();
-        } catch (SQLException e) {
-            return 0;
-        }
-    }
-
-    @Override
-    public void Xoa(String ten) {
-        String sql = "Delete from TacGia where TenTacGia = ?";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setString(1, ten);
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Xóa thành công");
-        } catch (Exception e) {
-        }
-    }
-
-    @Override
-    public void Sua(TacGia tg) {
-        String sql = "update TacGia set DiaChi = ? where TenTacGia = ?";
-        try (Connection con = DBContext.getConnection(); PreparedStatement ps = con.prepareStatement(sql)) {
-
-            ps.setString(1, tg.getDiaChi());
-            ps.setString(2, tg.getHoTen());
-            ps.executeUpdate();
-            JOptionPane.showMessageDialog(null, "Sửa thành công");
-        } catch (Exception e) {
-        }
+    public int deleteTacGiaCT(Sach sach) {
+        return DBConnection.ExcuteDungna(delete_tacgiaCT, sach.getId());
     }
 }

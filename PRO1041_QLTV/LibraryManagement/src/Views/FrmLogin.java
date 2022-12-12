@@ -25,10 +25,8 @@ public class FrmLogin extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null);
         this.setResizable(false);
-        URL url = getClass().getResource("/Images/iconTrangchu.png");
-        ImageIcon imgi = setsize.setSizeAnh(url, 24, 24);
-        Image img = imgi.getImage();
-        this.setIconImage(img);
+        this.seticon();
+
     }
 
     /**
@@ -206,6 +204,12 @@ public class FrmLogin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtTaiKhoanActionPerformed
 
+    private void seticon(){
+        URL url = getClass().getResource("/Images/iconTrangchu.png");
+        ImageIcon imgi = setsize.setSizeAnh(url, 24, 24);
+        Image img = imgi.getImage();
+        this.setIconImage(img);
+    }
     private void lblQuenMatKhauMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblQuenMatKhauMouseClicked
         // TODO add your handling code here:
         FrmQuenMatKhau quen = new FrmQuenMatKhau();
@@ -214,19 +218,20 @@ public class FrmLogin extends javax.swing.JFrame {
 
     private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
         // TODO add your handling code here:
-        String taiKhoan = txtTaiKhoan.getText();
-        char[] args= txtMatKhau.getPassword();
-        String matKhau = "";
-        for (char arg : args) {
-            matKhau+=arg;
-        }
-        int check = SERVICE.login(taiKhoan, matKhau);
-        if(check==1){
+//        String taiKhoan = txtTaiKhoan.getText();
+//        char[] args= txtMatKhau.getPassword();
+//        String matKhau = "";
+//        for (char arg : args) {
+//            matKhau+=arg;
+//        }
+//        int check = SERVICE.login(taiKhoan, matKhau);
+//        if(check==1){
             this.dispose();
-            new FrmChinh().setVisible(true);
-            return;
-        }
-        JOptionPane.showMessageDialog(this, "Sai tên tài khoản hoặc mật khẩu!");
+            FrmChinh frm = new FrmChinh();
+            frm.setVisible(true);
+//            return;
+//        }
+//        JOptionPane.showMessageDialog(this, "Sai tên tài khoản hoặc mật khẩu!");
     }//GEN-LAST:event_btnLoginActionPerformed
 
     private void btnLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMousePressed

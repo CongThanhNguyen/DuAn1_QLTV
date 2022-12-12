@@ -4,9 +4,12 @@
  */
 package Repositories.Impl;
 
+import DomainModels.NhaXuatBan;
+import DomainModels.PhieuNhap;
 import DomainModels.Sach;
 import Repositories.ISachCTRepository;
 import DomainModels.SachCT;
+import Services.Impl.TacGiaService;
 import Utilities.DBConnection;
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,17 +17,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Admin
  */
 public class SachCTRepository implements ISachCTRepository {
-
-    final TacGiaRepository REPO_TACGIA = new TacGiaRepository();
-    final TheLoaiSachRepository REPO_TLS = new TheLoaiSachRepository();
-    final SachRepository REPO_SACH = new SachRepository();
-
     String sql = "Select * from SachCT";
     String sql_by_IDSach = "Select * from SachCT where IDSach = ?";
     String sql_by_ID = "Select * from SachCT where IDSachCT = ?";
@@ -33,7 +33,10 @@ public class SachCTRepository implements ISachCTRepository {
     String sql_by_ma = "select * from Sach where MaSach like ?";
     String sql_by_ten = "select * from Sach where TenSach like ?";
     String sql_by_barcode = "Select * from Sachct where seri = ?";
-    String update = "update SachCT set NamXuatBan=?, img=?, GiaInTrenSach=? where IdSachCT = ?";
+    String update = "update SachCT set NamXuatBan=?, img=?, GiaInTrenSach=?, seri=? where IdSachCT = ?";
+    String sql_count = "Select count(IDCuonSach) as sl from cuonSach where idSachCT=?";
+    String delete_NXBCT = "Delete from NXBCT where idSachct=? ";
+    String delete = "Delete from sachct where idSachCT=? ";
 
     @Override
     public SachCT insert(SachCT sachCT) {
@@ -49,8 +52,13 @@ public class SachCTRepository implements ISachCTRepository {
     }
 
     @Override
-    public SachCT delete(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public SachCT delete(SachCT sach) {
+        PhieuNhapRepository REPO_PN = new PhieuNhapRepository();
+        PhieuNhap PN = REPO_PN.getByidSachCT(sach.getId()).get(0);
+        REPO_PN.delete(PN.getId());
+        DBConnection.ExcuteDungna(delete_NXBCT, sach.getId());
+        int i = DBConnection.ExcuteDungna(delete, sach.getId());
+        return i==0?getByID(sach.getId()):null;
     }
 
     @Override
@@ -58,7 +66,7 @@ public class SachCTRepository implements ISachCTRepository {
         try {
             PreparedStatement ps = DBConnection.getStmt(update, sachCT.getNamxb(), 
                 sachCT.getImg(), sachCT.getGiaIn(), 
-                sachCT.getSeri(), sachCT.getSach().getId(), sachCT.getId());
+                sachCT.getSeri(), sachCT.getId());
             int i = ps.executeUpdate();
             return  i == 0 ? getByID(sachCT.getId()) : null;
         } catch (Exception ex) {
@@ -74,11 +82,11 @@ public class SachCTRepository implements ISachCTRepository {
 
     @Override
     public SachCT getByIDSach(String ID) {
-        System.out.println(ID);
         return this.getBySQL(sql_by_IDSach, ID).get(0);
     }
 
     private List<SachCT> getBySQL(String sql, Object... args) {
+        SachRepository REPO_SACH = new SachRepository();
         List<SachCT> _lst = new ArrayList<>();
         PreparedStatement ps = DBConnection.getStmt(sql, args);
         ResultSet rs;
@@ -111,5 +119,20 @@ public class SachCTRepository implements ISachCTRepository {
     @Override
     public SachCT getByBarcode(String barcode) {
         return getBySQL(sql_by_barcode, barcode).get(0);
+    }
+
+    @Override
+    public int CountCSBYIDSachCT(String id) {
+        try {
+            ResultSet rs = DBConnection.getDataFromQuery(sql_count, id);
+            int count = 0;
+            while(rs.next()){
+                count = Integer.parseInt(rs.getString(1));
+            }
+            return count;
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            return 0;
+        }
     }
 }

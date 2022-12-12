@@ -21,29 +21,10 @@ public class NhaCCRepository implements INhaCCRepository {
 
     String sql = "Select * from NhaCC";
     String sqlByID = "Select * from NhaCC where idNhaCC =?";
-    String sqlByName = "select * from NhaCC where TenNhaCC = ?";
-    final String Insert_SQL = "INSERT INTO NhaCC (TenNhacc, Diachi, SDT, Email) values (?,?,?,?)";
+    String sqlByNameNDiaChi = "select * from NhaCC where TenNhaCC = ? and DiaChi=?";
+    final String Insert_SQL = "INSERT INTO NhaCC(TenNhacc, Diachi, SDT, Email) values (?,?,?,?)";
     final String Delete_SQL = "DELETE FROM NhaCC where TenNhaCC = ?";
-    final String UPDATE_SQL = "UPDATE NhaCC SET DIACHi = ?, SDT = ?, Email = ? where TenNhacc = ?";
-
-    public Integer Them(NhaCC nhacc) {
-        DBConnection.ExcuteDungna(Insert_SQL, nhacc.getTen(),
-                nhacc.getDiaChi(), nhacc.getSdt(), nhacc.getEmail());
-
-        return 1;
-    }
-
-    public Integer sua(NhaCC nhacc) {
-        DBConnection.ExcuteDungna(UPDATE_SQL, nhacc.getDiaChi(), nhacc.getSdt(),
-                nhacc.getEmail(), nhacc.getTen());
-        return 1;
-
-    }
-
-    public Integer xoa(String ten) {
-        DBConnection.ExcuteDungna(Delete_SQL, ten);
-        return 1;
-    }
+    final String UPDATE_SQL = "UPDATE NhaCC SET TenNhacc = ?, DIACHi = ?, SDT = ?, Email = ? where IDNhaCC = ?";
 
     @Override
     public List<NhaCC> getAll() {
@@ -77,7 +58,26 @@ public class NhaCCRepository implements INhaCCRepository {
     }
 
     @Override
-    public NhaCC getByName(String ten) {
-        return getBySql(sqlByName, ten).get(0);
+    public NhaCC Insert(NhaCC nhacc) {
+        int i = DBConnection.ExcuteDungna(Insert_SQL, nhacc.getTen(),
+                nhacc.getDiaChi(), nhacc.getSdt(), nhacc.getEmail());
+        return i==i?getByNameNDiaChi(nhacc.getTen(), nhacc.getDiaChi()):null;
     }
+
+    @Override
+    public NhaCC Update(NhaCC nhacc) {
+        int i = DBConnection.ExcuteDungna(UPDATE_SQL, nhacc.getTen(),
+                nhacc.getDiaChi(), nhacc.getSdt(), nhacc.getEmail(), nhacc.getId());
+        return i==i?getByNameNDiaChi(nhacc.getTen(), nhacc.getDiaChi()):null;
+    }
+
+    @Override
+    public NhaCC getByNameNDiaChi(String ten, String diaChi) {
+        List<NhaCC> _lst = getBySql(sqlByNameNDiaChi, ten, diaChi);
+        if(!_lst.isEmpty()){
+            return _lst.get(0);
+        }
+        return null;
+    }
+
 }

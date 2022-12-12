@@ -20,8 +20,6 @@ public class PhieuNhapService implements IPhieuNhapService{
         this.REPO = new PhieuNhapRepository();
     }
 
-    
-
     @Override
     public PhieuNhap insert(PhieuNhap phieuNhap) {
         return REPO.insert(phieuNhap);
@@ -55,6 +53,16 @@ public class PhieuNhapService implements IPhieuNhapService{
     @Override
     public PhieuNhap getByID(String id) {
         return REPO.getByid(id);
+    }
+
+    @Override
+    public List<PhieuNhap> getByidSachCT(String id) {
+        return REPO.getByidSachCT(id);
+    }
+
+    @Override
+    public String getIDNCCBYIDpn(String idphieuNhap) {
+        return REPO.getIDNCCBYIDpn(idphieuNhap);
     }
     
 }

@@ -17,7 +17,12 @@ import java.util.List;
  */
 public class KhoSachServices implements KhoSachService {
 
-    private KhoSachRepository khoSach = new KhoSachImpl();
+    private KhoSachRepository khoSach;
+
+    public KhoSachServices() {
+        khoSach = new KhoSachImpl();
+    }
+    
 
     @Override
     public List<KhoSachViewModels> getAll() {

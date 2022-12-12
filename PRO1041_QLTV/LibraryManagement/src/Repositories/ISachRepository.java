@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ISachRepository {
     public Sach insert(Sach khoSach);
-    public Sach delete(String ma);
+    public Sach delete(Sach sach);
     public Sach update(Sach khoSach);
     public List<Sach> getAll();
     public Sach getByMa(String Ma);

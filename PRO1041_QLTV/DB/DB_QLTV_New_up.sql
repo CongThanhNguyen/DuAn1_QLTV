@@ -17,6 +17,7 @@ CREATE TABLE TacGia
   MaTacGia varchar(10) not null,
   TenTacGia NVARCHAR(50) not null,
   DiaChi NVARCHAR(50) NOT NULL,
+  img varchar(100),
 )
 GO
 -- nhà xuất bản 
@@ -105,7 +106,8 @@ CREATE TABLE CuonSach(
   idCuonSach UNIQUEIDENTIFIER default newid() primary key,
   MACUONSACH INT IDENTITY(1,1),
   IDSachCT UNIQUEIDENTIFIER,
-  TrangThai float ,
+  TinhTrang float,
+  TrangThai bit ,
   CONSTRAINT FK1_SachCT FOREIGN KEY(IDSachCT) REFERENCES SachCT(IDSachCT),
 ) 
 GO
@@ -209,6 +211,6 @@ create proc addCuonSach
 			begin
 				set @i = @i +1;
 				set IDENTITY_INSERT dbo.cuonsach on
-				insert CuonSach(MaCuonSach, IDSachCT, TrangThai) values(@i, @idSach, 100)
+				insert CuonSach(MaCuonSach, IDSachCT, TinhTrang, TrangThai) values(@i, @idSach, 100, 1)
 			end
 	end
