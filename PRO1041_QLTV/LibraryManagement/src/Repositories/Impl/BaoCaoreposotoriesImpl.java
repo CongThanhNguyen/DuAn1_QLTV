@@ -102,13 +102,14 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
         try {
             Connection connection = DBContext.getConnection();
-            String sql = "SELECT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg\n"
-                    + "JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia\n"
-                    + "JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon\n"
-                    + "JOIN CuonSach cs ON ct.idCuonSach = cs.idCuonSach\n"
-                    + "JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT\n"
-                    + "JOIN Sach S ON S.IDSach = Sct.IdSach\n"
-                    + "JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon";
+            String sql = """
+                         SELECT DISTINCT ct.MaPhieuMuon,dg.MaDocGia,vp.NgayVP FROM DocGia dg
+                         JOIN PhieuMuon pm ON dg.IDDocGia = pm.IDDocGia
+                         JOIN PhieuMuonCT ct ON pm.MaPhieuMuon = ct.MaPhieuMuon
+                         JOIN CuonSach cs ON ct.idCuonSach = cs.idCuonSach
+                         JOIN SachCT Sct ON Sct.IDSachCT = cs.IDSachCT
+                         JOIN Sach S ON S.IDSach = Sct.IdSach
+                         JOIN ViPham vp ON vp.MaPM = ct.MaPhieuMuon""";
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
             while (rs.next()) {
@@ -164,7 +165,8 @@ public class BaoCaoreposotoriesImpl implements BaoCaoRepositories {
 
     @Override
     public void Xoa(String ma) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String sql = "Delete from LoiViPhamCT where idViPham=? Delete from ViPham where idviPham=?";
+        DBConnection.ExcuteDungna(sql, ma, ma);
     }
 
     @Override

@@ -4,9 +4,11 @@
  */
 package Views;
 
+import Services.Impl.BaoCaoServicesImpl;
 import ViewModels.DocGiaViPhamViewModel;
 import java.net.URL;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 
 /**
@@ -14,7 +16,7 @@ import javax.swing.ImageIcon;
  * @author Admin
  */
 public class FrmDocGiaViPham extends javax.swing.JPanel {
-
+    final BaoCaoServicesImpl SERVICE = new BaoCaoServicesImpl();
     /**
      * Creates new form FrmDocGiaViPham
      */
@@ -128,6 +130,9 @@ public class FrmDocGiaViPham extends javax.swing.JPanel {
 
     private void btnGiaiQuyetMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnGiaiQuyetMouseClicked
         // TODO add your handling code here:
+        SERVICE.Xoa(lblID.getText());
+        JOptionPane.showMessageDialog(this, "Giải quyết thành công lỗi vi phạm");
+        FrmChinh.setFrmChinh(new FrmQuanLyViPham());
     }//GEN-LAST:event_btnGiaiQuyetMouseClicked
 
     public void setDisplay(DocGiaViPhamViewModel docgia){

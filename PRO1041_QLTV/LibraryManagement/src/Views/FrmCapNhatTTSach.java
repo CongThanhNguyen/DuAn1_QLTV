@@ -26,6 +26,7 @@ public class FrmCapNhatTTSach extends javax.swing.JFrame {
     SachCTService sv_sachct = new SachCTService();
     CuonSachService sv_cs = new CuonSachService();
     public FrmCapNhatTTSach() {
+        this.setUndecorated(true);
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -157,9 +158,9 @@ public class FrmCapNhatTTSach extends javax.swing.JFrame {
         pnSach3Layout.setHorizontalGroup(
             pnSach3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnSach3Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(4, 4, 4)
                 .addComponent(MS3)
-                .addGap(16, 16, 16)
+                .addGap(18, 18, 18)
                 .addComponent(lblTenSach3, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(CuonSo3, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -229,7 +230,8 @@ public class FrmCapNhatTTSach extends javax.swing.JFrame {
                         cs = sv_cs.getByMaAndID(sachct.getId(), CuonSo2.getText());
                         cs.setTinhTrang(Float.valueOf(cbxTinhTrang2.getSelectedItem()+""));
                     }
-                case 3 ->                     {
+                case 2 ->                     {
+                        System.out.println(MS3.getText());
                         Sach sach = Sv_sach.getByMa(MS3.getText());
                         SachCT sachct = sv_sachct.getByIDSach(sach.getId());
                         cs = sv_cs.getByMaAndID(sachct.getId(), CuonSo3.getText());
@@ -244,23 +246,28 @@ public class FrmCapNhatTTSach extends javax.swing.JFrame {
 
     
     public void setDisplay(List<Sach> _lstSach, List<CuonSach> _lstCuonSach){
+        int Cs = 0;
         for (Sach sach : _lstSach) {
-            int Cs = 0;
+            String i = _lstCuonSach.get(Cs).getTinhTrang()+"";
+            i = i.substring(0, i.length()-2);
             switch (Cs) {
                 case 0 -> {
                     lblTenSach1.setText(sach.getTen());
-                    cuonSo1.setText(_lstCuonSach.get(0).getMa()+"");
+                    cuonSo1.setText(_lstCuonSach.get(Cs).getMa()+"");
                     MS1.setText(sach.getMa());
+                    cbxTinhTrang1.setSelectedItem(i);
                 }
                 case 1 -> {
                     lblTenSach2.setText(sach.getTen());
-                    cuonSo1.setText(_lstCuonSach.get(0).getMa()+"");
+                    CuonSo2.setText(_lstCuonSach.get(Cs).getMa()+"");
                     MS2.setText(sach.getMa());
+                    cbxTinhTrang2.setSelectedItem(i);
                 }
                 case 2 -> {
                     lblTenSach3.setText(sach.getTen());
-                    cuonSo1.setText(_lstCuonSach.get(0).getMa()+"");
+                    CuonSo3.setText(_lstCuonSach.get(Cs).getMa()+"");
                     MS3.setText(sach.getMa());
+                    cbxTinhTrang3.setSelectedItem(i);
                 }
             }
             Cs++;

@@ -364,7 +364,7 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
         buttonGroup1.add(rdoXoa);
         rdoXoa.setText("Xóa");
 
-        jLabel1.setText("Mã sách:");
+        jLabel1.setText("ID cuốn sách:");
 
         IconBarcode.setText("jLabel7");
         IconBarcode.setPreferredSize(new java.awt.Dimension(28, 24));
@@ -423,9 +423,9 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
                         .addGap(18, 18, 18)
                         .addComponent(btnchonLai))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtCheckMa, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtCheckMa, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCheckMaSach)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -790,18 +790,22 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
     private void btnCheckMaSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCheckMaSachActionPerformed
         // TODO add your handling code here:
-        if(cuonSO==4){
+        if(cuonSO>pnSachMuon.getComponentCount()){
             JOptionPane.showMessageDialog(this, "Đã mượn tối đa!");
+            return;
         }
         CuonSach cs = SERVICE_CS.getByID(txtCheckMa.getText()).get(0);
         Sach sach = SERVICE_SACH.getByMa(cs.getSachct().getSach().getMa());
-        
         FrmQuanLyMuonTra.setSoQuyen(sach, cs);
     }//GEN-LAST:event_btnCheckMaSachActionPerformed
 
     private void IconBarcodeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_IconBarcodeMouseClicked
         // TODO add your handling code here:
         FrmScanBC.where = 1;
+        if(cuonSO>pnSachMuon.getComponentCount()){
+            JOptionPane.showMessageDialog(this, "Đã quá số lượng cho mượn");
+            return;
+        }
         FrmScanBC scan = new FrmScanBC();
         scan.setVisible(true);
         
@@ -836,19 +840,21 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
             PhieuMuon phieuMuon = SERVICE.getByMa(pm.getMa());
             Object [] quyenSO = {lblCuonSo1.getText(), lblCuonSo2.getText(), lblCuonSo3.getText()};
             List<CuonSach> _lst = new ArrayList<>();
+            int index = 0;
             for (SachCT sachCT : _lstSachCT) {
                 if(sachCT != null){
-                    int index = 0;
                     if(Integer.parseInt((String) quyenSO[index])!=0){
                         CuonSach cuonSach = SERVICE_CS.getByMaAndID(sachCT.getId(), (String) quyenSO[index]);
                         _lst.add(cuonSach);
+                        index++;
                     }
-                    index++;
                 }
             }
             for (CuonSach cuonSach : _lst) {
                 if (cuonSach!=null) {
                     PhieuMuonCT pmct = new PhieuMuonCT(null, cuonSach, phieuMuon);
+                    cuonSach.setTrangThai(false);
+                    SERVICE_CS.update(cuonSach);
                     SERVICE_PMCT.insert(pmct);
                 }
             }
@@ -868,17 +874,20 @@ public class FrmQuanLyMuonTra extends javax.swing.JPanel  {
 
     private void tblDSPMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblDSPMMouseClicked
         // TODO add your handling code here:
+        cuonSO=1;
         int row = tblDSPM.getSelectedRow();
         String maphieu = (String) tblDSPM.getValueAt(row, 0);
         PhieuMuonViewModel model = SERVICE_MODEL.getByMaPhieu(maphieu);
         lblMaPhieu.setText(model.getPm().getMa());
         int sl = model.getCuonSach().size()-1;
-        cbxSlSachMuon.setSelectedIndex(sl);
+        int i=0;
         for (Sach sach : model.getSach()) {
-            setSoQuyen(sach, model.getCuonSach().get(0));
+            setSoQuyen(sach, model.getCuonSach().get(i));
+            i++;
         }
         lblTenDocGia.setText(model.getDocGia().getHoTen());
         cuonSO=sl;
+        cbxSlSachMuon.setSelectedIndex(cuonSO);
         rdoXoa.setSelected(true);
     }//GEN-LAST:event_tblDSPMMouseClicked
 
